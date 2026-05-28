@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>栗人について — Kuryudo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #F7F3EB;
+      --cream-deep: #EDE5D4;
+      --cream-mid:  #E5DAC5;
+      --cream-lite: #FDFAF5;
+      --gold:       #B8932A;
+      --gold-lt:    #D4AE4E;
+      --gold-pale:  #E8D5A0;
+      --ink:        #1C1814;
+      --ink-mid:    #3D3530;
+      --ink-soft:   #6B5F55;
+      --ink-pale:   #9E9088;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      /*
+        ページ全体グラデーション
+        冒頭（暗黒）→ 絶望（最暗）→ 転換（温黒）→ 展望（褐色）
+        誓いセクションは画像で覆われるため末端は意識しない
+      */
+      background: linear-gradient(
+        to bottom,
+        #0B0907  0%,    /* イントロ — 深い墨黒 */
+        #0E0B08 15%,    /* 逃亡 */
+        #0A0806 35%,    /* 出会い → 絶望 → pivot（最暗） */
+        #2A1C08 50%,    /* 転換 — ここから夜明けへ向かう */
+        #543410 62%,    /* 報徳 — 琥珀の夜明け */
+        #8C5A1C 74%,    /* 展望 — 朝焼け褐色 */
+        #B07828 86%,    /* 誓い手前（画像で隠れる） */
+        #C8923A 100%
+      );
+      color: var(--cream);
+      font-family: 'Noto Serif JP', serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.3rem 3rem;
+      background: rgba(11,9,7,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(184,147,42,0.13);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .8rem; text-decoration: none;
+    }
+    .nav-logo img { width: 34px; height: 34px; object-fit: contain; }
+    .nav-logo-ja {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: .3em; color: var(--cream);
+    }
+    .nav-logo-en {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .62rem; letter-spacing: .2em; color: var(--gold);
+      display: block; margin-top: .15rem;
+    }
+    .nav-back {
+      font-size: .72rem; font-weight: 300; letter-spacing: .22em;
+      color: rgba(247,243,235,0.45); text-decoration: none;
+      display: flex; align-items: center; gap: .55rem;
+      transition: color .3s;
+    }
+    .nav-back::before { content: '←'; }
+    .nav-back:hover { color: var(--gold); }
+
+    /* ── INTRO PREAMBLE ── */
+    .about-intro {
+      background: transparent;
+      padding: 9rem 5rem 5.5rem;   /* top padding で nav をかわす */
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-intro::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%; max-width: 560px;
+      aspect-ratio: 1 / 1;
+      background: url('image/栗人ロゴGOLD透過.png') center / contain no-repeat;
+      opacity: 0.20;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .about-intro-inner { max-width: 34rem; margin: 0 auto; position: relative; z-index: 1; }
+    .intro-eyebrow {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .78rem; letter-spacing: .44em; color: var(--gold);
+      margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp 1s ease .3s forwards;
+    }
+    .intro-divider {
+      width: 1px; height: 3.2rem;
+      background: linear-gradient(to bottom, transparent, rgba(184,147,42,0.35), transparent);
+      margin: 0 auto 3.2rem;
+      opacity: 0; animation: fadeUp 1s ease .5s forwards;
+    }
+    .intro-body {
+      font-size: .88rem; font-weight: 300;
+      line-height: 2.8; letter-spacing: .08em;
+      color: rgba(247,243,235,0.82);
+      margin-bottom: 1.4rem;
+    }
+    .intro-body--lead {
+      font-size: .95rem; font-weight: 400;
+      color: rgba(247,243,235,0.92);
+    }
+
+    /* ── CHAPTER SECTIONS ── */
+    .chapter {
+      padding: 9rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .chapter-inner { max-width: 44rem; margin: 0 auto; }
+
+    /* すべてのチャプターは透明 */
+    .ch-escape, .ch-encounter, .ch-despair,
+    .ch-turn,   .ch-hotoku,   .ch-vision { background: transparent; }
+
+    /* 暗背景チャプターのテキスト色 */
+    .ch-escape .chap-title,
+    .ch-encounter .chap-title,
+    .ch-despair .chap-title,
+    .ch-turn .chap-title,
+    .ch-hotoku .chap-title { color: var(--cream); }
+
+    /* 展望・報徳 タイトル */
+    .ch-vision .chap-title { color: var(--cream); }
+    .ch-hotoku .chap-title { color: var(--cream); }
+
+    /* ── 写真明るめ3セクション — テキスト可読性（テキストシャドウのみ） ── */
+    .ch-hotoku .chap-title,
+    .ch-vision .chap-title,
+    .ch-vow .chap-title {
+      text-shadow:
+        0 2px 20px rgba(0,0,0,0.95),
+        0 0  60px rgba(0,0,0,0.70),
+        0 0 120px rgba(0,0,0,0.40);
+    }
+    .ch-hotoku .chap-body,
+    .ch-vision .chap-body,
+    .ch-vow .chap-body {
+      text-shadow:
+        0 1px 14px rgba(0,0,0,0.92),
+        0 0  44px rgba(0,0,0,0.60);
+    }
+
+    .chap-title {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1.7rem, 2.8vw, 2.6rem);
+      line-height: 1.55; letter-spacing: .04em;
+      margin-bottom: 2.8rem; min-height: 2em;
+    }
+    .chap-body {
+      font-size: .9rem; font-weight: 300;
+      line-height: 2.6; letter-spacing: .07em;
+      margin-bottom: 1.5rem;
+      color: rgba(247,243,235,0.88);
+    }
+    /* 章末の印象的な一文 */
+    .chap-close {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.05rem; font-weight: 300;
+      line-height: 2.1; letter-spacing: .07em;
+      color: rgba(247,243,235,0.90);
+      margin-bottom: 1.4rem;
+      padding-left: .5rem;
+      border-left: 1px solid rgba(247,243,235,0.18);
+    }
+
+    /* ── CHAPTER BACKGROUND IMAGES ── */
+
+    /* 共通: テキストを画像・オーバーレイより前面に */
+    .ch-escape .chapter-inner,
+    .ch-encounter .chapter-inner,
+    .ch-despair .chapter-inner,
+    .ch-turn .chapter-inner { position: relative; z-index: 2; }
+
+    /* 教室.png — 逃亡 */
+    .ch-escape::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/教室.png') center/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.82) saturate(0.78);
+    }
+    .ch-escape::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(5,3,2,0.44) 0%,
+        rgba(5,3,2,0.18) 46%,
+        rgba(5,3,2,0.48) 100%
+      );
+      z-index: 1;
+    }
+
+    /* IMG_5743.heic — 出会い */
+    .ch-encounter::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/東京.png') center/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.88) saturate(0.90);
+    }
+    .ch-encounter::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(4,5,8,0.42) 0%,
+        rgba(4,5,8,0.16) 46%,
+        rgba(4,5,8,0.44) 100%
+      );
+      z-index: 1;
+    }
+
+    /* 未遂.png — 絶望（ドラマティックに暗め） */
+    .ch-despair::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/未遂.png') center/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.65) saturate(0.65);
+    }
+    .ch-despair::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(3,2,2,0.55) 0%,
+        rgba(3,2,2,0.28) 44%,
+        rgba(3,2,2,0.58) 100%
+      );
+      z-index: 1;
+    }
+
+    /* IMG_8311.JPG — 転換（生を選んだ） */
+    .ch-turn::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_8311.JPG') center/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.90) saturate(0.90);
+    }
+    .ch-turn::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.40) 0%,
+        rgba(8,6,4,0.14) 48%,
+        rgba(8,6,4,0.42) 100%
+      );
+      z-index: 1;
+    }
+
+    /* IMG_9296.jpg — 報徳（南相馬に答えがあった） */
+    .ch-hotoku::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_9296.jpg') center/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.88) saturate(0.90);
+    }
+    .ch-hotoku::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,7,4,0.34) 0%,
+        rgba(10,7,4,0.12) 44%,
+        rgba(10,7,4,0.36) 100%
+      );
+      z-index: 1;
+    }
+    .ch-hotoku .chapter-inner { position: relative; z-index: 2; }
+
+    /* hero.jpg — 展望（道半ばにいる）— 洞窟に差し込む光 */
+    .ch-vision::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/hero.jpg') center 38%/cover no-repeat;
+      z-index: 0;
+      filter: brightness(0.90) saturate(0.88);
+    }
+    .ch-vision::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(6,9,12,0.32) 0%,
+        rgba(6,9,12,0.10) 44%,   /* 中央は薄く — 洞窟光を見せる */
+        rgba(6,9,12,0.34) 100%
+      );
+      z-index: 1;
+    }
+    .ch-vision .chapter-inner { position: relative; z-index: 2; }
+
+    /* ── PIVOTAL SECTION ── */
+    .pivot-section {
+      background: rgba(0, 0, 0, 0.84);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 9rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .pivot-glow {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(184,147,42,0.12) 0%, transparent 58%);
+      pointer-events: none;
+    }
+    .pivot-inner { position: relative; z-index: 1; max-width: 30rem; margin: 0 auto; }
+
+    .pivot-lines {
+      display: flex; flex-direction: column;
+      align-items: center; gap: .6rem;
+    }
+    /* ラインコンテナ — 自身は透明のまま、文字が個別に浮かぶ */
+    .pivot-line {
+      font-family: 'Shippori Mincho', serif; font-weight: 600;
+      font-size: clamp(1.15rem, 2.2vw, 1.85rem);
+      color: rgba(247,243,235,0.88);
+      line-height: 1.7; letter-spacing: .06em;
+    }
+    /* 文字単位スパン — 初期状態は非表示 */
+    .pivot-char {
+      display: inline-block;
+      opacity: 0;
+    }
+    /* is-entered 付与後に各文字がふわりと浮き上がる */
+    .pivot-section.is-entered .pivot-char {
+      animation: pivotChar 1.6s cubic-bezier(.16, 1, .3, 1) forwards;
+      animation-delay: var(--char-delay, 0s);
+    }
+    @keyframes pivotChar {
+      from { opacity: 0; transform: translateY(7px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 間隔スペーサー */
+    .pivot-spacer    { display: block; height: 1.2rem; }
+    .pivot-spacer--lg { display: block; height: 3.8rem; }
+
+    /* 「ガタン。」— 衝撃 */
+    .pivot-line--jolt {
+      font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 800;
+      color: var(--gold);
+      text-shadow:
+        0 0 40px  rgba(184,147,42,0.55),
+        0 0 100px rgba(184,147,42,0.22),
+        0 0 180px rgba(184,147,42,0.08);
+      margin: .8rem 0 .5rem;
+      letter-spacing: .1em;
+    }
+    /* 「まだ生きていたいんだ。」— 覚醒 */
+    .pivot-line--awaken {
+      color: var(--cream);
+      font-size: clamp(1.4rem, 2.6vw, 2.2rem); font-weight: 700;
+      text-shadow: 0 0 30px rgba(247,243,235,0.30);
+      margin-top: .2rem;
+    }
+    /* 帰属表記 */
+    .pivot-line--attr {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: .78rem; font-weight: 300;
+      letter-spacing: .38em; color: rgba(247,243,235,0.88);
+      margin-top: 2.6rem;
+    }
+
+    /* ── VOW SECTION — full-bleed image ── */
+    .ch-vow {
+      background: transparent;
+      padding: 11rem 5rem 10rem;
+      min-height: 82vh;
+      display: flex; align-items: center;
+    }
+    .ch-vow-bg {
+      position: absolute; inset: 0;
+      background: url('image/IMG_6213.jpg') center 65%/cover no-repeat;
+      z-index: 0;
+      filter: brightness(1.02) saturate(1.08);
+    }
+    .ch-vow-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(4,3,2,0.34) 0%,    /* 上部: 薄めに */
+        rgba(4,3,2,0.12) 44%,   /* 中央: 最も開いて写真を見せる */
+        rgba(4,3,2,0.36) 100%   /* 下部: 締める */
+      );
+      z-index: 1;
+    }
+    .ch-vow .chapter-inner { position: relative; z-index: 3; text-align: center; }
+    .ch-vow .chap-title { color: var(--cream); }
+    .ch-vow .chap-body  { max-width: 36rem; margin-left: auto; margin-right: auto; }
+
+    /* 宣言文 */
+    /* ── 誓いCTA ── */
+    .vow-cta-line {
+      font-family: 'Shippori Mincho', serif; font-weight: 800;
+      font-size: clamp(1.5rem, 2.6vw, 2.4rem);
+      letter-spacing: .07em; line-height: 1.55; margin-top: 3rem;
+      color: var(--gold);
+      /* フェードイン初期状態 */
+      opacity: 0; transform: translateY(12px);
+      /* 初期グロー（輝く前） */
+      filter:
+        brightness(1.00)
+        drop-shadow(0 0  8px rgba(184,147,42,0.45))
+        drop-shadow(0 0 30px rgba(184,147,42,0.20))
+        drop-shadow(0 0  0px rgba(184,147,42,0.00));
+      transition:
+        opacity 2.4s cubic-bezier(.22,1,.36,1),
+        transform 2.4s cubic-bezier(.22,1,.36,1),
+        filter   3.6s ease-out;
+    }
+    /* スクロールで現れる */
+    .vow-cta-line.is-revealed {
+      opacity: 1; transform: none;
+    }
+    /* ゆっくり黄金へ到達 */
+    .vow-cta-line.is-lit {
+      filter:
+        brightness(1.70)
+        drop-shadow(0 0  28px rgba(240,205,65,1.00))
+        drop-shadow(0 0  80px rgba(220,185,55,0.72))
+        drop-shadow(0 0 150px rgba(200,160,45,0.30));
+    }
+
+/* ボタン（画像背景上） */
+    .ch-vow-btns {
+      display: flex; align-items: center; justify-content: center; gap: 2.2rem;
+      flex-wrap: wrap; margin-top: 3.5rem;
+    }
+    .btn-vow-primary {
+      display: inline-block; padding: .88rem 2.4rem;
+      background: var(--gold); color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+      font-size: .78rem; font-weight: 400; letter-spacing: .2em;
+      text-decoration: none; position: relative; overflow: hidden;
+    }
+    .btn-vow-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold-lt); transform: scaleX(0);
+      transform-origin: left; transition: transform .42s ease;
+    }
+    .btn-vow-primary:hover::before { transform: scaleX(1); }
+    .btn-vow-primary span { position: relative; z-index: 1; }
+    .btn-vow-ghost {
+      font-family: 'Noto Serif JP', serif;
+      font-size: .75rem; letter-spacing: .18em;
+      color: rgba(247,243,235,0.48);
+      text-decoration: none; display: flex; align-items: center; gap: .5rem;
+      transition: color .3s, gap .3s;
+    }
+    .btn-vow-ghost::after { content: '→'; transition: transform .3s; }
+    .btn-vow-ghost:hover { color: var(--gold-lt); gap: .75rem; }
+    .btn-vow-ghost:hover::after { transform: translateX(3px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--cream);
+      padding: 3rem 5rem;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      gap: .4rem;
+      border-top: 1px solid rgba(184,147,42,.15);
+      position: relative;
+    }
+    /* 誓いセクション（暗）→ フッター（クリーム）の橋渡し */
+    footer::before {
+      content: '';
+      position: absolute; top: -88px; left: 0; right: 0; height: 88px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+      pointer-events: none;
+    }
+    .footer-img { height: 160px; width: auto; object-fit: contain; position: relative; z-index: 1; }
+    .footer-copy {
+      font-size: .7rem; font-weight: 300;
+      letter-spacing: .12em; color: var(--ink-pale);
+      position: relative; z-index: 1;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes charUp {
+      to { opacity: 1; transform: translateY(0) rotate(0deg); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .js-reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
+    }
+    .js-reveal.is-visible { opacity: 1; transform: none; }
+
+    .js-reveal-lazy {
+      opacity: 0; transform: translateY(14px);
+      transition: opacity 2s ease, transform 2.2s cubic-bezier(.16,1,.3,1);
+    }
+    .js-reveal-lazy.is-visible { opacity: 1; transform: none; }
+
+    /* 章タイトルの文字バラし */
+    .js-title-wrap .js-char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(18px) rotate(1.5deg);
+    }
+    .js-title-wrap.is-visible .js-char {
+      animation: charUp 1.4s cubic-bezier(.16,1,.3,1) forwards;
+      animation-delay: var(--char-delay, 0s);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .chapter { padding: 5rem 1.8rem; }
+      .about-intro { padding: 7rem 1.8rem 4.5rem; }
+      footer { flex-direction: column; gap: 1.2rem; text-align: center; padding: 2.5rem 1.8rem; }
+      .pivot-section { padding: 5rem 2rem; min-height: 80vh; }
+      .pivot-line--jolt { font-size: clamp(2rem, 9vw, 3.5rem); }
+      .ch-vow { padding: 6.5rem 1.8rem 7rem; min-height: 60vh; }
+      .ch-vow-btns { gap: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="kuryudo_v3.html" class="nav-logo">
+    <img src="image/栗人ロゴGOLD透過.png" alt="栗人">
+    <div>
+      <span class="nav-logo-ja">栗人</span>
+      <span class="nav-logo-en">Kuryudo · from Minamisoma with pride</span>
+    </div>
+  </a>
+  <a href="kuryudo_v3.html" class="nav-back">内なる獣と生きる</a>
+</nav>
+
+<!-- ══════════════════════════════════════
+     INTRO PREAMBLE
+     ══════════════════════════════════════ -->
+<section class="about-intro">
+  <div class="about-intro-inner">
+    <h1 class="intro-title" style="font-family:'Shippori Mincho',serif; font-weight:700; font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:.15em; color:rgba(247,243,235,0.95); margin-bottom:2.4rem; opacity:0; animation:fadeUp 1s ease .4s forwards;">栗人について</h1>
+    <div class="intro-divider"></div>
+    <p class="intro-body js-reveal" style="transition-delay:.22s">これは、誰よりも自分を律する基盤を見失っていた私が、南相馬の地で生きる歩調を整えていくまでの顛末です。ご参考になれば幸いです。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     逃亡
+     ══════════════════════════════════════ -->
+<section class="chapter ch-escape">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="中学1年の夏、&#10;私は教室を去った。"></h2>
+    <p class="chap-body js-reveal">中学3年の春まで、人と関わることから逃げ続けた。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">高校でも馴染むことができず、通信制へ転入。大学も一年足らずで行かなくなった。親の会社に入っても、三年で退職した。どこへ行っても、自分の居場所を見つけることができなかった。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     出会い
+     ══════════════════════════════════════ -->
+<section class="chapter ch-encounter">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="上京した先で、&#10;彼女と出会った。"></h2>
+    <p class="chap-body js-reveal">上京した先で、今の妻と出会った。反発し暴れる私の心に、彼女は真っ直ぐに向き合ってくれた。衝突を重ねる中で、少しずつ、心の殻に亀裂が入っていくのを感じた。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">そうして妻の愛情により自信をつけた私は、故郷である南相馬に戻る決意をした。</p>
+    <p class="chap-close js-reveal" style="transition-delay:.36s">この家族を守るためなら、どんなことでも耐えられると信じて。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     絶望
+     ══════════════════════════════════════ -->
+<section class="chapter ch-despair">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="必死に働いた。&#10;それでも、壊れていった。"></h2>
+    <p class="chap-body js-reveal">家業に出戻らせてもらった私は、必死に働いた。だがそこは、努力が報われず、否定され、自分を見失ってしまう環境だった。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">だんだんと心が蝕まれ、負の感情を妻にもぶつけてしまい、家庭内にも不穏な空気が漂っていた。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.36s">そんな折、妻と大喧嘩をした後。自分なんていなくなったほうがいい。楽になりたい。そうすることが最善であるかのように、自ら命を絶とうとした。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PIVOT — 絶対的な暗闇
+     ══════════════════════════════════════ -->
+<section class="pivot-section">
+  <div class="pivot-glow"></div>
+  <div class="pivot-inner">
+    <div class="pivot-lines">
+      <span class="pivot-line"                  data-start="0.2"  data-speed="0.11">愛犬のリードを、首にくくる。</span>
+      <span class="pivot-line"                  data-start="2.3"  data-speed="0.20">怖い。</span>
+      <span class="pivot-line"                  data-start="3.6"  data-speed="0.10">少しずつ体重をかける。</span>
+      <span class="pivot-line"                  data-start="5.6"  data-speed="0.20">もう少し。</span>
+      <span class="pivot-line"                  data-start="7.2"  data-speed="0.11">意識が薄れてきた。</span>
+      <span class="pivot-line"                  data-start="9.2"  data-speed="0.15">ごめんなさい。</span>
+      <span class="pivot-line pivot-line--jolt"  data-start="11.6" data-speed="0.32">ガタン。</span>
+      <span class="pivot-spacer--lg" aria-hidden="true"></span>
+      <span class="pivot-line"                  data-start="14.2" data-speed="0.09">固定していたドアノブが壊れた。</span>
+      <span class="pivot-line"                  data-start="16.6" data-speed="0.11">体と意識に重力が戻る。</span>
+      <span class="pivot-line"                  data-start="18.6" data-speed="0.19">助かった……。</span>
+      <span class="pivot-spacer" aria-hidden="true"></span>
+      <span class="pivot-line"                  data-start="21.4" data-speed="0.19">助かった……？</span>
+      <span class="pivot-line"                  data-start="24.0" data-speed="0.25">そうか。</span>
+      <span class="pivot-line"                  data-start="25.8" data-speed="0.28">私は、</span>
+      <span class="pivot-line pivot-line--awaken" data-start="27.6" data-speed="0.16">まだ生きていたいんだ。</span>
+      <span class="pivot-line pivot-line--attr"   data-start="31.0" data-speed="0.07">── そう気づいた瞬間から、私は変わった。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     転換
+     ══════════════════════════════════════ -->
+<section class="chapter ch-turn">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="生を、選んだ。"></h2>
+    <p class="chap-body js-reveal">自分の周りで起こることは、全て自分のせいである。これは半ば正しい。起こってしまったことそのものには干渉できない以上、それを自分がどう受け止めるかが問題であるからだ。当たり前だが、自分の人生の責任は自分にある。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">これまでの私は、他人の人生の責任まで背負い込んでしまっていた。それは自分にとっても、相手にとっても、悪い影響を与えてしまう。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     報徳
+     ══════════════════════════════════════ -->
+<section class="chapter ch-hotoku">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="南相馬に、&#10;答えがあった。"></h2>
+    <p class="chap-body js-reveal">そこで私は、自他の境界線を見つめ直し（至誠）、身体を鍛え（勤労）、食生活を整え（分度）、地域活動に励んだ（推譲）。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">知識ではなく感覚として辿り着いた報徳の四柱が、私の内なる獣を調律してくれた。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.32s">地域活動をしていると、地域の歴史に触れる機会も増える。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.44s">故郷である南相馬が、長く、深く、二宮尊徳の報徳の精神を受け継いできた土地であると知った時、私のこれまでの人生に一本の芯が通った。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     展望
+     ══════════════════════════════════════ -->
+<section class="chapter ch-vision">
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="道半ばにいる、&#10;それでも確信している。"></h2>
+    <p class="chap-body js-reveal">私自身、今も道半ばにいる。しかし、こんな私でも、日々報徳を心掛けることで、少しずつ、確実に、自分を律して生きられるようになっている。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">だからこそ私は確信している。どんな過去があろうと、誰しも自律を身につけることができると。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     誓い — IMG_6213.jpg + buttons
+     ══════════════════════════════════════ -->
+<section class="chapter ch-vow">
+  <div class="ch-vow-bg"      aria-hidden="true"></div>
+  <div class="ch-vow-overlay" aria-hidden="true"></div>
+
+  <div class="chapter-inner">
+    <h2 class="chap-title" data-text="これが、私の巡礼だ。"></h2>
+    <p class="chap-body js-reveal">報徳の教えは、どんな時代でも、環境でも、私たちを支えてくれる礎となる。</p>
+    <p class="chap-body js-reveal" style="transition-delay:.2s">栗人は、報徳がいつかあなたの進路を照らす規律となる日まで、共に歩み続ける。</p>
+    <p class="vow-cta-line">さぁ、その為大なる一歩目を踏み出そう。</p>
+    <div class="ch-vow-btns js-reveal" style="transition-delay:.58s">
+      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="btn-vow-primary"><span>心の獣を診断する（無料）</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="image/栗人ロゴGOLD透過.png" alt="栗人" class="footer-img">
+  <p class="footer-copy">© 2026 栗人 Kuryudo. All rights reserved.</p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   1. チャプタータイトルを文字分解して注入
+   ══════════════════════════════════════ */
+document.querySelectorAll('.chap-title[data-text]').forEach(el => {
+  const raw = el.getAttribute('data-text');
+  el.removeAttribute('data-text');
+  el.classList.add('js-title-wrap');
+
+  let delay = 0;
+  raw.split('').forEach(ch => {
+    if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
+    const span = document.createElement('span');
+    span.className = 'js-char';
+    span.textContent = ch === ' ' ? ' ' : ch;
+    span.style.setProperty('--char-delay', delay + 's');
+    el.appendChild(span);
+    delay += 0.055;
+  });
+});
+
+/* ══════════════════════════════════════
+   2. IntersectionObserver でスクロールリビール
+   ══════════════════════════════════════ */
+(function () {
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.js-reveal, .js-reveal-lazy').forEach(el => revealObs.observe(el));
+
+  const titleObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); titleObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.25, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.js-title-wrap').forEach(el => titleObs.observe(el));
+})();
+
+/* ══════════════════════════════════════
+   3. ピボット — 各行を順次表示
+   ══════════════════════════════════════ */
+(function () {
+  const pivot = document.querySelector('.pivot-section');
+  if (!pivot) return;
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      pivot.querySelectorAll('.pivot-line').forEach(line => {
+        const text  = line.textContent.trim();
+        const start = parseFloat(line.dataset.start || 0);
+        const speed = parseFloat(line.dataset.speed || 0.10);
+        line.textContent = '';
+        [...text].forEach((ch, i) => {
+          const span = document.createElement('span');
+          span.className = 'pivot-char';
+          span.textContent = ch === ' ' ? ' ' : ch;
+          span.style.setProperty('--char-delay', (start + i * speed).toFixed(3) + 's');
+          line.appendChild(span);
+        });
+      });
+      pivot.classList.add('is-entered');
+      obs.disconnect();
+    }
+  }, { threshold: 0.12 });
+  obs.observe(pivot);
+})();
+
+/* ── 4. 誓いCTA — ゆっくりフェードイン → 黄金シマー発火 ── */
+(function () {
+  const cta = document.querySelector('.vow-cta-line');
+  if (!cta) return;
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      cta.classList.add('is-revealed');          // フェードイン開始
+      setTimeout(() => cta.classList.add('is-lit'), 2600); // 2.6s後シマー発火
+      obs.disconnect();
+    }
+  }, { threshold: 0.6 });
+  obs.observe(cta);
+})();
+</script>
+
+</body>
+</html>

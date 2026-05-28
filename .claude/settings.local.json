@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install *)",
+      "Bash(python3 -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
+      "Bash(python3 -m pip install pdfplumber)",
+      "Bash(python3 -)",
+      "Bash(grep -v '\\\\.png$')",
+      "Bash(sips -s format jpeg -s formatOptions 80 \"IMG_5743.heic\" --out \"IMG_5743_slide.jpg\" -Z 600)",
+      "Bash(python3 -c ' *)",
+      "Bash(sort -k5 -rh)",
+      "Bash(sips -s format jpeg -s formatOptions 82 /Users/kuryudo/Desktop/kuryudo/image/IMG_6213.heic --out /Users/kuryudo/Desktop/kuryudo/image/IMG_6213.jpg)",
+      "Bash(sips -Z 1600 /Users/kuryudo/Desktop/kuryudo/image/IMG_6213.jpg)",
+      "Bash(python3 -c \"from PIL import Image; print\\('PIL ok'\\)\")"
+    ]
+  }
+}
