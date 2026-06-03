@@ -402,6 +402,10 @@
       filter: brightness(0.40) saturate(0.75);
       z-index: 0; pointer-events: none;
     }
+    .section-resonance--last::before {
+      background: url('image/IMG_6026.jpg') center/cover no-repeat;
+      filter: brightness(0.40) saturate(0.75);
+    }
     .section-resonance::after {
       content: ''; position: absolute; inset: 0;
       background:
@@ -433,7 +437,7 @@
       text-align: left;
       margin-bottom: 1.6rem;
     }
-    .resonance-link-wrap { margin: 3rem 0 5.5rem; }
+    .resonance-link-wrap { margin: 5rem 0 8rem; }
     .resonance-link {
       display: inline-flex; align-items: center; gap: .55rem;
       font-family: 'Noto Serif JP', serif;
@@ -539,6 +543,100 @@
       .steps { grid-template-columns:1fr; }
       .step-arr { transform:rotate(90deg); display:block; text-align:center; }
       .scroll-ind { display:none; }
+      .whats-grid { grid-template-columns: 1fr; }
+      .whats-card:nth-child(5) { grid-column: 1 / -1; }
+      .whats-card:nth-child(5) .whats-card-img { aspect-ratio: 4 / 3; }
+      .whats-lead { font-size: .86rem; }
+    }
+
+    /* ── WHAT'S KURYUDO ── */
+    .section-whats {
+      background: var(--cream);
+      padding: 8rem 5%;
+      position: relative;
+    }
+    .whats-inner {
+      max-width: 68rem;
+      margin: 0 auto;
+    }
+    .whats-eyebrow {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .78rem; letter-spacing: .48em; color: var(--gold);
+      margin-bottom: 1.4rem;
+    }
+    .whats-heading {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      letter-spacing: .08em; line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .whats-heading-sub {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: clamp(.88rem, 1.4vw, 1.05rem);
+      letter-spacing: .08em; line-height: 1.8;
+      color: var(--ink-soft);
+      margin-bottom: 3.5rem;
+    }
+    .whats-divider {
+      width: 2.4rem; height: 1px;
+      background: rgba(184,147,42,.45);
+      margin-bottom: 2.8rem;
+    }
+    .whats-lead {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: clamp(.86rem, 1.3vw, 1rem);
+      letter-spacing: .08em; line-height: 2.6;
+      color: var(--ink-soft);
+      max-width: 48rem;
+      margin-bottom: 1.6rem;
+    }
+    .whats-lead:last-of-type { margin-bottom: 5rem; }
+
+    /* 2+2+1 グリッド */
+    .whats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .whats-card:nth-child(5) {
+      grid-column: 1 / -1;
+    }
+    .whats-card:nth-child(5) .whats-card-img {
+      aspect-ratio: 16 / 7;
+    }
+    .whats-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--cream-deep);
+      border: 1px solid rgba(184,147,42,.18);
+    }
+    .whats-card-img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.85);
+      transition: transform .6s ease;
+    }
+    .whats-card:hover .whats-card-img { transform: scale(1.03); }
+    .whats-card-body {
+      padding: 1.8rem 2rem 2.2rem;
+    }
+    .whats-card-label {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .72rem; letter-spacing: .44em; color: var(--gold);
+      margin-bottom: .8rem;
+    }
+    .whats-card-title {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1rem, 1.8vw, 1.3rem);
+      letter-spacing: .1em; color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .whats-card-text {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: .82rem; letter-spacing: .07em;
+      line-height: 2.2; color: var(--ink-soft);
     }
   </style>
 </head>
@@ -627,9 +725,74 @@
       私以外の何かに触れるたび、私が広がっていく。
     </p>
     <p class="philosophy-coda js-reveal" style="transition-delay:.74s">
-      その広がりこそが、この世に生まれ落ちた者として最良の喜びではないでしょうか。<br>
-      報徳の門を叩き、あなたの世界を、ここから広げましょう。
+      その広がりこそが、この世に生まれ落ちた者として最良の喜びではないでしょうか。
     </p>
+  </div>
+</section>
+
+<!-- WHAT'S KURYUDO -->
+<section class="section-whats">
+  <div class="whats-inner">
+    <p class="whats-eyebrow js-reveal">What's Kuryudo?</p>
+    <h2 class="whats-heading js-reveal" style="transition-delay:.12s">心に巣食う「獣」と、<br>共に生きるための伴走支援。</h2>
+    <div class="whats-divider js-reveal" style="transition-delay:.22s"></div>
+    <p class="whats-lead js-reveal" style="transition-delay:.32s">何かを始めても長続きしない。自分をコントロールできずに自己嫌悪に陥ってしまう。<br>その葛藤の正体は、あなたの心に棲む、剥き出しの野生――「心の獣」です。</p>
+    <p class="whats-lead js-reveal" style="transition-delay:.44s">栗人は、二宮尊徳が遺した「報徳思想」を現代の生命論として再解釈し、誰もが自らの内なる獣の輪郭をなぞり、調和を保ちながら歩むための「心の巡礼」をサポートします。</p>
+    <p class="whats-lead js-reveal" style="transition-delay:.56s">自律とは、獣を殺すことでも、道徳の鎖で縛り付けることでもありません。獣の声に耳を傾け、そのエネルギーを生きる力へと変えていく。泥臭くも美しい、あなただけの生命の在り方を取り戻す旅が、ここから始まります。</p>
+
+    <div class="whats-grid">
+
+      <!-- ① 宿る野生 -->
+      <div class="whats-card js-reveal" style="transition-delay:.10s">
+        <img src="image/What's0.png" alt="心に獣がいる" class="whats-card-img">
+        <div class="whats-card-body">
+          <p class="whats-card-label">01 · 心に獣がいる</p>
+          <h3 class="whats-card-title">宿る野生</h3>
+          <p class="whats-card-text">心の獣とは、私たちの影。まずは、その気配を静かに認めることからすべてが始まる。</p>
+        </div>
+      </div>
+
+      <!-- ② 獣の凶暴化 -->
+      <div class="whats-card js-reveal" style="transition-delay:.20s">
+        <img src="image/What's1.png" alt="獣の凶暴化" class="whats-card-img">
+        <div class="whats-card-body">
+          <p class="whats-card-label">02 · 獣の凶暴化</p>
+          <h3 class="whats-card-title">自律の綻び</h3>
+          <p class="whats-card-text">日常の歪みやストレス、焦燥感は、獣を凶暴化させていく。これまで抑え込めていたはずの衝動が、自律の結界を内側から食い破ろうとする。</p>
+        </div>
+      </div>
+
+      <!-- ③ 獣に飲み込まれる -->
+      <div class="whats-card js-reveal" style="transition-delay:.30s">
+        <img src="image/What's2.png" alt="獣に飲み込まれる" class="whats-card-img">
+        <div class="whats-card-body">
+          <p class="whats-card-label">03 · 獣に飲み込まれる</p>
+          <h3 class="whats-card-title">自我の埋没</h3>
+          <p class="whats-card-text">獣に主導権を渡してしまえば、あなたはあなたでなくなっていく。依存、暴力、他責、自己嫌悪。底無しの闇へ飲み込まれていく。</p>
+        </div>
+      </div>
+
+      <!-- ④ 獣と向き合う -->
+      <div class="whats-card js-reveal" style="transition-delay:.40s">
+        <img src="image/What's3.png" alt="獣と向き合う" class="whats-card-img">
+        <div class="whats-card-body">
+          <p class="whats-card-label">04 · 獣と向き合う</p>
+          <h3 class="whats-card-title">命の対峙</h3>
+          <p class="whats-card-text">牙を剥き威嚇する獣がいたのなら、それはあなたの心の反映。一時的な誤魔化しは見透かされてしまう。真っ直ぐに向き合い、時間をかけて宥める必要がある。</p>
+        </div>
+      </div>
+
+      <!-- ⑤ 共に生きる -->
+      <div class="whats-card js-reveal" style="transition-delay:.50s">
+        <img src="image/What's4.png" alt="共に生きる" class="whats-card-img">
+        <div class="whats-card-body">
+          <p class="whats-card-label">05 · 共に生きる</p>
+          <h3 class="whats-card-title">誇り高き共生</h3>
+          <p class="whats-card-text">報徳の四柱をもって、獣の野生に知性を与える。同じ歩幅で、共に世界の霧を分けて進む。獣があなたを尊び、あなたが獣を愛するとき、真の自律が完成する。</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -651,7 +814,6 @@
 <section class="section-journey" id="journey">
   <div class="journey-inner">
     <h2 class="journey-title">三つの道程。</h2>
-    <p class="journey-lead">内なる獣の声を知り、言葉で受け入れ、大自然の中で調律する。<br>三つの行程は、一本の線として繋がっている。</p>
     <div class="steps">
       <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="step">
         <div class="step-bg" style="background-image:url('image/四獣.png'); background-size:100%;"></div>
@@ -674,8 +836,8 @@
   </div>
 </section>
 
-<!-- RESONANCE — 内省と共鳴 -->
-<section class="section-resonance">
+<!-- RESONANCE -->
+<section class="section-resonance section-resonance--last">
   <div class="section-resonance-bg" aria-hidden="true"></div>
   <div class="resonance-inner">
 
@@ -691,10 +853,10 @@
     </p>
 
     <div class="resonance-link-wrap js-reveal" style="transition-delay:.66s">
-      <a href="kuryudo_about.html" class="btn-primary"><span>栗人について</span></a>
+      <a href="kuryudo_about.html" class="btn-primary"><span>獣の足跡</span></a>
     </div>
 
-    <div class="resonance-thread--lg js-reveal" style="transition-delay:.82s" aria-hidden="true"></div>
+    <div class="resonance-thread--lg js-reveal" style="transition-delay:.80s" aria-hidden="true"></div>
 
     <p class="resonance-sendoff js-reveal" style="transition-delay:.96s">
       <span class="resonance-sendoff-title">己の内に潜む獣の気配を直視せよ。</span><br>
