@@ -51,7 +51,7 @@
     .nav-logo { display:flex; align-items:center; gap:.8rem; text-decoration:none; }
     .nav-logo img { width:34px; height:34px; object-fit:contain; }
     .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--ink); }
-    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:var(--gold); display:block; margin-top:.15rem; }
+    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:var(--ink); display:block; margin-top:.15rem; }
     .nav-links { display:flex; gap:2.4rem; list-style:none; }
     .nav-links a { font-size:.72rem; font-weight:300; letter-spacing:.22em; color:var(--ink-soft); text-decoration:none; transition:color .3s; }
     .nav-links a:hover { color:var(--gold); }
@@ -402,10 +402,6 @@
       filter: brightness(0.40) saturate(0.75);
       z-index: 0; pointer-events: none;
     }
-    .section-resonance--last::before {
-      background: url('image/IMG_6026.jpg') center/cover no-repeat;
-      filter: brightness(0.40) saturate(0.75);
-    }
     .section-resonance::after {
       content: ''; position: absolute; inset: 0;
       background:
@@ -471,7 +467,58 @@
     }
 
     /* ── CONTACT CTA ── */
-    .contact-cta { display:flex; justify-content:center; align-items:center; gap:2.5rem; flex-wrap:wrap; }
+    /* ── SMOKE LINK ── */
+    .smoke-link {
+      display: inline-block;
+      font-family: 'Shippori Mincho', serif; font-weight: 500;
+      font-size: clamp(.9rem, 1.6vw, 1.1rem);
+      letter-spacing: .44em;
+      color: rgba(247,243,235,0.72);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: .5rem;
+    }
+    .smoke-link::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(184,147,42,0.5), transparent);
+      transform: scaleX(0.4);
+      transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity .8s;
+      opacity: 0.5;
+    }
+    .smoke-link:hover::after {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+    .smoke-link .s-char {
+      display: inline-block;
+      animation: smokeFloat var(--dur) ease-out 1 forwards;
+      animation-delay: var(--delay);
+    }
+    @keyframes smokeFloat {
+      0%   { opacity: 0;  filter: blur(6px);  transform: translateY(12px) scale(.94); }
+      100% { opacity: 1;  filter: blur(0);    transform: translateY(0)    scale(1);   }
+    }
+    .smoke-link:hover .s-char {
+      animation-play-state: paused;
+      color: rgba(212,174,78,0.90);
+      filter: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+      transition: color .6s ease, opacity .4s ease;
+    }
+
+    .contact-cta { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1.8rem; }
+    .video-banner-link { display:block; }
+    .video-banner {
+      display: block;
+      height: 104px;
+      width: auto;
+      cursor: pointer;
+      transition: opacity .3s;
+    }
+    .video-banner-link:hover .video-banner { opacity: .82; }
 
     /* ── FOOTER ── */
     footer { background:var(--cream); padding:3rem 5rem; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.4rem; border-top:1px solid rgba(184,147,42,.15); }
@@ -544,7 +591,7 @@
       .step-arr { transform:rotate(90deg); display:block; text-align:center; }
       .scroll-ind { display:none; }
       .whats-grid { grid-template-columns: 1fr; }
-      .whats-card:nth-child(5) { grid-column: 1 / -1; }
+      .whats-card, .whats-card:nth-child(5) { grid-column: 1 / -1; }
       .whats-card:nth-child(5) .whats-card-img { aspect-ratio: 4 / 3; }
       .whats-lead { font-size: .86rem; }
     }
@@ -647,7 +694,7 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <img src="image/栗人ロゴGOLD透過.png" alt="栗人">
+    <img src="image/黒ロゴ.png" alt="栗人">
     <div>
       <span class="nav-logo-ja">栗人</span>
       <span class="nav-logo-en">Kuryudo · from Minamisoma with pride</span>
@@ -657,7 +704,7 @@
     <li><a href="#concept">報徳の四柱</a></li>
     <li><a href="#journey">巡礼の行程</a></li>
     <li><a href="kuryudo_anga.html">栗人行脚</a></li>
-    <li><a href="kuryudo_about.html">栗人について</a></li>
+    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <button class="nav-hamburger" aria-label="メニュー" aria-expanded="false">
@@ -672,7 +719,7 @@
     <li><a href="#concept">報徳の四柱</a></li>
     <li><a href="#journey">巡礼の行程</a></li>
     <li><a href="kuryudo_anga.html">栗人行脚</a></li>
-    <li><a href="kuryudo_about.html">栗人について</a></li>
+    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <div class="nav-overlay-gold"></div>
@@ -837,7 +884,7 @@
 </section>
 
 <!-- RESONANCE -->
-<section class="section-resonance section-resonance--last">
+<section class="section-resonance">
   <div class="section-resonance-bg" aria-hidden="true"></div>
   <div class="resonance-inner">
 
@@ -853,7 +900,7 @@
     </p>
 
     <div class="resonance-link-wrap js-reveal" style="transition-delay:.66s">
-      <a href="kuryudo_about.html" class="btn-primary"><span>獣の足跡</span></a>
+      <a href="kuryudo_about.html" class="smoke-link" id="smoke-link">獣の足跡を辿る</a>
     </div>
 
     <div class="resonance-thread--lg js-reveal" style="transition-delay:.80s" aria-hidden="true"></div>
@@ -865,9 +912,14 @@
     </p>
 
     <div class="contact-cta js-reveal" style="transition-delay:1.14s; margin-top:3.5rem">
-      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="btn-primary" id="btn-contact"><span>心の獣を診断する</span></a>
-      <a href="https://calendar.app.google/kv9SAZ1q5uwj3KZL7" target="_blank" rel="noopener" class="btn-primary"><span>初回面談を申し込む</span></a>
+      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" id="btn-contact" class="video-banner-link">
+        <video class="video-banner" id="diag-video" src="image/心の獣を診断する.mp4" autoplay muted playsinline></video>
+      </a>
+      <a href="https://calendar.app.google/kv9SAZ1q5uwj3KZL7" target="_blank" rel="noopener" class="video-banner-link">
+        <video class="video-banner" id="meeting-video" src="image/初回面談.mp4" autoplay muted playsinline></video>
+      </a>
     </div>
+
 
   </div>
 </section>
@@ -982,13 +1034,16 @@
     });
   }
 
+  /* スマホのアドレスバー出入りに左右されない安定した高さを使用 */
+  const stableH = () => window.screen.height;
+
   function resize() {
     canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = stableH();
   }
 
   function getProgress() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const max = document.documentElement.scrollHeight - stableH();
     return max > 0 ? Math.min(window.scrollY / max, 1) : 0;
   }
 
@@ -1021,7 +1076,9 @@
   }
 
   function getBtnPos(id) {
-    const el = document.getElementById(id);
+    /* 診断バナー動画の中央を優先して取得 */
+    const video = document.getElementById('diag-video');
+    const el = video || document.getElementById(id);
     if (!el) return null;
     const r = el.getBoundingClientRect();
     return { x: r.left + r.width * 0.5, y: r.top + r.height * 0.5 };
@@ -1114,11 +1171,44 @@
     loop();
   }
 
-  window.addEventListener('load',   init);
+  let _lastW = window.innerWidth;
+  window.addEventListener('load', init);
   window.addEventListener('resize', function(){
+    /* 幅が変わったとき（端末回転など）だけ再初期化、高さだけの変化は無視 */
+    const newW = window.innerWidth;
+    if (Math.abs(newW - _lastW) < 10) return;
+    _lastW = newW;
     clearTimeout(this._rt);
-    this._rt = setTimeout(init, 100);
+    this._rt = setTimeout(init, 200);
   });
+})();
+
+/* ── 動画バナー：初回のみ再生 + ホバーで再生 ── */
+(function(){
+  ['diag-video', 'meeting-video'].forEach(function(id) {
+    const video = document.getElementById(id);
+    if (!video) return;
+    const link = video.closest('a');
+    if (link) {
+      link.addEventListener('mouseenter', function() {
+        video.currentTime = 0;
+        video.play();
+      });
+    }
+  });
+})();
+
+/* ── SMOKE LINK ── */
+(function(){
+  const el = document.getElementById('smoke-link');
+  if (!el) return;
+  const text = el.textContent.trim();
+  const totalDur = 4.2; // seconds
+  el.innerHTML = [...text].map((ch, i) => {
+    const delay = (i / text.length) * (totalDur * 0.55);
+    const dur   = totalDur * (0.85 + Math.random() * 0.3);
+    return `<span class="s-char" style="--delay:${delay.toFixed(2)}s; --dur:${dur.toFixed(2)}s">${ch === ' ' ? '&nbsp;' : ch}</span>`;
+  }).join('');
 })();
 
 /* ── スクロール・リビール ── */

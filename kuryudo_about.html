@@ -66,7 +66,7 @@
     }
     .nav-logo-en {
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: .62rem; letter-spacing: .2em; color: var(--gold);
+      font-size: .62rem; letter-spacing: .2em; color: var(--cream);
       display: block; margin-top: .15rem;
     }
     .nav-back {
@@ -453,6 +453,12 @@
     }
     .btn-vow-primary:hover::before { transform: scaleX(1); }
     .btn-vow-primary span { position: relative; z-index: 1; }
+    .video-banner-link { display: inline-block; }
+    .video-banner {
+      display: block; height: 104px; width: auto;
+      cursor: pointer; transition: opacity .3s;
+    }
+    .video-banner-link:hover .video-banner { opacity: .82; }
     .btn-vow-ghost {
       font-family: 'Noto Serif JP', serif;
       font-size: .75rem; letter-spacing: .18em;
@@ -538,7 +544,7 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="image/栗人ロゴGOLD透過.png" alt="栗人">
+    <img src="image/白ロゴ.png" alt="栗人">
     <div>
       <span class="nav-logo-ja">栗人</span>
       <span class="nav-logo-en">Kuryudo · from Minamisoma with pride</span>
@@ -552,9 +558,8 @@
      ══════════════════════════════════════ -->
 <section class="about-intro">
   <div class="about-intro-inner">
-    <h1 class="intro-title" style="font-family:'Shippori Mincho',serif; font-weight:700; font-size:clamp(1.8rem,4vw,2.8rem); letter-spacing:.15em; color:rgba(247,243,235,0.95); margin-bottom:1.2rem; opacity:0; animation:fadeUp 1s ease .4s forwards;">獣の足跡</h1>
     <div class="intro-divider" style="margin-bottom:1.8rem;"></div>
-    <p class="intro-body js-reveal" style="transition-delay:.22s">これは、誰よりも自分を律する基盤を見失っていた私が、南相馬の地で生きる歩調を整えていくまでの顛末です。ご参考になれば幸いです。</p>
+    <p class="intro-body js-reveal" style="transition-delay:.22s; font-size:1.05rem;">これは、誰よりも自分を律する基盤を見失っていた私が、南相馬の地で生きる歩調を整えていくまでの顛末です。ご参考になれば幸いです。</p>
   </div>
 </section>
 
@@ -669,7 +674,9 @@
     <p class="chap-body js-reveal" style="transition-delay:.2s">栗人は、報徳がいつかあなたの進路を照らす規律となる日まで、共に歩み続ける。</p>
     <p class="vow-cta-line">さぁ、その為大なる一歩目を踏み出そう。</p>
     <div class="ch-vow-btns js-reveal" style="transition-delay:.58s">
-      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="btn-vow-primary"><span>心の獣を診断する（無料）</span></a>
+      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="video-banner-link">
+        <video class="video-banner" id="diag-video-about" src="image/心の獣を診断する.mp4" autoplay muted playsinline></video>
+      </a>
     </div>
   </div>
 </section>
@@ -762,6 +769,18 @@ document.querySelectorAll('.chap-title[data-text]').forEach(el => {
     }
   }, { threshold: 0.6 });
   obs.observe(cta);
+})();
+
+(function(){
+  const video = document.getElementById('diag-video-about');
+  if (!video) return;
+  const link = video.closest('a');
+  if (link) {
+    link.addEventListener('mouseenter', function() {
+      video.currentTime = 0;
+      video.play();
+    });
+  }
 })();
 </script>
 

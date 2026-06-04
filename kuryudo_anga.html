@@ -59,7 +59,7 @@
     }
     .nav-logo-en {
       font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: .62rem; letter-spacing: .2em; color: var(--gold);
+      font-size: .62rem; letter-spacing: .2em; color: var(--cream);
       display: block; margin-top: .15rem;
     }
     .nav-back {
@@ -363,13 +363,16 @@
     }
     .footer-img { height: 160px; width: auto; object-fit: contain; }
     .footer-copy { font-size: .7rem; font-weight: 300; letter-spacing: .12em; color: var(--ink-soft); }
+    .video-banner-link { display: inline-block; }
+    .video-banner { display: block; height: 104px; width: auto; cursor: pointer; transition: opacity .3s; }
+    .video-banner-link:hover .video-banner { opacity: .82; }
   </style>
 </head>
 <body>
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <img src="image/栗人ロゴGOLD透過.png" alt="栗人">
+    <img src="image/白ロゴ.png" alt="栗人">
     <div>
       <span class="nav-logo-ja">栗人</span>
       <span class="nav-logo-en">Kuryudo · from Minamisoma with pride</span>
@@ -431,7 +434,9 @@
       栗人は、山へ至る計画からその足跡まで、<br>あなたが理の中で新しい自分を開拓する過程に寄り添います。
     </p>
     <div class="anga-cta js-reveal" style="transition-delay:.58s">
-      <a href="https://calendar.app.google/kv9SAZ1q5uwj3KZL7" target="_blank" rel="noopener" class="cta-btn cta-btn--gold">初回面談を申し込む</a>
+      <a href="https://calendar.app.google/kv9SAZ1q5uwj3KZL7" target="_blank" rel="noopener" class="video-banner-link">
+        <video class="video-banner" id="meeting-video-anga" src="image/初回面談.mp4" autoplay muted playsinline></video>
+      </a>
     </div>
   </div>
 </section>
@@ -452,6 +457,15 @@
     });
   }, { threshold: 0.15 });
   document.querySelectorAll('.js-reveal').forEach(el => io.observe(el));
+
+  (function(){
+    const video = document.getElementById('meeting-video-anga');
+    if (!video) return;
+    const link = video.closest('a');
+    if (link) link.addEventListener('mouseenter', function() {
+      video.currentTime = 0; video.play();
+    });
+  })();
 </script>
 </body>
 </html>
