@@ -291,7 +291,7 @@
 
     /* ── CTA ── */
     .anga-cta {
-      display: flex; flex-wrap: wrap; gap: 1.2rem;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem;
       margin-top: 4rem;
     }
     .cta-btn {
@@ -366,6 +366,16 @@
     .video-banner-link { display: inline-block; }
     .video-banner { display: block; height: 104px; width: auto; cursor: pointer; transition: opacity .3s; }
     .video-banner-link:hover .video-banner { opacity: .82; }
+    .return-booking-link {
+      font-family: 'Shippori Mincho', serif; font-weight: 500;
+      font-size: .78rem; letter-spacing: .28em;
+      color: rgba(247,243,235,0.65);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(184,147,42,0.45);
+      padding-bottom: .2rem;
+      transition: color .3s, border-color .3s;
+    }
+    .return-booking-link:hover { color: var(--gold-lt); border-color: var(--gold-lt); }
   </style>
 </head>
 <body>
@@ -434,9 +444,10 @@
       栗人は、山へ至る計画からその足跡まで、<br>あなたが理の中で新しい自分を開拓する過程に寄り添います。
     </p>
     <div class="anga-cta js-reveal" style="transition-delay:.58s">
-      <a href="https://calendar.app.google/kv9SAZ1q5uwj3KZL7" target="_blank" rel="noopener" class="video-banner-link">
+      <a href="https://cal.com/kuryudo/syokaimuryo" target="_blank" rel="noopener" class="video-banner-link">
         <video class="video-banner" id="meeting-video-anga" src="image/初回面談.mp4" autoplay muted playsinline></video>
       </a>
+      <a href="https://cal.com/kuryudo/mendan" target="_blank" rel="noopener" class="return-booking-link">2回目以降の面談予約はこちら</a>
     </div>
   </div>
 </section>
