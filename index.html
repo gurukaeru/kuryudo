@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>栗人 Kuryudo — 報徳巡礼</title>
+  <title>栗人 Kuryudo — 世界は、循環でできている。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@
     .nav-links a { font-size:.72rem; font-weight:300; letter-spacing:.22em; color:var(--ink-soft); text-decoration:none; transition:color .3s; }
     .nav-links a:hover { color:var(--gold); }
 
-    /* ── ハンバーガーボタン ── */
+    /* ── ハンバーガー ── */
     .nav-hamburger {
       display: none;
       flex-direction: column; justify-content: center; gap: 5px;
@@ -72,7 +72,7 @@
     .nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-    /* ── モバイルメニューオーバーレイ ── */
+    /* ── モバイルオーバーレイ ── */
     .nav-overlay {
       position: fixed; inset: 0; z-index: 250;
       background: rgba(247,243,235,0.97);
@@ -97,9 +97,7 @@
       color: var(--ink); text-decoration: none; transition: color .3s;
     }
     .nav-overlay-links a:hover { color: var(--gold); }
-    .nav-overlay-gold {
-      width: 1.8rem; height: 1px; background: var(--gold);
-    }
+    .nav-overlay-gold { width: 1.8rem; height: 1px; background: var(--gold); }
 
     /* ── HERO ── */
     .hero {
@@ -108,14 +106,12 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-end;
     }
-    /* 富士画像 — フルカバー */
     .hero-bg {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover; object-position: center 28%;
       z-index: 0;
     }
-    /* グラデーションオーバーレイ — 中央（山）は薄く、上下は濃く */
     .hero-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(
@@ -142,40 +138,24 @@
       text-shadow: 0 1px 14px rgba(0,0,0,0.55);
       opacity:0; animation: up 1.6s ease .5s forwards;
     }
-
-    /* ── タイトル：文字ひとつひとつが下から浮かぶ ── */
+    .hero-title-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.8rem;
+    }
     .hero-title {
       font-family:'Shippori Mincho',serif; font-weight:800;
       font-size: clamp(2.8rem,4.2vw,5rem);
       line-height: 1.35; letter-spacing:.05em;
-      /* 写真の上で読めるよう：クリーム文字＋金の光暈＋影 */
       color: var(--cream);
       text-shadow:
         0 0 48px  rgba(184,147,42,0.45),
         0 0 100px rgba(184,147,42,0.18),
         0 2px 22px rgba(0,0,0,0.65),
         0 1px  5px rgba(0,0,0,0.50);
-      margin-bottom: 1.8rem;
+      margin-bottom: 0;
       position: relative;
     }
-    /* 写真をタイトル文字列の上に重ねるクリップマスク */
-    .hero-title-wrap {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 1.8rem;
-    }
-    .hero-title-wrap .title-photo {
-      position: absolute;
-      inset: -4px -8px;
-      background-image: url('/mnt/user-data/uploads/名称未設定のテ_サ_イン__3_.png');
-      background-size: cover;
-      background-position: center;
-      mix-blend-mode: overlay;
-      opacity: 0.18;
-      pointer-events: none;
-      border-radius: 2px;
-    }
-    /* 文字を1文字ずつspan化してアニメーション */
     .hero-title .char {
       display: inline-block;
       opacity: 0;
@@ -185,57 +165,18 @@
     @keyframes charUp {
       to { opacity:1; transform: translateY(0) rotate(0deg); }
     }
-
     .hero-divider {
       width:2.4rem; height:1px; background:var(--gold-lt);
       margin-bottom:2rem;
       opacity:0; animation:up 1.6s ease 1.0s forwards;
     }
     .hero-lead {
-      font-size:.88rem; font-weight:300; line-height:2.3;
+      font-size:.88rem; font-weight:300; line-height:2.4;
       letter-spacing:.08em;
       color: rgba(247,243,235,0.80);
       text-shadow: 0 1px 16px rgba(0,0,0,0.55);
-      max-width:28rem;
+      max-width:32rem;
       opacity:0; animation:up 1.6s ease 1.5s forwards;
-    }
-
-    /* ── ボタン共通 ── */
-    .btn-primary {
-      display:inline-block; padding:.9rem 2.2rem;
-      background:var(--ink); color:var(--cream-lite);
-      font-size:.78rem; font-weight:400; letter-spacing:.22em;
-      text-decoration:none; position:relative; overflow:hidden;
-    }
-    .btn-primary::before {
-      content:''; position:absolute; inset:0;
-      background:var(--gold); transform:scaleX(0);
-      transform-origin:left; transition:transform .4s ease;
-    }
-    .btn-primary:hover::before { transform:scaleX(1); }
-    .btn-primary span { position:relative; z-index:1; }
-    .btn-ghost {
-      font-size:.75rem; letter-spacing:.18em; color:var(--ink-soft);
-      text-decoration:none; display:flex; align-items:center; gap:.5rem;
-      transition:color .3s, gap .3s;
-    }
-    .btn-ghost::after { content:'→'; transition:transform .3s; }
-    .btn-ghost:hover { color:var(--gold); gap:.75rem; }
-    .btn-ghost:hover::after { transform:translateX(3px); }
-
-    /* ── HERO VISUAL ── */
-    .hero-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5rem 3rem 5rem 0;
-    }
-    .hero-photo {
-      width: 100%;
-      height: auto;
-      max-height: 88vh;
-      object-fit: contain;
-      display: block;
     }
     .scroll-ind {
       position:absolute; bottom:2.2rem; left:50%; transform:translateX(-50%);
@@ -253,53 +194,58 @@
       animation:pulse 2.2s ease-in-out 2s infinite;
     }
 
-    /* ── HERO VISUAL（削除） ── */
-    .hero-visual { display:none; }
-    .hero-photo  { display:none; }
-
     /* ── 共通 ── */
-    .section-label {
+    .section-eyebrow {
       font-family:'Cormorant Garamond',serif; font-style:italic;
-      font-size:.78rem; letter-spacing:.38em; color:var(--gold);
-      margin-bottom:1.4rem; display:flex; align-items:center; gap:1rem;
+      font-size:.78rem; letter-spacing:.44em; color:var(--gold);
+      margin-bottom:1.4rem;
+      display: flex; align-items: center; gap: 1rem;
     }
-    .section-label::before { content:''; width:1.8rem; height:1px; background:var(--gold); flex-shrink:0; }
+    .section-eyebrow::before { content:''; width:1.8rem; height:1px; background:var(--gold); flex-shrink:0; }
     .section-title {
       font-family:'Shippori Mincho',serif; font-weight:700;
-      font-size:clamp(1.5rem,2.3vw,2.1rem);
-      line-height:1.55; letter-spacing:.04em; color:var(--ink); margin-bottom:1.8rem;
+      font-size:clamp(1.6rem,2.6vw,2.4rem);
+      line-height:1.5; letter-spacing:.06em; color:var(--ink); margin-bottom:1.4rem;
     }
-    .section-body { font-size:.88rem; font-weight:300; line-height:2.2; letter-spacing:.06em; color:var(--ink-soft); margin-bottom:1.2rem; }
-    .section-quote {
-      border-left:2px solid var(--gold); padding-left:1.4rem; margin:2.2rem 0;
-      font-family:'Shippori Mincho',serif; font-size:.95rem; font-weight:500;
-      line-height:2; letter-spacing:.04em; color:var(--ink-mid);
+    .section-divider {
+      width:2.4rem; height:1px;
+      background:rgba(184,147,42,.45);
+      margin-bottom:2.8rem;
+    }
+    .section-body {
+      font-size:.88rem; font-weight:300; line-height:2.4; letter-spacing:.06em;
+      color:var(--ink-soft); margin-bottom:1.2rem;
     }
 
-
-    /* ── CONCEPT ── */
-    .section-concept {
-      background:var(--cream-deep); padding:9rem 5rem; text-align:center; overflow:hidden;
-      position:relative;
+    /* ── HOUTOKU ── */
+    .section-houtoku {
+      padding: 9rem 5%;
+      position: relative; overflow: hidden;
+      background: var(--cream);
+      text-align: center;
     }
-    .section-concept::before {
-      content:''; position:absolute; inset:0;
+    .section-houtoku::before {
+      content: ''; position: absolute; inset: 0;
       background: url('image/IMG_3064.jpg') center/cover no-repeat;
-      filter: brightness(0.92) saturate(0.82);
-      opacity: 0.70;
-      z-index:0; pointer-events:none;
+      filter: brightness(1.05) saturate(0.55);
+      opacity: 0.10;
+      z-index: 0; pointer-events: none;
     }
-    /* 「報徳」の背景文字を削除 → .concept-bg 要素ごと削除 */
-    .concept-inner { position:relative; z-index:1; max-width:58rem; margin:0 auto; }
-    .pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:5rem; }
+    .houtoku-inner {
+      max-width: 58rem; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+
+    /* ── 四柱 ── */
+    .pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:4rem; }
     .pillar { padding:2.2rem 1.3rem; background:var(--cream-lite); position:relative; transition:transform .3s; overflow:hidden; }
     .pillar:hover { transform:translateY(-5px); }
     .pillar::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transform-origin:left; transition:transform .4s; z-index:2; }
     .pillar:hover::before { transform:scaleX(1); }
     .pillar::after {
       content:''; position:absolute; inset:0;
-      background-size:98%; background-position:center; background-repeat:no-repeat;
-      opacity:0.20; pointer-events:none; z-index:0;
+      background-size:90%; background-position:center; background-repeat:no-repeat;
+      opacity:0.14; pointer-events:none; z-index:0;
     }
     .pillar:nth-child(1)::after { background-image: url('image/狼.png'); }
     .pillar:nth-child(2)::after { background-image: url('image/猪.png'); }
@@ -307,243 +253,275 @@
     .pillar:nth-child(4)::after { background-image: url('image/鹿.png'); }
     .pillar-k { font-family:'Shippori Mincho',serif; font-size:1.9rem; font-weight:800; color:var(--gold); margin-bottom:.4rem; position:relative; z-index:1; }
     .pillar-s { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.68rem; letter-spacing:.18em; color:var(--ink-pale); margin-bottom:.9rem; position:relative; z-index:1; }
-    .pillar-d { font-size:.76rem; font-weight:300; line-height:1.9; color:var(--ink-soft); position:relative; z-index:1; }
+    .pillar-d { font-size:.78rem; font-weight:300; line-height:1.9; color:var(--ink-soft); position:relative; z-index:1; }
 
-    /* ── JOURNEY ── */
-    .section-journey { background:var(--cream-mid); padding:9rem 5rem; overflow:hidden; position:relative; }
-    .section-journey::before {
-      content:''; position:absolute; inset:0;
-      background: url('image/IMG_9295-EDIT.jpg') center/cover no-repeat;
-      filter: brightness(0.92) saturate(0.85);
-      opacity: 0.70;
-      z-index:0; pointer-events:none;
+    /* ── 一円融合・積小為大 ── */
+    .houtoku-beyond {
+      margin-top: 4rem;
+      padding-top: 3.5rem;
+      border-top: 1px solid rgba(184,147,42,.20);
     }
-    .journey-inner { max-width:62rem; margin:0 auto; text-align:center; position:relative; z-index:1; }
-    .journey-title { font-family:'Shippori Mincho',serif; font-weight:700; font-size:clamp(1.7rem,2.8vw,2.6rem); line-height:1.55; color:var(--ink); margin-bottom:1.3rem; }
-    .journey-lead { font-size:.88rem; font-weight:300; line-height:2.2; color:var(--ink); max-width:34rem; margin:0 auto 5rem; }
-    .steps { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; align-items:stretch; gap:1rem; }
-    .step { padding:2.4rem 1.4rem; border:1px solid rgba(184,147,42,.3); background:var(--cream-lite); transition:border-color .3s, transform .3s; position:relative; overflow:hidden; display:flex; flex-direction:column; }
-    .step:hover { border-color:var(--gold); transform:translateY(-4px); }
-    .step-bg {
-      position:absolute; inset:0;
-      background-size:60%; background-position:center; background-repeat:no-repeat;
-      opacity:0.15; pointer-events:none; z-index:0;
-    }
-    .step-n { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.68rem; letter-spacing:.3em; color:var(--gold); margin-bottom:.9rem; position:relative; z-index:1; }
-    .step-t { font-family:'Shippori Mincho',serif; font-size:1.05rem; font-weight:600; color:var(--ink); margin-bottom:.8rem; letter-spacing:.08em; line-height:1.6; position:relative; z-index:1; }
-    .step-d { font-size:.74rem; font-weight:300; line-height:1.9; color:var(--ink-soft); position:relative; z-index:1; }
-    .step-arr { color:rgba(184,147,42,.5); font-size:1.4rem; align-self:center; }
-    a.step { text-decoration:none; display:block; cursor:pointer; }
-    a.step:hover { border-color:var(--gold); transform:translateY(-4px); }
-
-    /* ── PHILOSOPHY ── */
-    .section-philosophy {
-      background: var(--ink);
-      padding: 9rem 5rem;
-      text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .section-philosophy::before {
-      content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_5743.jpg') center/cover no-repeat;
-      filter: brightness(0.88) saturate(0.85);
-      z-index: 0; pointer-events: none;
-    }
-    .section-philosophy::after {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 52%, rgba(184,147,42,0.08) 0%, transparent 62%),
-        linear-gradient(to bottom, rgba(11,9,7,0.46) 0%, rgba(11,9,7,0.08) 30%, rgba(11,9,7,0.04) 50%, rgba(11,9,7,0.38) 70%, rgba(11,9,7,0.72) 100%);
-      z-index: 0; pointer-events: none;
-    }
-    .philosophy-inner { max-width: 44rem; margin: 0 auto; position: relative; z-index: 1; }
-    .philosophy-line {
-      width: 1px; height: 3.5rem;
-      background: linear-gradient(to bottom, transparent, rgba(184,147,42,0.5), transparent);
-      margin: 0 auto 4.5rem;
-    }
-    .philosophy-quote {
-      font-family: 'Shippori Mincho', serif; font-weight: 800;
-      font-size: clamp(2.2rem, 4.2vw, 4.2rem);
-      line-height: 1.45; letter-spacing: .06em;
-      color: var(--cream);
-      text-shadow:
-        0 0 60px rgba(184,147,42,0.22),
-        0 0 120px rgba(184,147,42,0.08);
-      margin-bottom: 3.5rem;
-    }
-    .philosophy-divider {
-      width: 2.4rem; height: 1px; background: var(--gold);
-      margin: 0 auto 3.2rem; opacity: .5;
-    }
-    .philosophy-body {
-      font-size: .88rem; font-weight: 300;
-      line-height: 2.7; letter-spacing: .07em;
-      color: rgba(247,243,235,0.85);
-      margin-bottom: 1.8rem;
-    }
-    .philosophy-coda {
-      font-family: 'Shippori Mincho', serif; font-weight: 500;
-      font-size: .92rem; line-height: 2.2; letter-spacing: .06em;
-      color: rgba(247,243,235,0.72);
-      margin-top: .8rem;
-    }
-
-    /* ── RESONANCE — 内省と共鳴 ── */
-    .section-resonance {
-      background: var(--ink);
-      padding: 10rem 5rem;
-      text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .section-resonance::before {
-      content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_0084.jpg') center 30%/cover no-repeat;
-      filter: brightness(0.40) saturate(0.75);
-      z-index: 0; pointer-events: none;
-    }
-    .section-resonance::after {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse at 50% 58%, rgba(184,147,42,0.06) 0%, transparent 62%),
-        linear-gradient(to bottom, rgba(11,9,7,0.55), rgba(11,9,7,0.32), rgba(11,9,7,0.60));
-      z-index: 0; pointer-events: none;
-    }
-    .resonance-inner {
-      max-width: 42rem;
+    .houtoku-beyond-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      align-items: start;
+      max-width: 52rem;
       margin: 0 auto;
+      text-align: left;
+    }
+    .houtoku-beyond-divider {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, rgba(184,147,42,.35), transparent);
+      margin: 0 3rem;
+      align-self: stretch;
+    }
+    .houtoku-beyond-item { padding: .4rem 0; position: relative; overflow: hidden; }
+    .houtoku-beyond-item::before {
+      content: ''; position: absolute; inset: 0;
+      background-size: contain; background-position: center right;
+      background-repeat: no-repeat;
+      opacity: 0.10; pointer-events: none; z-index: 0;
+    }
+    .houtoku-beyond-item > * { position: relative; z-index: 1; }
+    .houtoku-beyond-item--ichien::before { background-image: url('image/一円融合.png'); }
+    .houtoku-beyond-item--seki::before  { background-image: url('image/積小為大.png'); }
+    .beyond-k {
+      font-family: 'Shippori Mincho', serif; font-size: 1.6rem; font-weight: 800;
+      color: var(--gold); margin-bottom: .3rem;
+    }
+    .beyond-s {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .66rem; letter-spacing: .18em; color: var(--ink-pale);
+      margin-bottom: .8rem;
+    }
+    .beyond-d {
+      font-size: .78rem; font-weight: 300; line-height: 2.1;
+      letter-spacing: .06em; color: var(--ink-soft);
+    }
+
+    /* ── SERVICE ── */
+    .section-service {
+      padding: 9rem 5%;
+      background: var(--cream-deep);
+      position: relative; overflow: hidden;
+    }
+    .section-service::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_9295-EDIT.jpg') center/cover no-repeat;
+      filter: brightness(1.08) saturate(0.50);
+      opacity: 0.08;
+      z-index: 0; pointer-events: none;
+    }
+    .service-inner {
+      max-width: 64rem; margin: 0 auto;
       position: relative; z-index: 1;
     }
-    .resonance-question {
+    .service-sub {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(.88rem, 1.4vw, 1.05rem);
+      letter-spacing: .22em; color: var(--ink-soft);
+      margin-bottom: 4.5rem; margin-top: -.4rem;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .service-card {
+      background: var(--cream-lite);
+      border: 1px solid rgba(184,147,42,.18);
+      padding: 3rem 2.4rem 2.6rem;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: box-shadow .4s, transform .3s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 40px rgba(28,24,20,0.08);
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .5s cubic-bezier(.22,1,.36,1);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card::after {
+      content: ''; position: absolute; inset: 0;
+      background-size: 65%; background-position: center 55%; background-repeat: no-repeat;
+      opacity: 0.06; pointer-events: none; z-index: 0;
+    }
+    .service-card--kemono::after { background-image: url('image/四獣.png'); }
+    .service-card--keiei::after  { background-image: url('image/報徳巡礼.png'); }
+    .service-card-badge {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .68rem; letter-spacing: .32em; color: var(--gold);
+      margin-bottom: 1.4rem;
+      position: relative; z-index: 1;
+    }
+    .service-card-title {
       font-family: 'Shippori Mincho', serif; font-weight: 700;
-      font-size: clamp(1.05rem, 1.85vw, 1.55rem);
-      line-height: 2.5; letter-spacing: .06em;
-      color: var(--cream);
-      margin-bottom: 4rem;
+      font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+      line-height: 1.5; letter-spacing: .06em; color: var(--ink);
+      margin-bottom: 1.4rem;
+      position: relative; z-index: 1;
     }
-    .resonance-thread {
-      width: 1px; height: 3.5rem;
-      background: linear-gradient(to bottom, transparent, rgba(184,147,42,0.38), transparent);
-      margin: 0 auto 3.5rem;
+    .service-card-body {
+      font-size: .82rem; font-weight: 300;
+      line-height: 2.3; letter-spacing: .06em; color: var(--ink-soft);
+      margin-bottom: 1.8rem; flex: 1;
+      position: relative; z-index: 1;
     }
-    .resonance-lead {
-      font-size: .88rem; font-weight: 300;
-      line-height: 2.8; letter-spacing: .07em;
-      color: rgba(247,243,235,0.60);
-      text-align: left;
-      margin-bottom: 1.6rem;
-    }
-    .resonance-link-wrap { margin: 5rem 0 8rem; }
-    .resonance-link {
-      display: inline-flex; align-items: center; gap: .55rem;
-      font-family: 'Noto Serif JP', serif;
-      font-size: .78rem; letter-spacing: .24em;
-      color: rgba(184,147,42,0.75);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(184,147,42,0.28);
-      padding-bottom: .28rem;
-      transition: color .3s, border-color .3s;
-    }
-    .resonance-link::after { content: ' →'; }
-    .resonance-link:hover { color: var(--gold); border-color: var(--gold); }
-    .resonance-thread--lg {
-      width: 1px; height: 4.5rem;
-      background: linear-gradient(to bottom, transparent, rgba(247,243,235,0.10), transparent);
-      margin: 0 auto 4rem;
-    }
-    .resonance-sendoff {
+    .service-card-price {
       font-family: 'Shippori Mincho', serif; font-weight: 500;
-      font-size: clamp(.92rem, 1.55vw, 1.12rem);
-      line-height: 2.6; letter-spacing: .07em;
-      color: rgba(247,243,235,0.80);
+      font-size: .74rem; letter-spacing: .12em; color: var(--ink-pale);
+      border-top: 1px solid rgba(184,147,42,.2);
+      padding-top: 1.2rem; margin-bottom: 1.8rem;
+      position: relative; z-index: 1;
+      line-height: 2;
     }
-    .resonance-sendoff-title {
-      display: block;
+    .service-card-link {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: 'Shippori Mincho', serif; font-weight: 600;
+      font-size: .78rem; letter-spacing: .22em;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid rgba(184,147,42,.55);
+      padding: .85rem 1.8rem;
+      transition: background .3s, color .3s, border-color .3s;
+      position: relative; z-index: 1;
+      align-self: flex-start;
+    }
+    .service-card-link::after { content: ' →'; }
+    .service-card-link:hover {
+      background: var(--gold);
+      color: var(--cream);
+      border-color: var(--gold);
+    }
+
+    /* ── MEDIA ── */
+    .section-media {
+      padding: 9rem 5%;
+      background: var(--cream);
+    }
+    .media-inner { max-width: 72rem; margin: 0 auto; }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.4rem;
+      margin-top: 4.5rem;
+    }
+    .media-col {
+      display: flex; flex-direction: column;
+    }
+    .media-col-heading {
       font-family: 'Shippori Mincho', serif; font-weight: 700;
-      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
-      letter-spacing: .12em; line-height: 1.5;
-      color: rgba(247,243,235,0.95);
+      font-size: clamp(.88rem, 1.3vw, 1rem);
+      letter-spacing: .18em; color: var(--ink);
       margin-bottom: .6rem;
     }
-
-    /* ── CONTACT CTA ── */
-    /* ── SMOKE LINK ── */
-    .smoke-link {
-      display: inline-block;
-      font-family: 'Shippori Mincho', serif; font-weight: 500;
-      font-size: clamp(.9rem, 1.6vw, 1.1rem);
-      letter-spacing: .44em;
-      color: rgba(247,243,235,0.72);
-      text-decoration: none;
-      position: relative;
-      padding-bottom: .5rem;
+    .media-col-sub {
+      font-size: .74rem; font-weight: 300;
+      letter-spacing: .08em; color: var(--ink-soft);
+      line-height: 1.9; margin-bottom: 1.6rem;
     }
-    .smoke-link::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0;
-      width: 100%; height: 1px;
-      background: linear-gradient(to right, transparent, rgba(184,147,42,0.5), transparent);
-      transform: scaleX(0.4);
-      transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity .8s;
-      opacity: 0.5;
+    .media-divider {
+      width: 1.8rem; height: 1px;
+      background: rgba(184,147,42,.45);
+      margin-bottom: 1.8rem;
     }
-    .smoke-link:hover::after {
-      transform: scaleX(1);
-      opacity: 1;
-    }
-    .smoke-link .s-char {
-      display: inline-block;
-      animation: smokeFloat var(--dur) ease-out 1 forwards;
-      animation-delay: var(--delay);
-    }
-    @keyframes smokeFloat {
-      0%   { opacity: 0;  filter: blur(6px);  transform: translateY(12px) scale(.94); }
-      100% { opacity: 1;  filter: blur(0);    transform: translateY(0)    scale(1);   }
-    }
-    .smoke-link:hover .s-char {
-      animation-play-state: paused;
-      color: rgba(212,174,78,0.90);
-      filter: none !important;
-      transform: none !important;
-      opacity: 1 !important;
-      transition: color .6s ease, opacity .4s ease;
-    }
-
-    .contact-cta { display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1.8rem; }
-    .video-banner-link { display:block; }
-    .video-banner {
-      display: block;
-      height: 104px;
-      width: auto;
-      cursor: pointer;
-      transition: opacity .3s;
-    }
-    .video-banner-link:hover .video-banner { opacity: .82; }
-    .return-booking-link {
-      font-family: 'Shippori Mincho', serif; font-weight: 500;
-      font-size: .78rem; letter-spacing: .28em;
-      color: var(--ink-soft);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(184,147,42,0.45);
+    .media-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .74rem; letter-spacing: .2em;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid rgba(184,147,42,.35);
       padding-bottom: .2rem;
       transition: color .3s, border-color .3s;
+      align-self: flex-start;
+      margin-top: auto;
     }
-    .return-booking-link:hover { color: var(--gold); border-color: var(--gold); }
+    .media-link:hover { color: var(--gold-lt); border-color: var(--gold-lt); }
+
+    /* note feed */
+    #note-feed {
+      display: flex; flex-direction: column; gap: 1.2rem;
+      margin-bottom: 1.6rem; flex: 1;
+    }
+    .note-item {
+      display: flex; flex-direction: column; gap: .2rem;
+      text-decoration: none;
+      padding: .8rem 0;
+      border-bottom: 1px solid rgba(184,147,42,.12);
+      transition: border-color .3s;
+    }
+    .note-item:hover { border-color: rgba(184,147,42,.45); }
+    .note-date {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .66rem; letter-spacing: .2em; color: var(--ink-pale);
+    }
+    .note-title {
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: .80rem; letter-spacing: .06em; line-height: 1.7;
+      color: var(--ink-soft);
+      transition: color .3s;
+    }
+    .note-item:hover .note-title { color: var(--ink); }
+    .note-loading {
+      font-size: .76rem; color: var(--ink-pale); letter-spacing: .1em;
+      padding: 1rem 0;
+    }
+
+    /* X widget container */
+    .x-widget-wrap {
+      flex: 1; min-height: 200px;
+      border: 1px solid rgba(184,147,42,.15);
+      overflow: hidden;
+      margin-bottom: 1.6rem;
+    }
+    .x-fallback {
+      display: none;
+      font-size: .78rem; color: var(--ink-soft);
+      letter-spacing: .08em; line-height: 1.9;
+      margin-bottom: 1.4rem;
+    }
+
+    /* Instagram */
+    .instagram-placeholder {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 180px;
+      border: 1px solid rgba(184,147,42,.12);
+      margin-bottom: 1.6rem;
+    }
+    .instagram-placeholder span {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .78rem; letter-spacing: .24em; color: var(--ink-pale);
+    }
 
     /* ── FOOTER ── */
-    footer { background:var(--cream); padding:3rem 5rem; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.4rem; border-top:1px solid rgba(184,147,42,.15); }
-    .footer-logo { display:flex; align-items:center; gap:.75rem; }
-    .footer-logo img { width:28px; height:28px; object-fit:contain; }
-    .footer-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:.95rem; letter-spacing:.3em; color:var(--ink); }
-    .footer-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.22em; color:var(--gold); display:block; margin-top:.15rem; }
-    .footer-copy { font-size:.7rem; font-weight:300; letter-spacing:.12em; color:var(--ink-pale); }
-    .footer-img { height:160px; width:auto; object-fit:contain; }
+    footer {
+      background: var(--cream); padding: 3rem 5rem;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: .7rem;
+      border-top: 1px solid rgba(184,147,42,.15);
+    }
+    .footer-img { height: 140px; width: auto; object-fit: contain; }
+    .footer-nav {
+      display: flex; gap: 2rem; list-style: none;
+      margin-top: .4rem;
+    }
+    .footer-nav a {
+      font-size: .68rem; font-weight: 300; letter-spacing: .2em;
+      color: var(--ink-soft); text-decoration: none; transition: color .3s;
+    }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-copy { font-size: .68rem; font-weight: 300; letter-spacing: .12em; color: var(--ink-pale); }
 
     /* ── KEYFRAMES ── */
     @keyframes up    { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
     @keyframes fade  { from{opacity:0} to{opacity:1} }
     @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
-
 
     /* ── SCROLL REVEAL ── */
     .js-reveal {
@@ -551,31 +529,7 @@
       transform: translateY(22px);
       transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
     }
-    .js-reveal.is-visible {
-      opacity: 1;
-      transform: none;
-    }
-    .js-reveal-left {
-      opacity: 0;
-      transform: translateX(-20px);
-      transition: opacity 1.5s ease, transform 1.7s cubic-bezier(.16,1,.3,1);
-    }
-    .js-reveal-left.is-visible {
-      opacity: 1;
-      transform: none;
-    }
-    .js-reveal-quote {
-      opacity: 0;
-      transform: translateX(-10px);
-      border-left-color: transparent;
-      transition: opacity 1.6s ease .3s, transform 1.7s cubic-bezier(.16,1,.3,1) .3s, border-left-color 1.2s ease;
-    }
-    .js-reveal-quote.is-visible {
-      opacity: 1;
-      transform: none;
-      border-left-color: var(--gold);
-    }
-    /* スクロール起動の文字アニメ */
+    .js-reveal.is-visible { opacity: 1; transform: none; }
     .js-title-wrap .js-char {
       display: inline-block;
       opacity: 0;
@@ -587,113 +541,19 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media(max-width:900px){
-      nav { padding:1.1rem 1.5rem; }
-      .nav-links { display:none; }
-      .nav-hamburger { display:flex; }
-      .hero-text { padding:0 1.8rem 5.5rem; }
-      .pillars { grid-template-columns:1fr 1fr; }
-      .section-philosophy { padding:5rem 1.8rem; }
-      .section-concept,.section-journey,.section-resonance { padding:5rem 1.8rem; }
-      .resonance-lead { text-align: left; }
-      footer { flex-direction:column; gap:1.2rem; text-align:center; padding:2.5rem 1.8rem; }
-      .steps { grid-template-columns:1fr; }
-      .step-arr { transform:rotate(90deg); display:block; text-align:center; }
-      .scroll-ind { display:none; }
-      .whats-grid { grid-template-columns: 1fr; }
-      .whats-card, .whats-card:nth-child(5) { grid-column: 1 / -1; }
-      .whats-card:nth-child(5) .whats-card-img { aspect-ratio: 4 / 3; }
-      .whats-lead { font-size: .86rem; }
-    }
-
-    /* ── WHAT'S KURYUDO ── */
-    .section-whats {
-      background: var(--cream);
-      padding: 8rem 5%;
-      position: relative;
-    }
-    .whats-inner {
-      max-width: 68rem;
-      margin: 0 auto;
-    }
-    .whats-eyebrow {
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: .78rem; letter-spacing: .48em; color: var(--gold);
-      margin-bottom: 1.4rem;
-    }
-    .whats-heading {
-      font-family: 'Shippori Mincho', serif; font-weight: 700;
-      font-size: clamp(1.5rem, 3vw, 2.4rem);
-      letter-spacing: .08em; line-height: 1.5;
-      color: var(--ink);
-      margin-bottom: 1rem;
-    }
-    .whats-heading-sub {
-      font-family: 'Noto Serif JP', serif; font-weight: 300;
-      font-size: clamp(.88rem, 1.4vw, 1.05rem);
-      letter-spacing: .08em; line-height: 1.8;
-      color: var(--ink-soft);
-      margin-bottom: 3.5rem;
-    }
-    .whats-divider {
-      width: 2.4rem; height: 1px;
-      background: rgba(184,147,42,.45);
-      margin-bottom: 2.8rem;
-    }
-    .whats-lead {
-      font-family: 'Noto Serif JP', serif; font-weight: 300;
-      font-size: clamp(.86rem, 1.3vw, 1rem);
-      letter-spacing: .08em; line-height: 2.6;
-      color: var(--ink-soft);
-      max-width: 48rem;
-      margin-bottom: 1.6rem;
-    }
-    .whats-lead:last-of-type { margin-bottom: 5rem; }
-
-    /* 2+2+1 グリッド */
-    .whats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-    .whats-card:nth-child(5) {
-      grid-column: 1 / -1;
-    }
-    .whats-card:nth-child(5) .whats-card-img {
-      aspect-ratio: 16 / 7;
-    }
-    .whats-card {
-      position: relative;
-      overflow: hidden;
-      background: var(--cream-deep);
-      border: 1px solid rgba(184,147,42,.18);
-    }
-    .whats-card-img {
-      width: 100%; aspect-ratio: 4/3;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.85);
-      transition: transform .6s ease;
-    }
-    .whats-card:hover .whats-card-img { transform: scale(1.03); }
-    .whats-card-body {
-      padding: 1.8rem 2rem 2.2rem;
-    }
-    .whats-card-label {
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: .72rem; letter-spacing: .44em; color: var(--gold);
-      margin-bottom: .8rem;
-    }
-    .whats-card-title {
-      font-family: 'Shippori Mincho', serif; font-weight: 700;
-      font-size: clamp(1rem, 1.8vw, 1.3rem);
-      letter-spacing: .1em; color: var(--ink);
-      margin-bottom: 1rem;
-    }
-    .whats-card-text {
-      font-family: 'Noto Serif JP', serif; font-weight: 300;
-      font-size: .82rem; letter-spacing: .07em;
-      line-height: 2.2; color: var(--ink-soft);
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-text { padding: 0 1.8rem 5.5rem; }
+      .scroll-ind { display: none; }
+      .section-houtoku, .section-service, .section-media { padding: 5.5rem 5%; }
+      .pillars { grid-template-columns: 1fr 1fr; }
+      .service-grid { grid-template-columns: 1fr; }
+      .media-grid { grid-template-columns: 1fr; }
+      .houtoku-beyond-inner { grid-template-columns: 1fr; }
+      .houtoku-beyond-divider { width: 100%; height: 1px; margin: 2rem 0; background: linear-gradient(to right, transparent, rgba(184,147,42,.35), transparent); }
+      footer { padding: 2.5rem 1.8rem; }
     }
   </style>
 </head>
@@ -711,9 +571,9 @@
     </div>
   </a>
   <ul class="nav-links">
-    <li><a href="#concept">報徳の四柱</a></li>
-    <li><a href="#journey">巡礼の行程</a></li>
-    <li><a href="kuryudo_anga.html">栗人行脚</a></li>
+    <li><a href="#houtoku">報徳とは</a></li>
+    <li><a href="#service">サービス</a></li>
+    <li><a href="#media">発信</a></li>
     <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
@@ -722,13 +582,13 @@
   </button>
 </nav>
 
-<!-- モバイルメニューオーバーレイ -->
+<!-- モバイルオーバーレイ -->
 <div class="nav-overlay" id="nav-overlay" aria-hidden="true">
   <div class="nav-overlay-gold"></div>
   <ul class="nav-overlay-links">
-    <li><a href="#concept">報徳の四柱</a></li>
-    <li><a href="#journey">巡礼の行程</a></li>
-    <li><a href="kuryudo_anga.html">栗人行脚</a></li>
+    <li><a href="#houtoku">報徳とは</a></li>
+    <li><a href="#service">サービス</a></li>
+    <li><a href="#media">発信</a></li>
     <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
@@ -737,207 +597,183 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <!-- 富士画像（背景） -->
-  <img src="image/ロゴ入り富士.png" alt="栗人 — 報徳巡礼" class="hero-bg">
-  <!-- グラデーションオーバーレイ -->
+  <img src="image/ロゴ入り富士.png" alt="栗人 — 循環設計支援" class="hero-bg">
   <div class="hero-overlay"></div>
-
-  <!-- テキストコンテンツ（画像下部に浮かぶ） -->
   <div class="hero-text">
     <div class="hero-title-wrap">
       <h1 class="hero-title" id="hero-title-text"></h1>
     </div>
     <div class="hero-divider"></div>
-    <p class="hero-lead" style="max-width:34rem; line-height:2.1; animation-delay:1.5s">
-      何かを始めても長続きしない。自分をコントロールできずに自己嫌悪に陥ってしまう。そんな「自律」への葛藤を抱えてはいませんか。
+    <p class="hero-lead">
+      言葉が届き、人が動き、経済が回り、命が巡る。<br>
+      その流れが滞るとき——<br>
+      人は苦しみ、事業は淀み、地域は朽ちていく。
     </p>
-    <p class="hero-lead" style="max-width:34rem; line-height:2.1; animation-delay:1.85s; margin-top:.9rem">
-      私たちは皆、心の中に荒ぶる獣を飼っています。<br>
-      自律とは、その獣を殺すことでも、道徳で縛り付けることでもありません。<br>
-      二宮尊徳が提唱した報徳の精神をもって、内なる獣の野生を受け入れ、共に歩むための終わりなき巡礼です。
+    <p class="hero-lead" style="animation-delay:1.85s; margin-top:.9rem">
+      二宮尊徳が遺した報徳の思想は、<br>
+      その循環を取り戻すための、永遠の設計図である。
     </p>
   </div>
-
   <div class="scroll-ind">
     <div class="scroll-line"></div>
     <span>scroll</span>
   </div>
 </section>
 
-<!-- PHILOSOPHY -->
-<section class="section-philosophy">
-  <div class="philosophy-inner">
-    <div class="philosophy-line"></div>
-    <blockquote class="philosophy-quote js-reveal">
-      私とは、<br>私以外の全てである。
-    </blockquote>
-    <div class="philosophy-divider js-reveal" style="transition-delay:.25s"></div>
-    <p class="philosophy-body js-reveal" style="transition-delay:.38s">
-      「自分」とはなんなのか？<br>
-      たとえば、無の空間にひとり生まれ落ちたとき、<br>
-      私は存在していると言えるのだろうか？
+<!-- 報徳とは -->
+<section class="section-houtoku" id="houtoku">
+  <div class="houtoku-inner">
+    <p class="section-eyebrow js-reveal">Houtoku · 報徳思想</p>
+    <h2 class="section-title js-reveal" style="transition-delay:.12s">報徳思想とは</h2>
+    <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
+    <p class="section-body js-reveal" style="transition-delay:.32s; max-width:44rem; margin:0 auto 0">
+      江戸時代の農政家・二宮尊徳（にのみやそんとく）が遺した思想。<br>
+      至誠・勤労・分度・推譲の四柱をもって、<br>
+      人・事業・地域の循環を取り戻す実践哲学である。
     </p>
-    <p class="philosophy-body js-reveal" style="transition-delay:.55s">
-      何かに触れるたび、その反応として新しい私が生まれる。<br>
-      私以外の何かに触れるたび、私が広がっていく。
-    </p>
-    <p class="philosophy-coda js-reveal" style="transition-delay:.74s">
-      その広がりこそが、この世に生まれ落ちた者として最良の喜びではないでしょうか。
-    </p>
-  </div>
-</section>
-
-<!-- WHAT'S KURYUDO -->
-<section class="section-whats">
-  <div class="whats-inner">
-    <p class="whats-eyebrow js-reveal">What's Kuryudo?</p>
-    <h2 class="whats-heading js-reveal" style="transition-delay:.12s">心に巣食う「獣」と、<br>共に生きるための伴走支援。</h2>
-    <div class="whats-divider js-reveal" style="transition-delay:.22s"></div>
-    <p class="whats-lead js-reveal" style="transition-delay:.32s">何かを始めても長続きしない。自分をコントロールできずに自己嫌悪に陥ってしまう。<br>その葛藤の正体は、あなたの心に棲む、剥き出しの野生――「心の獣」です。</p>
-    <p class="whats-lead js-reveal" style="transition-delay:.44s">栗人は、二宮尊徳が遺した「報徳思想」を現代の生命論として再解釈し、誰もが自らの内なる獣の輪郭をなぞり、調和を保ちながら歩むための「心の巡礼」をサポートします。</p>
-    <p class="whats-lead js-reveal" style="transition-delay:.56s">自律とは、獣を殺すことでも、道徳の鎖で縛り付けることでもありません。獣の声に耳を傾け、そのエネルギーを生きる力へと変えていく。泥臭くも美しい、あなただけの生命の在り方を取り戻す旅が、ここから始まります。</p>
-
-    <div class="whats-grid">
-
-      <!-- ① 宿る野生 -->
-      <div class="whats-card js-reveal" style="transition-delay:.10s">
-        <img src="image/What's0.png" alt="心に獣がいる" class="whats-card-img">
-        <div class="whats-card-body">
-          <p class="whats-card-label">01 · 心に獣がいる</p>
-          <h3 class="whats-card-title">宿る野生</h3>
-          <p class="whats-card-text">心の獣とは、私たちの影。まずは、その気配を静かに認めることからすべてが始まる。</p>
-        </div>
-      </div>
-
-      <!-- ② 獣の凶暴化 -->
-      <div class="whats-card js-reveal" style="transition-delay:.20s">
-        <img src="image/What's1.png" alt="獣の凶暴化" class="whats-card-img">
-        <div class="whats-card-body">
-          <p class="whats-card-label">02 · 獣の凶暴化</p>
-          <h3 class="whats-card-title">自律の綻び</h3>
-          <p class="whats-card-text">日常の歪みやストレス、焦燥感は、獣を凶暴化させていく。これまで抑え込めていたはずの衝動が、自律の結界を内側から食い破ろうとする。</p>
-        </div>
-      </div>
-
-      <!-- ③ 獣に飲み込まれる -->
-      <div class="whats-card js-reveal" style="transition-delay:.30s">
-        <img src="image/What's2.png" alt="獣に飲み込まれる" class="whats-card-img">
-        <div class="whats-card-body">
-          <p class="whats-card-label">03 · 獣に飲み込まれる</p>
-          <h3 class="whats-card-title">自我の埋没</h3>
-          <p class="whats-card-text">獣に主導権を渡してしまえば、あなたはあなたでなくなっていく。依存、暴力、他責、自己嫌悪。底無しの闇へ飲み込まれていく。</p>
-        </div>
-      </div>
-
-      <!-- ④ 獣と向き合う -->
-      <div class="whats-card js-reveal" style="transition-delay:.40s">
-        <img src="image/What's3.png" alt="獣と向き合う" class="whats-card-img">
-        <div class="whats-card-body">
-          <p class="whats-card-label">04 · 獣と向き合う</p>
-          <h3 class="whats-card-title">命の対峙</h3>
-          <p class="whats-card-text">牙を剥き威嚇する獣がいたのなら、それはあなたの心の反映。一時的な誤魔化しは見透かされてしまう。真っ直ぐに向き合い、時間をかけて宥める必要がある。</p>
-        </div>
-      </div>
-
-      <!-- ⑤ 共に生きる -->
-      <div class="whats-card js-reveal" style="transition-delay:.50s">
-        <img src="image/What's4.png" alt="共に生きる" class="whats-card-img">
-        <div class="whats-card-body">
-          <p class="whats-card-label">05 · 共に生きる</p>
-          <h3 class="whats-card-title">誇り高き共生</h3>
-          <p class="whats-card-text">報徳の四柱をもって、獣の野生に知性を与える。同じ歩幅で、共に世界の霧を分けて進む。獣があなたを尊び、あなたが獣を愛するとき、真の自律が完成する。</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CONCEPT -->
-<section class="section-concept" id="concept">
-  <!-- 「報徳」背景文字は削除 -->
-  <div class="concept-inner">
-    <h2 class="section-title">内なる獣を、<br>美しく調律する規律。</h2>
     <div class="pillars">
-      <div class="pillar"><div class="pillar-k">至誠</div><div class="pillar-s">Sincerity · 獣の声を聴く</div><p class="pillar-d">その醜さ、悲しさ、悔しさ、惨めさも、剥き出しのままに噛み締め、ゆっくりと咀嚼する。孤独の創出から始まる内観の聖地。</p></div>
-      <div class="pillar"><div class="pillar-k">勤労</div><div class="pillar-s">Industry · 獣の調律</div><p class="pillar-d">肉体が許容できる限界を少しずつ広げていく。肉体に刻まれた確かな実感が、獣との深い共鳴を育む。</p></div>
-      <div class="pillar"><div class="pillar-k">分度</div><div class="pillar-s">Right Measure · 獣の調和</div><p class="pillar-d">自らの身の丈を知り、時間・金銭・エネルギーを注ぐべき境界線を張り巡らせる。その線が調和となり、獣に知性と美しさを与える。</p></div>
-      <div class="pillar"><div class="pillar-k">推譲</div><div class="pillar-s">Sharing · 獣の慈</div><p class="pillar-d">結界から溢れ出した余剰を、見返りを求めず世界へ循環させていく。世界を慈しむ時、獣はあなたを尊び、徳をもって報いる。</p></div>
+      <div class="pillar js-reveal" style="transition-delay:.10s">
+        <div class="pillar-k">至誠</div>
+        <div class="pillar-s">Sincerity</div>
+        <p class="pillar-d">嘘いつわりのない真心をもって、人・物事・自然と向き合うこと。尊徳は「誠なくして、いかなる行いも空虚に終わる」と説いた。至誠は、あらゆる循環の出発点である。</p>
+      </div>
+      <div class="pillar js-reveal" style="transition-delay:.20s">
+        <div class="pillar-k">勤労</div>
+        <div class="pillar-s">Industry</div>
+        <p class="pillar-d">心身を惜しまず働くこと。自然の恵みに報いる手段として、尊徳は勤勉な労働を根本とした。汗を刻むことで大地に根を張り、はじめて生命の循環が動き出す。</p>
+      </div>
+      <div class="pillar js-reveal" style="transition-delay:.30s">
+        <div class="pillar-k">分度</div>
+        <div class="pillar-s">Right Measure</div>
+        <p class="pillar-d">自らの身の丈を知り、収入と支出・エネルギーの均衡を保つこと。欲望に流されず、持続可能な範囲で生きることで余剰が生まれ、推譲の土台が整う。</p>
+      </div>
+      <div class="pillar js-reveal" style="transition-delay:.40s">
+        <div class="pillar-k">推譲</div>
+        <div class="pillar-s">Sharing</div>
+        <p class="pillar-d">分度によって生まれた余剰を、見返りを求めず他者と社会へ渡すこと。譲ることで地域に豊かさが広がり、やがてその恵みは自らへも返ってくる。</p>
+      </div>
+    </div>
+
+    <div class="houtoku-beyond js-reveal" style="transition-delay:.55s">
+      <div class="houtoku-beyond-inner">
+        <div class="houtoku-beyond-item houtoku-beyond-item--ichien">
+          <div class="beyond-k">一円融合</div>
+          <div class="beyond-s">Ichi-en Yūgō</div>
+          <p class="beyond-d">人・自然・社会・経済はすべて、ひとつの円の中にある。あらゆる対立は本来なく、万物は根底でつながり、融け合いながら循環している。四柱を実践することで、この融合の感覚が日常の中に宿り始める。</p>
+        </div>
+        <div class="houtoku-beyond-divider"></div>
+        <div class="houtoku-beyond-item houtoku-beyond-item--seki">
+          <div class="beyond-k">積小為大</div>
+          <div class="beyond-s">Seki-shō I-dai</div>
+          <p class="beyond-d">大きな変革は、小さな誠実な行いの積み重ねによってのみ実現される。遠大な目標は今日の一歩から。この思想は、焦らず、怠らず、着実に循環を育てることを私たちに教えている。</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- JOURNEY -->
-<section class="section-journey" id="journey">
-  <div class="journey-inner">
-    <h2 class="journey-title">三つの道程。</h2>
-    <div class="steps">
-      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="step">
-        <div class="step-bg" style="background-image:url('image/四獣.png'); background-size:100%;"></div>
-        <div class="step-t">心の獣診断</div>
-        <p class="step-d">あなただけの診断結果が届きます。</p>
-      </a>
-      <div class="step-arr">›</div>
-      <a href="https://cal.com/kuryudo/syokaimuryo" target="_blank" rel="noopener" class="step">
-        <div class="step-bg" style="background-image:url('image/報徳巡礼.png')"></div>
-        <div class="step-t">報徳巡礼</div>
-        <p class="step-d">内省と向き合い、報徳を日常に滲ませていく。巡礼サポートWEB面談。初回無料。</p>
-      </a>
-      <div class="step-arr">›</div>
-      <a href="kuryudo_anga.html" class="step">
-        <div class="step-bg" style="background-image:url('image/栗人行脚.png')"></div>
-        <div class="step-t">栗人行脚</div>
-        <p class="step-d">大自然に肉体を投じ、内なる獣の声と深く共鳴する。知らない世界を知ることは、新たな自分を知ること。</p>
-      </a>
+<!-- サービス -->
+<section class="section-service" id="service">
+  <div class="service-inner">
+    <p class="section-eyebrow js-reveal">Service · 循環設計支援</p>
+    <h2 class="section-title js-reveal" style="transition-delay:.12s">循環設計支援</h2>
+    <p class="service-sub js-reveal" style="transition-delay:.22s">滞りを診て、循環を設計し、手放す。</p>
+
+    <div class="service-grid">
+
+      <!-- 個人向け：心の獣 -->
+      <div class="service-card service-card--kemono js-reveal" style="transition-delay:.12s">
+        <p class="service-card-badge">Individual · 個人向け</p>
+        <h3 class="service-card-title">あなたの心に、<br>獣がいる。</h3>
+        <p class="service-card-body">
+          自律の循環が滞るとき、人は苦しむ。<br>
+          心の獣と向き合い、内なる循環を取り戻す。<br>
+          伴走型自律支援。
+        </p>
+        <p class="service-card-price">
+          初回面談　無料
+        </p>
+        <a href="kuryudo_kemono.html" class="service-card-link" id="cta-main">心の獣と向き合う</a>
+      </div>
+
+      <!-- 事業者向け：経営同行 -->
+      <div class="service-card service-card--keiei js-reveal" style="transition-delay:.24s">
+        <p class="service-card-badge">Business · 事業者・法人向け</p>
+        <h3 class="service-card-title">事業の循環を、<br>設計する。</h3>
+        <p class="service-card-body">
+          美しさとは、内側から滲み出るもの。<br>
+          筋肉を鍛えるように、腸を整えるように——<br>
+          事業の本質を育て、志を姿に滲み出させていく。
+        </p>
+        <p class="service-card-price">
+          まず無料相談から
+        </p>
+        <a href="kuryudo_keiei.html" class="service-card-link">経営同行支援を見る</a>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- RESONANCE -->
-<section class="section-resonance">
-  <div class="section-resonance-bg" aria-hidden="true"></div>
-  <div class="resonance-inner">
+<!-- 発信 -->
+<section class="section-media" id="media">
+  <div class="media-inner">
+    <p class="section-eyebrow js-reveal">OurSocial</p>
+    <h2 class="section-title js-reveal" style="transition-delay:.12s">栗人SNSアカウント</h2>
 
-    <h2 class="resonance-question js-reveal">
-      何かを始めても長続きしない。自分をコントロールできずに自己嫌悪に陥ってしまう。私もそんな葛藤を抱え生きてきた一人です。
-    </h2>
+    <div class="media-grid">
 
-    <div class="resonance-thread js-reveal" style="transition-delay:.22s" aria-hidden="true"></div>
+      <!-- note -->
+      <div class="media-col js-reveal" style="transition-delay:.10s">
+        <h3 class="media-col-heading">世界を見つめる。</h3>
+        <p class="media-col-sub">note / 思想・実践・記録</p>
+        <div class="media-divider"></div>
+        <div id="note-feed">
+          <p class="note-loading">読み込み中…</p>
+        </div>
+        <a href="https://note.com/kuryudo" target="_blank" rel="noopener" class="media-link">noteを読む</a>
+      </div>
 
-    <p class="resonance-lead js-reveal" style="transition-delay:.38s">
-      これは、誰よりも自分を律する基盤を見失っていた私が、生きる歩調を整えていくまでの顛末です。<br>
-      ご参考にしていただけたら幸いです。
-    </p>
+      <!-- X (Twitter) -->
+      <div class="media-col js-reveal" style="transition-delay:.22s">
+        <h3 class="media-col-heading">尊徳の教えと気づきの断片を。</h3>
+        <p class="media-col-sub">X (Twitter) / 日々の発信</p>
+        <div class="media-divider"></div>
+        <p class="x-fallback" id="x-fallback">Xでの発信は、報徳の言葉と日々の思考の断片です。</p>
+        <div class="x-widget-wrap" id="x-widget-wrap">
+          <a class="twitter-timeline"
+             data-theme="light"
+             data-height="400"
+             data-chrome="noheader nofooter noborders"
+             data-dnt="true"
+             href="https://twitter.com/kuryudo_hotoku">
+            Tweets by @kuryudo_hotoku
+          </a>
+        </div>
+        <a href="https://twitter.com/kuryudo_hotoku" target="_blank" rel="noopener" class="media-link">Xを見る</a>
+      </div>
 
-    <div class="resonance-link-wrap js-reveal" style="transition-delay:.66s">
-      <a href="kuryudo_about.html" class="smoke-link" id="smoke-link">獣の足跡を辿る</a>
+      <!-- Instagram -->
+      <div class="media-col js-reveal" style="transition-delay:.34s">
+        <h3 class="media-col-heading">日常と、巡礼の記録。</h3>
+        <p class="media-col-sub">Instagram / 写真と言葉</p>
+        <div class="media-divider"></div>
+        <div class="instagram-placeholder">
+          <span>photo &amp; words</span>
+        </div>
+        <a href="https://www.instagram.com/kuryudo_hotoku/" target="_blank" rel="noopener" class="media-link">Instagramを見る</a>
+      </div>
+
     </div>
-
-    <div class="resonance-thread--lg js-reveal" style="transition-delay:.80s" aria-hidden="true"></div>
-
-    <p class="resonance-sendoff js-reveal" style="transition-delay:.96s">
-      <span class="resonance-sendoff-title">己の内に潜む獣の気配を直視せよ。</span><br>
-      心の素直な反応を客観的に認識することが、自律へと向かう為大なる一歩目となります。<br>
-      さぁ、誇り高き巡礼の、最初の一歩を踏み出しましょう。
-    </p>
-
-    <div class="contact-cta js-reveal" style="transition-delay:1.14s; margin-top:3.5rem">
-      <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" id="btn-contact" class="video-banner-link">
-        <video class="video-banner" id="diag-video" src="image/心の獣を診断する.mp4" autoplay muted playsinline></video>
-      </a>
-      <a href="https://cal.com/kuryudo/syokaimuryo" target="_blank" rel="noopener" class="video-banner-link">
-        <video class="video-banner" id="meeting-video" src="image/初回面談.mp4" autoplay muted playsinline></video>
-      </a>
-      <a href="https://cal.com/kuryudo/mendan" target="_blank" rel="noopener" class="return-booking-link">2回目以降の面談予約はこちら</a>
-    </div>
-
-
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <img src="image/栗人ロゴGOLD透過.png" alt="栗人" class="footer-img">
+  <img src="image/栗人ロゴGOLD透過.png" alt="栗人" class="footer-img" id="footer-logo">
+  <ul class="footer-nav">
+    <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
+  </ul>
   <p class="footer-copy">© 2026 栗人 Kuryudo. All rights reserved.</p>
 </footer>
 
@@ -945,20 +781,15 @@
 /* ── タイトル文字アニメーション ── */
 (function(){
   const el    = document.getElementById('hero-title-text');
-  const text  = '内なる獣と、生きる。';
+  const text  = '世界は、循環でできている。';
   let   delay = 1.2;
-
   text.split('').forEach(ch => {
-    if (ch === '\n') {
-      el.appendChild(document.createElement('br'));
-      return;
-    }
     const span = document.createElement('span');
     span.className = 'char';
-    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.textContent = ch === ' ' ? ' ' : ch;
     span.style.animationDelay = delay + 's';
     el.appendChild(span);
-    delay += 0.14;
+    delay += 0.13;
   });
 })();
 
@@ -967,14 +798,11 @@
   const canvas = document.getElementById('road');
   const ctx    = canvas.getContext('2d');
 
-  /* スクロールに対応したX位置テーブル — 正負バランス調整済み */
   const SWINGS = [
      0.00, -0.38,  0.52, -0.10, -0.46,  0.28,
     -0.54,  0.14,  0.48, -0.32,  0.44, -0.08,
     -0.50,  0.20,  0.38, -0.18,  0.46, -0.26, 0.00
   ];
-
-  /* Y軸にも独立したスイングテーブルを追加 — 上下に大きく暴れる */
   const SWINGS_Y = [
      0.70,  0.38,  0.82,  0.28,  0.72,  0.44,
      0.86,  0.30,  0.76,  0.50,  0.88,  0.34,
@@ -984,12 +812,10 @@
   const PARTICLES = [];
   const MAX_P     = 100;
 
-  /* ── 慣性・ノイズ用の状態変数 ── */
-  let cur  = { x: 0, y: 0 };   // 現在の描画座標（慣性あり）
-  let vel  = { x: 0, y: 0 };   // 速度
+  let cur  = { x: 0, y: 0 };
+  let vel  = { x: 0, y: 0 };
   let initialized = false;
 
-  /* X軸ノイズ — 振幅拡大 */
   const WAVES = [
     { freq: 0.0007, amp: 58, phase: 1.2  },
     { freq: 0.0019, amp: 36, phase: 3.7  },
@@ -997,8 +823,6 @@
     { freq: 0.0120, amp: 10, phase: 2.1  },
     { freq: 0.0310, amp:  5, phase: 4.8  },
   ];
-
-  /* Y軸ノイズ — 波数を増やし振幅を大幅拡大 */
   const WAVES_Y = [
     { freq: 0.0009, amp: 72, phase: 0.9  },
     { freq: 0.0026, amp: 44, phase: 2.3  },
@@ -1007,11 +831,10 @@
     { freq: 0.0380, amp:  6, phase: 0.3  },
   ];
 
-  let   lastScrollY  = 0;
-  let   rafId        = null;
-  let   t            = 0;      // 毎フレーム増加するタイムカウンタ
+  let lastScrollY = 0;
+  let rafId       = null;
+  let t           = 0;
 
-  /* ── パーティクル ── */
   function spawn(x, y, speed) {
     const n = Math.floor(Math.abs(speed) * 0.7 + 3);
     for (let i = 0; i < n && PARTICLES.length < MAX_P; i++) {
@@ -1045,20 +868,16 @@
     });
   }
 
-  /* スマホのアドレスバー出入りに左右されない安定した高さを使用 */
   const stableH = () => window.screen.height;
 
   function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = stableH();
   }
-
   function getProgress() {
     const max = document.documentElement.scrollHeight - stableH();
     return max > 0 ? Math.min(window.scrollY / max, 1) : 0;
   }
-
-  /* スクロール進捗から理想X座標を補間 */
   function getTargetX(prog, W) {
     const cx       = W * 0.50;
     const maxSwing = Math.min(W * 0.30, 240);
@@ -1068,8 +887,6 @@
     const f   = seg - i;
     return cx + (SWINGS[i] + (SWINGS[i+1] - SWINGS[i]) * f) * maxSwing;
   }
-
-  /* スクロール進捗から理想Y座標を補間（新規） */
   function getTargetY(prog, H) {
     const N   = SWINGS_Y.length;
     const seg = prog * (N - 1);
@@ -1077,25 +894,19 @@
     const f   = seg - i;
     return H * (SWINGS_Y[i] + (SWINGS_Y[i+1] - SWINGS_Y[i]) * f);
   }
-
-  /* 複数正弦波を重ねたノイズオフセット */
   function noiseX(tt) {
     return WAVES.reduce((s, w) => s + Math.sin(tt * w.freq + w.phase) * w.amp, 0);
   }
   function noiseY(tt) {
     return WAVES_Y.reduce((s, w) => s + Math.sin(tt * w.freq + w.phase) * w.amp, 0);
   }
-
   function getBtnPos(id) {
-    /* 診断バナー動画の中央を優先して取得 */
-    const video = document.getElementById('diag-video');
-    const el = video || document.getElementById(id);
+    const el = document.getElementById(id);
     if (!el) return null;
     const r = el.getBoundingClientRect();
     return { x: r.left + r.width * 0.5, y: r.top + r.height * 0.5 };
   }
 
-  /* ── メインループ（rAFで常時回す） ── */
   function loop() {
     rafId = requestAnimationFrame(loop);
     t++;
@@ -1106,11 +917,10 @@
     const scrollDelta = window.scrollY - lastScrollY;
     lastScrollY = window.scrollY;
 
-    /* 目標座標 — YもSWINGSテーブルで決まる */
     let targetX = getTargetX(prog, W) + noiseX(t);
     let targetY = getTargetY(prog, H) + noiseY(t);
 
-    /* スタート吸着 — 富士山の山頂（画像中央上 約26%） */
+    /* スタート吸着 — 富士山頂 */
     {
       const peakX = W * 0.50;
       const peakY = H * 0.26;
@@ -1120,39 +930,32 @@
         targetY += (peakY - targetY) * b;
       }
     }
-    /* ゴール吸着 */
-    const botBtn = getBtnPos('btn-contact');
+    /* ゴール吸着 — フッターロゴ */
+    const botBtn = getBtnPos('footer-logo');
     if (botBtn) {
       const b = Math.max(0, (prog - 0.88) / 0.12);
       targetX += (botBtn.x - targetX) * b;
       targetY += (botBtn.y - targetY) * b;
     }
 
-    /* 慣性：バネ＋ダンピング */
     if (!initialized) {
       cur.x = targetX; cur.y = targetY;
       initialized = true;
     }
-    const SPRING  = 0.042;   // 柔らかめ — より遅れて追いかける
-    const DAMPING = 0.66;    // 減衰を弱く — 慣性で行き過ぎる
+    const SPRING  = 0.042;
+    const DAMPING = 0.66;
     vel.x = vel.x * DAMPING + (targetX - cur.x) * SPRING;
     vel.y = vel.y * DAMPING + (targetY - cur.y) * SPRING;
-
-    /* スクロールの衝撃を強く — XもYも大きく弾く */
     vel.x += (Math.random() - 0.5) * Math.abs(scrollDelta) * 0.60;
     vel.y += scrollDelta * 0.32;
-
     cur.x += vel.x;
     cur.y += vel.y;
 
-    /* ── 描画 ── */
     ctx.clearRect(0, 0, W, H);
-
     if (Math.abs(scrollDelta) > 1) spawn(cur.x, cur.y, scrollDelta);
     tickParticles();
     drawParticles();
 
-    /* 光の輪（大） */
     const rg1 = ctx.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, 30);
     rg1.addColorStop(0,   'rgba(255,235,140,0.0)');
     rg1.addColorStop(0.3, 'rgba(212,174,78,0.18)');
@@ -1161,7 +964,6 @@
     ctx.beginPath(); ctx.fillStyle = rg1;
     ctx.arc(cur.x, cur.y, 30, 0, Math.PI*2); ctx.fill();
 
-    /* 光の輪（小） */
     const rg2 = ctx.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, 14);
     rg2.addColorStop(0,    'rgba(255,240,150,0.95)');
     rg2.addColorStop(0.35, 'rgba(212,174,78,0.75)');
@@ -1170,7 +972,6 @@
     ctx.beginPath(); ctx.fillStyle = rg2;
     ctx.arc(cur.x, cur.y, 14, 0, Math.PI*2); ctx.fill();
 
-    /* 中心点 */
     ctx.beginPath();
     ctx.fillStyle = 'rgba(255,228,115,0.98)';
     ctx.arc(cur.x, cur.y, 3.8, 0, Math.PI*2); ctx.fill();
@@ -1185,7 +986,6 @@
   let _lastW = window.innerWidth;
   window.addEventListener('load', init);
   window.addEventListener('resize', function(){
-    /* 幅が変わったとき（端末回転など）だけ再初期化、高さだけの変化は無視 */
     const newW = window.innerWidth;
     if (Math.abs(newW - _lastW) < 10) return;
     _lastW = newW;
@@ -1194,37 +994,8 @@
   });
 })();
 
-/* ── 動画バナー：初回のみ再生 + ホバーで再生 ── */
-(function(){
-  ['diag-video', 'meeting-video'].forEach(function(id) {
-    const video = document.getElementById(id);
-    if (!video) return;
-    const link = video.closest('a');
-    if (link) {
-      link.addEventListener('mouseenter', function() {
-        video.currentTime = 0;
-        video.play();
-      });
-    }
-  });
-})();
-
-/* ── SMOKE LINK ── */
-(function(){
-  const el = document.getElementById('smoke-link');
-  if (!el) return;
-  const text = el.textContent.trim();
-  const totalDur = 4.2; // seconds
-  el.innerHTML = [...text].map((ch, i) => {
-    const delay = (i / text.length) * (totalDur * 0.55);
-    const dur   = totalDur * (0.85 + Math.random() * 0.3);
-    return `<span class="s-char" style="--delay:${delay.toFixed(2)}s; --dur:${dur.toFixed(2)}s">${ch === ' ' ? '&nbsp;' : ch}</span>`;
-  }).join('');
-})();
-
-/* ── スクロール・リビール ── */
+/* ── スクロールリビール ── */
 (function() {
-  /* 見出しを1文字ずつ<span>に分割（<br>は保持） */
   function splitToChars(el) {
     const parts = el.innerHTML.split(/(<br\s*\/?>)/gi);
     el.innerHTML = '';
@@ -1236,7 +1007,7 @@
         [...part].forEach(ch => {
           const s = document.createElement('span');
           s.className = 'js-char';
-          s.textContent = ch === ' ' ? ' ' : ch;
+          s.textContent = ch;
           s.style.setProperty('--char-delay', (idx * 0.05) + 's');
           idx++;
           el.appendChild(s);
@@ -1246,8 +1017,6 @@
     el.classList.add('js-title-wrap');
   }
 
-  document.querySelectorAll('.section-title, .journey-title').forEach(splitToChars);
-
   const io = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
@@ -1256,52 +1025,11 @@
     });
   }, { threshold: 0.15 });
 
-  /* 見出し：文字ごと */
-  document.querySelectorAll('.section-title, .journey-title').forEach(el => io.observe(el));
-
-  /* セクションラベル：左からフェード */
-  document.querySelectorAll('.section-label').forEach(el => {
-    el.classList.add('js-reveal-left');
+  document.querySelectorAll('.section-title').forEach(el => {
+    splitToChars(el);
     io.observe(el);
   });
 
-  /* 本文段落：ずらしてフェードアップ */
-  document.querySelectorAll('.section-body, .journey-lead, .contact-body').forEach(el => {
-    el.classList.add('js-reveal');
-    const sibs = el.parentElement.querySelectorAll('.section-body, .journey-lead, .contact-body');
-    const i = [...sibs].indexOf(el);
-    el.style.transitionDelay = (i * 0.1 + 0.12) + 's';
-    io.observe(el);
-  });
-
-  /* 引用：左からフェード＋ボーダー色出現 */
-  document.querySelectorAll('.section-quote').forEach(el => {
-    el.classList.add('js-reveal-quote');
-    io.observe(el);
-  });
-
-  /* 報徳四柱：順番にフェードアップ */
-  document.querySelectorAll('.pillar').forEach((el, i) => {
-    el.classList.add('js-reveal');
-    el.style.transitionDelay = (i * 0.11) + 's';
-    io.observe(el);
-  });
-
-  /* 三ステップ：順番にフェードアップ */
-  document.querySelectorAll('.step').forEach((el, i) => {
-    el.classList.add('js-reveal');
-    el.style.transitionDelay = (i * 0.16) + 's';
-    io.observe(el);
-  });
-
-  /* お問合せCTA：フェードアップ */
-  document.querySelectorAll('.contact-cta').forEach(el => {
-    el.classList.add('js-reveal');
-    el.style.transitionDelay = '0.28s';
-    io.observe(el);
-  });
-
-  /* ── フォールバック：個別指定から漏れた .js-reveal をまとめて観測 ── */
   document.querySelectorAll('.js-reveal').forEach(el => io.observe(el));
 })();
 
@@ -1310,31 +1038,69 @@
   const btn     = document.querySelector('.nav-hamburger');
   const overlay = document.getElementById('nav-overlay');
   if (!btn || !overlay) return;
-
   function open() {
-    btn.classList.add('is-open');
-    btn.setAttribute('aria-expanded', 'true');
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
+    btn.classList.add('is-open'); btn.setAttribute('aria-expanded','true');
+    overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
   }
   function close() {
-    btn.classList.remove('is-open');
-    btn.setAttribute('aria-expanded', 'false');
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
+    btn.classList.remove('is-open'); btn.setAttribute('aria-expanded','false');
+    overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
   }
-
-  btn.addEventListener('click', () => {
-    btn.classList.contains('is-open') ? close() : open();
-  });
-
-  /* リンクをタップしたらメニューを閉じる */
+  btn.addEventListener('click', () => btn.classList.contains('is-open') ? close() : open());
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
-
-  /* オーバーレイ外をタップしても閉じる */
   overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+})();
+
+/* ── note RSS ── */
+(function() {
+  const feed = document.getElementById('note-feed');
+  const rssUrl = 'https://note.com/kuryudo/rss';
+  const proxy  = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6000);
+
+  fetch(proxy, { signal: controller.signal })
+    .then(r => r.json())
+    .then(data => {
+      clearTimeout(timer);
+      const parser = new DOMParser();
+      const xml    = parser.parseFromString(data.contents, 'application/rss+xml');
+      const items  = Array.from(xml.querySelectorAll('item')).slice(0, 3);
+      if (!items.length) throw new Error('empty');
+
+      feed.innerHTML = items.map(item => {
+        const title   = item.querySelector('title')?.textContent?.trim() || '';
+        const linkEl  = item.querySelector('link');
+        const link    = linkEl ? (linkEl.textContent || linkEl.getAttribute('href') || '#') : '#';
+        const pubDate = item.querySelector('pubDate')?.textContent || '';
+        const date    = pubDate
+          ? new Date(pubDate).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })
+          : '';
+        return `<a href="${link}" target="_blank" rel="noopener" class="note-item">
+          <span class="note-date">${date}</span>
+          <span class="note-title">${title}</span>
+        </a>`;
+      }).join('');
+    })
+    .catch(() => {
+      clearTimeout(timer);
+      feed.innerHTML = '';
+    });
+})();
+
+/* ── X widget フォールバック ── */
+(function() {
+  const script = document.createElement('script');
+  script.async = true;
+  script.src   = 'https://platform.twitter.com/widgets.js';
+  script.onerror = function() {
+    document.getElementById('x-widget-wrap').style.display = 'none';
+    document.getElementById('x-fallback').style.display = 'block';
+  };
+  document.head.appendChild(script);
 })();
 </script>
 </body>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>経営同行支援 — 栗人 Kuryudo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:      #F7F3EB;
+      --cream-deep: #EDE5D4;
+      --cream-mid:  #E5DAC5;
+      --cream-lite: #FDFAF5;
+      --gold:       #B8932A;
+      --gold-lt:    #D4AE4E;
+      --gold-pale:  #E8D5A0;
+      --ink:        #1C1814;
+      --ink-mid:    #3D3530;
+      --ink-soft:   #6B5F55;
+      --ink-pale:   #9E9088;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Serif JP', serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.3rem 3rem;
+      background: rgba(247,243,235,0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(184,147,42,0.12);
+    }
+    .nav-logo { display:flex; align-items:center; gap:.8rem; text-decoration:none; }
+    .nav-logo img { width:34px; height:34px; object-fit:contain; }
+    .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--ink); }
+    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:var(--ink); display:block; margin-top:.15rem; }
+    .nav-links { display:flex; gap:2.4rem; list-style:none; }
+    .nav-links a { font-size:.72rem; font-weight:300; letter-spacing:.22em; color:var(--ink-soft); text-decoration:none; transition:color .3s; }
+    .nav-links a:hover { color:var(--gold); }
+
+    /* ── ハンバーガー ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center; gap: 5px;
+      cursor: pointer; padding: .5rem;
+      background: none; border: none; z-index: 300;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1px;
+      background: var(--ink);
+      transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+    }
+    .nav-hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── モバイルオーバーレイ ── */
+    .nav-overlay {
+      position: fixed; inset: 0; z-index: 250;
+      background: rgba(247,243,235,0.97);
+      backdrop-filter: blur(12px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 3rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .5s ease;
+    }
+    .nav-overlay.is-open { opacity: 1; pointer-events: all; }
+    .nav-overlay-links { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 2.6rem; }
+    .nav-overlay-links li { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+    .nav-overlay.is-open .nav-overlay-links li { opacity: 1; transform: none; }
+    .nav-overlay.is-open .nav-overlay-links li:nth-child(1) { transition-delay: .08s; }
+    .nav-overlay.is-open .nav-overlay-links li:nth-child(2) { transition-delay: .15s; }
+    .nav-overlay.is-open .nav-overlay-links li:nth-child(3) { transition-delay: .22s; }
+    .nav-overlay.is-open .nav-overlay-links li:nth-child(4) { transition-delay: .29s; }
+    .nav-overlay.is-open .nav-overlay-links li:nth-child(5) { transition-delay: .36s; }
+    .nav-overlay-links a {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1.3rem, 5vw, 1.7rem); letter-spacing: .28em;
+      color: var(--ink); text-decoration: none; transition: color .3s;
+    }
+    .nav-overlay-links a:hover { color: var(--gold); }
+    .nav-overlay-gold { width: 1.8rem; height: 1px; background: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 72vh;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 35%;
+      z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,8,5,0.42)  0%,
+        rgba(10,8,5,0.12)  35%,
+        rgba(10,8,5,0.22)  60%,
+        rgba(10,8,5,0.78)  100%
+      );
+      z-index: 1;
+    }
+    .hero-text {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: 0 5% 7rem;
+      width: 100%; max-width: 72rem;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:.82rem; letter-spacing:.36em; color:var(--gold-lt);
+      margin-bottom: 1.8rem;
+      text-shadow: 0 1px 14px rgba(0,0,0,0.55);
+      opacity:0; animation: up 1.6s ease .4s forwards;
+    }
+    .hero-title {
+      font-family:'Shippori Mincho',serif; font-weight:800;
+      font-size: clamp(2.4rem,4.5vw,5rem);
+      line-height: 1.3; letter-spacing:.05em;
+      color: var(--cream);
+      text-shadow:
+        0 0 48px  rgba(184,147,42,0.40),
+        0 2px 22px rgba(0,0,0,0.65),
+        0 1px  5px rgba(0,0,0,0.50);
+      margin-bottom: 2rem;
+      opacity:0; animation: up 1.6s ease .7s forwards;
+    }
+    .hero-divider {
+      width:2.4rem; height:1px; background:var(--gold-lt);
+      margin-bottom:1.8rem;
+      opacity:0; animation:up 1.6s ease 1.0s forwards;
+    }
+    .hero-lead {
+      font-size:.90rem; font-weight:300; line-height:2.3;
+      letter-spacing:.08em;
+      color: rgba(247,243,235,0.82);
+      text-shadow: 0 1px 16px rgba(0,0,0,0.55);
+      max-width:34rem;
+      opacity:0; animation:up 1.6s ease 1.2s forwards;
+    }
+
+    /* ── 共通 ── */
+    .section-eyebrow {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:.78rem; letter-spacing:.44em; color:var(--gold);
+      margin-bottom:1.2rem;
+      display:flex; align-items:center; gap:1rem;
+    }
+    .section-eyebrow::before { content:''; width:1.8rem; height:1px; background:var(--gold); flex-shrink:0; }
+    .section-heading {
+      font-family:'Shippori Mincho',serif; font-weight:700;
+      font-size:clamp(1.5rem,2.6vw,2.3rem);
+      line-height:1.5; letter-spacing:.06em; color:var(--ink);
+      margin-bottom:1.4rem;
+    }
+    .section-divider {
+      width:2.4rem; height:1px;
+      background:rgba(184,147,42,.45);
+      margin-bottom:3rem;
+    }
+
+    /* ── お悩み ── */
+    .section-worry {
+      padding: 9rem 5%;
+      background: var(--cream);
+    }
+    .worry-inner { max-width: 64rem; margin: 0 auto; }
+    .worry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.4rem;
+    }
+    .worry-card:nth-child(5) { grid-column: 1 / -1; }
+    .worry-card {
+      padding: 1.9rem 2.2rem;
+      background: var(--cream-lite);
+      border: 1px solid rgba(184,147,42,.16);
+      border-left: 3px solid rgba(184,147,42,.45);
+      position: relative;
+      transition: border-left-color .3s, transform .3s;
+    }
+    .worry-card:hover {
+      border-left-color: var(--gold);
+      transform: translateX(3px);
+    }
+    .worry-card:nth-child(5) {
+      text-align: center;
+      border-left: 1px solid rgba(184,147,42,.16);
+      border-top: 3px solid rgba(184,147,42,.45);
+      transition: border-top-color .3s, transform .3s;
+    }
+    .worry-card:nth-child(5):hover {
+      border-top-color: var(--gold);
+      transform: translateY(-3px);
+    }
+    .worry-text {
+      font-family: 'Shippori Mincho', serif; font-weight: 500;
+      font-size: clamp(.88rem, 1.4vw, 1rem);
+      line-height: 1.8; letter-spacing: .06em;
+      color: var(--ink-mid);
+    }
+
+    /* ── 構造の問題 ── */
+    .section-structure {
+      padding: 9rem 5%;
+      background: var(--cream-deep);
+      position: relative; overflow: hidden;
+    }
+    .section-structure::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_3064.jpg') center/cover no-repeat;
+      filter: brightness(1.05) saturate(0.50);
+      opacity: 0.10;
+      z-index: 0; pointer-events: none;
+    }
+    .structure-inner {
+      max-width: 52rem; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .structure-body {
+      font-size: .90rem; font-weight: 300;
+      line-height: 2.7; letter-spacing: .07em;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+    .structure-body + .structure-body { margin-top: -.6rem; }
+    .structure-coda {
+      margin-top: 3.5rem;
+      padding: 2rem 2.2rem;
+      border-left: 2px solid rgba(184,147,42,.55);
+      background: rgba(247,243,235,0.65);
+    }
+    .structure-coda p {
+      font-family: 'Shippori Mincho', serif; font-weight: 500;
+      font-size: .92rem; line-height: 2.3; letter-spacing: .06em;
+      color: var(--ink-mid);
+    }
+
+    /* ── 料金体系 ── */
+    .section-pricing {
+      padding: 9rem 5%;
+      background: var(--cream);
+    }
+    .pricing-inner { max-width: 52rem; margin: 0 auto; }
+    .pricing-steps { margin-top: 1rem; }
+    .pricing-step {
+      padding: 2.2rem 0;
+      border-bottom: 1px solid rgba(184,147,42,.15);
+    }
+    .pricing-step:first-child { border-top: 1px solid rgba(184,147,42,.15); }
+    .pricing-step-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: .9rem;
+    }
+    .pricing-step-left {
+      display: flex; align-items: baseline; gap: 1rem;
+    }
+    .pricing-num {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.4rem; color: var(--gold); flex-shrink: 0;
+      letter-spacing: .05em;
+    }
+    .pricing-name {
+      font-family: 'Shippori Mincho', serif; font-weight: 600;
+      font-size: clamp(.95rem, 1.6vw, 1.1rem);
+      letter-spacing: .12em; color: var(--ink);
+    }
+    .pricing-price {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: clamp(.95rem, 1.6vw, 1.1rem);
+      letter-spacing: .08em;
+      color: var(--ink-mid);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .pricing-desc {
+      font-size: .80rem; font-weight: 300;
+      line-height: 2; letter-spacing: .07em;
+      color: var(--ink-soft);
+      padding-left: 2.6rem;
+    }
+
+    /* ── CTA ── */
+    .section-cta {
+      padding: 10rem 5%;
+      background: var(--cream-deep);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .section-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_9295-EDIT.jpg') center/cover no-repeat;
+      filter: brightness(1.08) saturate(0.45);
+      opacity: 0.08;
+      z-index: 0; pointer-events: none;
+    }
+    .cta-inner {
+      max-width: 40rem; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .cta-line {
+      width: 1px; height: 3.5rem;
+      background: linear-gradient(to bottom, transparent, rgba(184,147,42,0.45), transparent);
+      margin: 0 auto 4.5rem;
+    }
+    .cta-heading {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1.5; letter-spacing: .08em; color: var(--ink);
+      margin-bottom: 2.4rem;
+    }
+    .cta-body {
+      font-size: .86rem; font-weight: 300;
+      line-height: 2.6; letter-spacing: .07em;
+      color: var(--ink-soft);
+      margin-bottom: 3.5rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 1.2rem 3.6rem;
+      background: var(--gold);
+      color: var(--cream-lite);
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: .84rem; letter-spacing: .28em;
+      text-decoration: none;
+      transition: background .3s;
+    }
+    .cta-btn:hover { background: var(--gold-lt); }
+    .cta-note {
+      margin-top: 1.4rem;
+      font-size: .72rem; font-weight: 300;
+      letter-spacing: .14em; color: var(--ink-pale);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--cream); padding: 3rem 5rem;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: .7rem;
+      border-top: 1px solid rgba(184,147,42,.15);
+    }
+    .footer-img { height: 140px; width: auto; object-fit: contain; }
+    .footer-nav {
+      display: flex; gap: 2rem; list-style: none;
+      margin-top: .4rem;
+    }
+    .footer-nav a {
+      font-size: .68rem; font-weight: 300; letter-spacing: .2em;
+      color: var(--ink-soft); text-decoration: none; transition: color .3s;
+    }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-copy { font-size: .68rem; font-weight: 300; letter-spacing: .12em; color: var(--ink-pale); }
+
+    /* ── KEYFRAMES ── */
+    @keyframes up   { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+    @keyframes fade { from{opacity:0} to{opacity:1} }
+
+    /* ── SCROLL REVEAL ── */
+    .js-reveal {
+      opacity: 0; transform: translateY(22px);
+      transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
+    }
+    .js-reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .hero-text { padding: 0 5% 5rem; }
+      .section-worry, .section-structure,
+      .section-pricing, .section-cta { padding: 5.5rem 5%; }
+      .worry-grid { grid-template-columns: 1fr; }
+      .worry-card:nth-child(5) { grid-column: 1; border-left: 3px solid rgba(184,147,42,.45); border-top: 1px solid rgba(184,147,42,.16); text-align: left; }
+      .worry-card:nth-child(5):hover { border-left-color: var(--gold); transform: translateX(3px); }
+      .pricing-step-header { flex-wrap: wrap; gap: .5rem; }
+      .pricing-desc { padding-left: 0; }
+      footer { padding: 2.5rem 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="image/黒ロゴ.png" alt="栗人">
+    <div>
+      <span class="nav-logo-ja">栗人</span>
+      <span class="nav-logo-en">Kuryudo · from Minamisoma with pride</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#houtoku">報徳とは</a></li>
+    <li><a href="index.html#service">サービス</a></li>
+    <li><a href="index.html#media">発信</a></li>
+    <li><a href="kuryudo_about.html">獣の足跡</a></li>
+    <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="メニュー" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- モバイルオーバーレイ -->
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true">
+  <div class="nav-overlay-gold"></div>
+  <ul class="nav-overlay-links">
+    <li><a href="index.html#houtoku">報徳とは</a></li>
+    <li><a href="index.html#service">サービス</a></li>
+    <li><a href="index.html#media">発信</a></li>
+    <li><a href="kuryudo_about.html">獣の足跡</a></li>
+    <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
+  </ul>
+  <div class="nav-overlay-gold"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="image/IMG_5743.jpg" alt="経営同行支援" class="hero-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-text">
+    <p class="hero-eyebrow">Business · 経営同行支援</p>
+    <h1 class="hero-title">経営同行支援</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-lead">
+      事業の構造を診て、循環を設計し、<br>
+      自走できるまで共に歩む。
+    </p>
+  </div>
+</section>
+
+<!-- こんなお悩みはありませんか？ -->
+<section class="section-worry">
+  <div class="worry-inner">
+    <p class="section-eyebrow js-reveal">Concerns · お悩み</p>
+    <h2 class="section-heading js-reveal" style="transition-delay:.12s">こんなお悩みはありませんか？</h2>
+    <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
+
+    <div class="worry-grid">
+      <div class="worry-card js-reveal" style="transition-delay:.10s">
+        <p class="worry-text">売上はあるのに、資金が回らない</p>
+      </div>
+      <div class="worry-card js-reveal" style="transition-delay:.18s">
+        <p class="worry-text">頑張っているのに、組織が前に進まない</p>
+      </div>
+      <div class="worry-card js-reveal" style="transition-delay:.26s">
+        <p class="worry-text">何が問題かはわかっている。でも変わらない</p>
+      </div>
+      <div class="worry-card js-reveal" style="transition-delay:.34s">
+        <p class="worry-text">自社の強みを、うまく言葉にできない</p>
+      </div>
+      <div class="worry-card js-reveal" style="transition-delay:.42s">
+        <p class="worry-text">ブランドを整えたいが、何から手をつければいいかわからない</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- それは構造の問題かもしれません -->
+<section class="section-structure">
+  <div class="structure-inner">
+    <p class="section-eyebrow js-reveal">Structure · 診立て</p>
+    <h2 class="section-heading js-reveal" style="transition-delay:.12s">それは構造の問題かもしれません</h2>
+    <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
+
+    <p class="structure-body js-reveal" style="transition-delay:.32s">
+      経営の課題の多くは、意志や努力の問題ではなく<br>
+      お金・人・情報・時間の「流れ」が<br>
+      どこかで滞っていることから生まれます。
+    </p>
+    <p class="structure-body js-reveal" style="transition-delay:.44s">
+      栗人は、その滞りを報徳の視点で診て<br>
+      循環が自然に回る仕組みを共に設計します。
+    </p>
+
+    <div class="structure-coda js-reveal" style="transition-delay:.58s">
+      <p>
+        美しさとは、内側から滲み出るもの。<br>
+        筋肉を鍛えるように、腸を整えるように——<br>
+        事業の本質を育て、志を姿に滲み出させていく。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 料金体系 -->
+<section class="section-pricing">
+  <div class="pricing-inner">
+    <p class="section-eyebrow js-reveal">Pricing · 料金体系</p>
+    <h2 class="section-heading js-reveal" style="transition-delay:.12s">料金体系</h2>
+    <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
+
+    <div class="pricing-steps">
+
+      <div class="pricing-step js-reveal" style="transition-delay:.10s">
+        <div class="pricing-step-header">
+          <div class="pricing-step-left">
+            <span class="pricing-num">①</span>
+            <span class="pricing-name">無料相談</span>
+          </div>
+          <span class="pricing-price">無料</span>
+        </div>
+        <p class="pricing-desc">まず話を聞く。お互いの見極めの場。</p>
+      </div>
+
+      <div class="pricing-step js-reveal" style="transition-delay:.20s">
+        <div class="pricing-step-header">
+          <div class="pricing-step-left">
+            <span class="pricing-num">②</span>
+            <span class="pricing-name">構造診断</span>
+          </div>
+          <span class="pricing-price">30,000円 / 回</span>
+        </div>
+        <p class="pricing-desc">
+          業務に入り込み、構造把握・問題抽出・整理・共有まで一式。<br>
+          これだけで完結しても構いません。
+        </p>
+      </div>
+
+      <div class="pricing-step js-reveal" style="transition-delay:.30s">
+        <div class="pricing-step-header">
+          <div class="pricing-step-left">
+            <span class="pricing-num">③</span>
+            <span class="pricing-name">循環設計</span>
+          </div>
+          <span class="pricing-price">50,000〜150,000円</span>
+        </div>
+        <p class="pricing-desc">設計規模により変動。診断後、必要な場合のみ。</p>
+      </div>
+
+      <div class="pricing-step js-reveal" style="transition-delay:.40s">
+        <div class="pricing-step-header">
+          <div class="pricing-step-left">
+            <span class="pricing-num">④</span>
+            <span class="pricing-name">運用同行</span>
+          </div>
+          <span class="pricing-price">都度見積もり</span>
+        </div>
+        <p class="pricing-desc">介入の深さ・回数・時間をその都度定めて提示。</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-cta">
+  <div class="cta-inner">
+    <div class="cta-line js-reveal"></div>
+    <h2 class="cta-heading js-reveal" style="transition-delay:.18s">
+      まずは、話してみてください。
+    </h2>
+    <p class="cta-body js-reveal" style="transition-delay:.32s">
+      診断するより先に、聴くことから始めます。<br>
+      無料相談は、売り込みの場ではありません。
+    </p>
+    <a href="https://cal.com/kuryudo/syokaimuryo" target="_blank" rel="noopener"
+       class="cta-btn js-reveal" style="transition-delay:.46s">
+      無料相談を予約する
+    </a>
+    <p class="cta-note js-reveal" style="transition-delay:.58s">cal.com にて日程調整</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="image/栗人ロゴGOLD透過.png" alt="栗人" class="footer-img">
+  <ul class="footer-nav">
+    <li><a href="kuryudo_about.html">獣の足跡</a></li>
+    <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 栗人 Kuryudo. All rights reserved.</p>
+</footer>
+
+<script>
+/* ── スクロールリビール ── */
+(function() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.js-reveal').forEach(el => io.observe(el));
+})();
+
+/* ── ハンバーガーメニュー ── */
+(function() {
+  const btn     = document.querySelector('.nav-hamburger');
+  const overlay = document.getElementById('nav-overlay');
+  if (!btn || !overlay) return;
+  function open() {
+    btn.classList.add('is-open'); btn.setAttribute('aria-expanded','true');
+    overlay.classList.add('is-open'); overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    btn.classList.remove('is-open'); btn.setAttribute('aria-expanded','false');
+    overlay.classList.remove('is-open'); overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  btn.addEventListener('click', () => btn.classList.contains('is-open') ? close() : open());
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+})();
+</script>
+</body>
+</html>
