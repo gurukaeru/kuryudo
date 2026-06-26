@@ -218,11 +218,19 @@
     }
 
     /* ── HOUTOKU ── */
+    .hero-dome {
+      position: relative; z-index: 1;
+      height: 80px; margin-top: -80px;
+      line-height: 0; pointer-events: none;
+    }
+    .hero-dome svg { width: 100%; height: 100%; display: block; }
+
     .section-houtoku {
       padding: 9rem 5%;
       position: relative; overflow: hidden;
       background: var(--cream);
       text-align: center;
+      z-index: 1;
     }
     .section-houtoku::before {
       content: ''; position: absolute; inset: 0;
@@ -628,6 +636,13 @@
     <span>scroll</span>
   </div>
 </section>
+
+<!-- ヒーロードーム -->
+<div class="hero-dome" aria-hidden="true">
+  <svg viewBox="0 0 1280 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,80 C320,80 500,0 640,0 C780,0 960,80 1280,80 Z" fill="#F7F3EB"/>
+  </svg>
+</div>
 
 <!-- 報徳とは -->
 <section class="section-houtoku" id="houtoku">
