@@ -93,7 +93,7 @@
     /* ── HERO ── */
     .hero {
       min-height: 72vh;
-      position: relative; overflow: hidden;
+      position: sticky; top: 0; z-index: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-end;
     }
@@ -185,30 +185,24 @@
       grid-template-columns: 1fr 1fr;
       gap: 1.4rem;
     }
-    .worry-card:nth-child(5) { grid-column: 1 / -1; }
     .worry-card {
-      padding: 1.9rem 2.2rem;
       background: var(--cream-lite);
       border: 1px solid rgba(184,147,42,.16);
       border-left: 3px solid rgba(184,147,42,.45);
-      position: relative;
+      position: relative; overflow: hidden;
       transition: border-left-color .3s, transform .3s;
     }
     .worry-card:hover {
       border-left-color: var(--gold);
       transform: translateX(3px);
     }
-    .worry-card:nth-child(5) {
-      text-align: center;
-      border-left: 1px solid rgba(184,147,42,.16);
-      border-top: 3px solid rgba(184,147,42,.45);
-      transition: border-top-color .3s, transform .3s;
-    }
-    .worry-card:nth-child(5):hover {
-      border-top-color: var(--gold);
-      transform: translateY(-3px);
+    .worry-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      filter: saturate(0.55) brightness(1.05);
     }
     .worry-text {
+      padding: 1.4rem 1.8rem;
       font-family: 'Shippori Mincho', serif; font-weight: 500;
       font-size: clamp(.88rem, 1.4vw, 1rem);
       line-height: 1.8; letter-spacing: .06em;
@@ -223,7 +217,7 @@
     }
     .section-structure::before {
       content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_3064.jpg') center/cover no-repeat;
+      background: url('image/IMG_0084.jpg') center/cover no-repeat;
       filter: brightness(1.05) saturate(0.50);
       opacity: 0.10;
       z-index: 0; pointer-events: none;
@@ -305,7 +299,7 @@
     }
     .section-cta::before {
       content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_9295-EDIT.jpg') center/cover no-repeat;
+      background: url('image/IMG_3064.jpg') center/cover no-repeat;
       filter: brightness(1.08) saturate(0.45);
       opacity: 0.08;
       z-index: 0; pointer-events: none;
@@ -387,8 +381,6 @@
       .section-worry, .section-structure,
       .section-pricing, .section-cta { padding: 5.5rem 5%; }
       .worry-grid { grid-template-columns: 1fr; }
-      .worry-card:nth-child(5) { grid-column: 1; border-left: 3px solid rgba(184,147,42,.45); border-top: 1px solid rgba(184,147,42,.16); text-align: left; }
-      .worry-card:nth-child(5):hover { border-left-color: var(--gold); transform: translateX(3px); }
       .pricing-step-header { flex-wrap: wrap; gap: .5rem; }
       .pricing-desc { padding-left: 0; }
       footer { padding: 2.5rem 1.8rem; }
@@ -410,7 +402,6 @@
     <li><a href="index.html#houtoku">報徳とは</a></li>
     <li><a href="index.html#service">サービス</a></li>
     <li><a href="index.html#media">発信</a></li>
-    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <button class="nav-hamburger" aria-label="メニュー" aria-expanded="false">
@@ -425,7 +416,6 @@
     <li><a href="index.html#houtoku">報徳とは</a></li>
     <li><a href="index.html#service">サービス</a></li>
     <li><a href="index.html#media">発信</a></li>
-    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <div class="nav-overlay-gold"></div>
@@ -436,7 +426,6 @@
   <img src="image/IMG_5743.jpg" alt="経営同行支援" class="hero-bg">
   <div class="hero-overlay"></div>
   <div class="hero-text">
-    <p class="hero-eyebrow">Business · 経営同行支援</p>
     <h1 class="hero-title">経営同行支援</h1>
     <div class="hero-divider"></div>
     <p class="hero-lead">
@@ -449,25 +438,25 @@
 <!-- こんなお悩みはありませんか？ -->
 <section class="section-worry">
   <div class="worry-inner">
-    <p class="section-eyebrow js-reveal">Concerns · お悩み</p>
-    <h2 class="section-heading js-reveal" style="transition-delay:.12s">こんなお悩みはありませんか？</h2>
+    <h2 class="section-heading js-reveal">こんなお悩みはありませんか？</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
 
     <div class="worry-grid">
       <div class="worry-card js-reveal" style="transition-delay:.10s">
-        <p class="worry-text">売上はあるのに、資金が回らない</p>
+        <img src="image/uriage.png" alt="" class="worry-img">
+        <p class="worry-text">売上があるのに、資金がまわらない</p>
       </div>
       <div class="worry-card js-reveal" style="transition-delay:.18s">
-        <p class="worry-text">頑張っているのに、組織が前に進まない</p>
+        <img src="image/susumanai.png" alt="" class="worry-img">
+        <p class="worry-text">頑張っても、組織が前に進まない</p>
       </div>
       <div class="worry-card js-reveal" style="transition-delay:.26s">
-        <p class="worry-text">何が問題かはわかっている。でも変わらない</p>
+        <img src="image/kawaranai.png" alt="" class="worry-img">
+        <p class="worry-text">問題点がわかっていても、なかなか変わらない</p>
       </div>
       <div class="worry-card js-reveal" style="transition-delay:.34s">
-        <p class="worry-text">自社の強みを、うまく言葉にできない</p>
-      </div>
-      <div class="worry-card js-reveal" style="transition-delay:.42s">
-        <p class="worry-text">ブランドを整えたいが、何から手をつければいいかわからない</p>
+        <img src="image/kotobani.png" alt="" class="worry-img">
+        <p class="worry-text">自社の強みを、うまく言葉にできない。</p>
       </div>
     </div>
   </div>
@@ -476,8 +465,7 @@
 <!-- それは構造の問題かもしれません -->
 <section class="section-structure">
   <div class="structure-inner">
-    <p class="section-eyebrow js-reveal">Structure · 診立て</p>
-    <h2 class="section-heading js-reveal" style="transition-delay:.12s">それは構造の問題かもしれません</h2>
+    <h2 class="section-heading js-reveal">それは構造の問題かもしれません</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
 
     <p class="structure-body js-reveal" style="transition-delay:.32s">
@@ -503,8 +491,7 @@
 <!-- 料金体系 -->
 <section class="section-pricing">
   <div class="pricing-inner">
-    <p class="section-eyebrow js-reveal">Pricing · 料金体系</p>
-    <h2 class="section-heading js-reveal" style="transition-delay:.12s">料金体系</h2>
+    <h2 class="section-heading js-reveal">料金体系</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
 
     <div class="pricing-steps">
@@ -540,7 +527,7 @@
             <span class="pricing-num">③</span>
             <span class="pricing-name">循環設計</span>
           </div>
-          <span class="pricing-price">50,000〜150,000円</span>
+          <span class="pricing-price">都度見積もり</span>
         </div>
         <p class="pricing-desc">設計規模により変動。診断後、必要な場合のみ。</p>
       </div>
@@ -583,7 +570,6 @@
 <footer>
   <img src="image/栗人ロゴGOLD透過.png" alt="栗人" class="footer-img">
   <ul class="footer-nav">
-    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <p class="footer-copy">© 2026 栗人 Kuryudo. All rights reserved.</p>

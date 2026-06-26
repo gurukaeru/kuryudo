@@ -102,7 +102,7 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      position: relative; overflow: hidden;
+      position: sticky; top: 0; z-index: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: flex-end;
     }
@@ -276,13 +276,24 @@
       margin: 0 3rem;
       align-self: stretch;
     }
-    .houtoku-beyond-item { padding: .4rem 0; position: relative; overflow: hidden; }
+    .houtoku-beyond-item {
+      padding: 2.2rem 1.3rem; position: relative; overflow: hidden;
+      background: var(--cream-lite);
+      transition: transform .3s;
+    }
+    .houtoku-beyond-item:hover { transform: translateY(-5px); }
     .houtoku-beyond-item::before {
       content: ''; position: absolute; inset: 0;
       background-size: contain; background-position: center right;
       background-repeat: no-repeat;
       opacity: 0.10; pointer-events: none; z-index: 0;
     }
+    .houtoku-beyond-item::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--gold); transform: scaleX(0); transform-origin: left;
+      transition: transform .4s; z-index: 2;
+    }
+    .houtoku-beyond-item:hover::after { transform: scaleX(1); }
     .houtoku-beyond-item > * { position: relative; z-index: 1; }
     .houtoku-beyond-item--ichien::before { background-image: url('image/一円融合.png'); }
     .houtoku-beyond-item--seki::before  { background-image: url('image/積小為大.png'); }
@@ -574,7 +585,6 @@
     <li><a href="#houtoku">報徳とは</a></li>
     <li><a href="#service">サービス</a></li>
     <li><a href="#media">発信</a></li>
-    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <button class="nav-hamburger" aria-label="メニュー" aria-expanded="false">
@@ -589,7 +599,6 @@
     <li><a href="#houtoku">報徳とは</a></li>
     <li><a href="#service">サービス</a></li>
     <li><a href="#media">発信</a></li>
-    <li><a href="kuryudo_about.html">獣の足跡</a></li>
     <li><a href="kuryudo_contact.html">お問い合わせ</a></li>
   </ul>
   <div class="nav-overlay-gold"></div>
