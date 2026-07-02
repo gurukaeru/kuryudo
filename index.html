@@ -221,9 +221,16 @@
     .hero-dome {
       position: relative; z-index: 1;
       height: 300px; margin-top: 0;
-      line-height: 0; pointer-events: none;
+      background: var(--cream);
+      -webkit-clip-path: url(#dome-clip);
+      clip-path: url(#dome-clip);
     }
-    .hero-dome svg { width: 100%; height: 100%; display: block; }
+    .hero-dome::before {
+      content: ''; position: absolute; inset: 0;
+      background: url('image/IMG_3064.jpg') center/cover no-repeat;
+      filter: brightness(1.05) saturate(0.55);
+      opacity: 0.10; pointer-events: none;
+    }
 
     .section-houtoku {
       padding: 9rem 5%;
@@ -642,11 +649,14 @@
 </section>
 
 <!-- ヒーロードーム -->
-<div class="hero-dome" aria-hidden="true">
-  <svg viewBox="0 0 1280 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,300 C200,300 600,0 640,0 C680,0 1080,300 1280,300 Z" fill="#F7F3EB"/>
-  </svg>
-</div>
+<svg width="0" height="0" style="position:absolute;pointer-events:none" aria-hidden="true">
+  <defs>
+    <clipPath id="dome-clip" clipPathUnits="objectBoundingBox">
+      <path d="M0,1 C0.156,1 0.469,0 0.5,0 C0.531,0 0.844,1 1,1 Z"/>
+    </clipPath>
+  </defs>
+</svg>
+<div class="hero-dome" aria-hidden="true"></div>
 
 <!-- 報徳とは -->
 <section class="section-houtoku" id="houtoku">
@@ -1084,50 +1094,84 @@
 /* ── note RSS ── */
 (function() {
   const feed = document.getElementById('note-feed');
-  const rssUrl = 'https://note.com/kuryudo/rss';
-  const proxy  = 'https://api.allorigins.win/get?url=' + encodeURIComponent(rssUrl);
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 6000);
+  function renderItems(items) {
+    if (!items.length) { feed.innerHTML = ''; return; }
+    feed.innerHTML = items.slice(0, 3).map(item => {
+      const title = (item.title || '').trim();
+      const link  = item.link || item.url || '#';
+      const date  = item.pubDate
+        ? new Date(item.pubDate).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })
+        : '';
+      return `<a href="${link}" target="_blank" rel="noopener" class="note-item">
+        <span class="note-date">${date}</span>
+        <span class="note-title">${title}</span>
+      </a>`;
+    }).join('');
+  }
 
-  fetch(proxy, { signal: controller.signal })
-    .then(r => r.json())
-    .then(data => {
-      clearTimeout(timer);
-      const parser = new DOMParser();
-      const xml    = parser.parseFromString(data.contents, 'application/rss+xml');
-      const items  = Array.from(xml.querySelectorAll('item')).slice(0, 3);
-      if (!items.length) throw new Error('empty');
+  function tryRss2json() {
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://note.com/kuryudo/rss');
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 7000);
+    return fetch(url, { signal: ctrl.signal })
+      .then(r => r.json())
+      .then(data => {
+        if (data.status !== 'ok' || !data.items?.length) throw new Error('empty');
+        renderItems(data.items);
+      });
+  }
 
-      feed.innerHTML = items.map(item => {
-        const title   = item.querySelector('title')?.textContent?.trim() || '';
-        const linkEl  = item.querySelector('link');
-        const link    = linkEl ? (linkEl.textContent || linkEl.getAttribute('href') || '#') : '#';
-        const pubDate = item.querySelector('pubDate')?.textContent || '';
-        const date    = pubDate
-          ? new Date(pubDate).toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })
-          : '';
-        return `<a href="${link}" target="_blank" rel="noopener" class="note-item">
-          <span class="note-date">${date}</span>
-          <span class="note-title">${title}</span>
-        </a>`;
-      }).join('');
-    })
-    .catch(() => {
-      clearTimeout(timer);
-      feed.innerHTML = '';
-    });
+  function tryAllorigins() {
+    const proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://note.com/kuryudo/rss');
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 7000);
+    return fetch(proxy, { signal: ctrl.signal })
+      .then(r => r.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, 'application/rss+xml');
+        const items = Array.from(xml.querySelectorAll('item')).map(item => {
+          const linkEl = item.querySelector('link');
+          return {
+            title: item.querySelector('title')?.textContent?.trim() || '',
+            link: linkEl ? (linkEl.textContent || linkEl.getAttribute('href') || '#') : '#',
+            pubDate: item.querySelector('pubDate')?.textContent || ''
+          };
+        });
+        if (!items.length) throw new Error('empty');
+        renderItems(items);
+      });
+  }
+
+  const emptyHtml = '<p style="font-size:.78rem;color:var(--ink-soft);letter-spacing:.08em;line-height:1.9;">準備中です。もうしばらくお待ちください。</p>';
+  tryRss2json().catch(() => tryAllorigins().catch(() => { feed.innerHTML = emptyHtml; }));
 })();
 
 /* ── X widget フォールバック ── */
 (function() {
-  const script = document.createElement('script');
-  script.async = true;
-  script.src   = 'https://platform.twitter.com/widgets.js';
-  script.onerror = function() {
+  function showFallback() {
     document.getElementById('x-widget-wrap').style.display = 'none';
     document.getElementById('x-fallback').style.display = 'block';
+  }
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.charset = 'utf-8';
+  script.src = 'https://platform.twitter.com/widgets.js';
+  script.onerror = showFallback;
+
+  const fallbackTimer = setTimeout(() => {
+    const wrap = document.getElementById('x-widget-wrap');
+    if (wrap && !wrap.querySelector('iframe')) showFallback();
+  }, 8000);
+
+  script.onload = function() {
+    if (window.twttr && window.twttr.widgets) {
+      window.twttr.widgets.load().then(() => clearTimeout(fallbackTimer)).catch(showFallback);
+    }
   };
+
   document.head.appendChild(script);
 })();
 </script>
