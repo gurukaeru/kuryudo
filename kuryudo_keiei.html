@@ -35,17 +35,26 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.3rem 3rem;
+      background: rgba(247,243,235,0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid rgba(184,147,42,0);
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+    }
+    nav.is-scrolled {
       background: rgba(247,243,235,0.9);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(184,147,42,0.12);
     }
     .nav-logo { display:flex; align-items:center; gap:.8rem; text-decoration:none; }
     .nav-logo img { width:34px; height:34px; object-fit:contain; }
-    .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--ink); }
-    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:var(--ink); display:block; margin-top:.15rem; }
+    .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--cream); transition:color .4s; }
+    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:rgba(247,243,235,0.65); display:block; margin-top:.15rem; transition:color .4s; }
+    nav.is-scrolled .nav-logo-ja { color:var(--ink); }
+    nav.is-scrolled .nav-logo-en { color:var(--ink-soft); }
     .nav-links { display:flex; gap:2.4rem; list-style:none; }
-    .nav-links a { font-size:.72rem; font-weight:300; letter-spacing:.22em; color:var(--ink-soft); text-decoration:none; transition:color .3s; }
+    .nav-links a { font-size:.72rem; font-weight:300; letter-spacing:.22em; color:rgba(247,243,235,0.75); text-decoration:none; transition:color .3s; }
     .nav-links a:hover { color:var(--gold); }
+    nav.is-scrolled .nav-links a { color:var(--ink-soft); }
 
     /* ── ハンバーガー ── */
     .nav-hamburger {
@@ -56,9 +65,10 @@
     }
     .nav-hamburger span {
       display: block; width: 22px; height: 1px;
-      background: var(--ink);
-      transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+      background: var(--cream);
+      transition: transform .45s cubic-bezier(.22,1,.36,1), opacity .3s ease, background .4s;
     }
+    nav.is-scrolled .nav-hamburger span { background: var(--ink); }
     .nav-hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
@@ -601,6 +611,14 @@
 </footer>
 
 <script>
+/* ── ナビ スクロール背景 ── */
+(function() {
+  const nav = document.querySelector('nav');
+  function update() { nav.classList.toggle('is-scrolled', window.scrollY > 40); }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+
 /* ── スクロールリビール ── */
 (function() {
   const io = new IntersectionObserver(entries => {

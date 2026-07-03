@@ -35,22 +35,31 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.3rem 3rem;
+      background: rgba(247,243,235,0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid rgba(184,147,42,0);
+      transition: background .4s, backdrop-filter .4s, border-color .4s;
+    }
+    nav.is-scrolled {
       background: rgba(247,243,235,0.9);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(184,147,42,0.12);
     }
     .nav-logo { display:flex; align-items:center; gap:.8rem; text-decoration:none; }
     .nav-logo img { width:34px; height:34px; object-fit:contain; }
-    .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--ink); }
-    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:var(--ink); display:block; margin-top:.15rem; }
+    .nav-logo-ja { font-family:'Shippori Mincho',serif; font-weight:700; font-size:1rem; letter-spacing:.3em; color:var(--cream); transition:color .4s; }
+    .nav-logo-en { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.62rem; letter-spacing:.2em; color:rgba(247,243,235,0.65); display:block; margin-top:.15rem; transition:color .4s; }
+    nav.is-scrolled .nav-logo-ja { color:var(--ink); }
+    nav.is-scrolled .nav-logo-en { color:var(--ink-soft); }
     .nav-back {
       font-size:.72rem; font-weight:300; letter-spacing:.22em;
-      color:var(--ink-soft); text-decoration:none;
+      color:rgba(247,243,235,0.75); text-decoration:none;
       display:flex; align-items:center; gap:.55rem;
       transition:color .3s;
     }
     .nav-back::before { content:'←'; }
     .nav-back:hover { color:var(--gold); }
+    nav.is-scrolled .nav-back { color:var(--ink-soft); }
 
     /* ── HERO ── */
     .kemono-hero {
@@ -106,10 +115,10 @@
     }
     .section-label::before { content:''; width:1.8rem; height:1px; background:var(--gold); flex-shrink:0; }
 
-    /* ── WHAT'S KURYUDO ── */
+    /* ── DOME ── */
     .hero-dome {
       position: relative; z-index: 1;
-      height: 300px; margin-top: 0;
+      height: 300px; margin-top: 0; margin-bottom: -1px;
       background: var(--cream);
       -webkit-clip-path: url(#dome-clip);
       clip-path: url(#dome-clip);
@@ -235,7 +244,7 @@
     }
     .section-cta::before {
       content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_0084.jpg') center 30%/cover no-repeat;
+      background: url('image/IMG_0084.jpg') center 55%/cover no-repeat;
       filter: brightness(0.35) saturate(0.65);
       z-index: 0;
     }
@@ -329,7 +338,6 @@
 <!-- HERO -->
 <section class="kemono-hero">
   <div class="kemono-hero-inner">
-    <p class="kemono-eyebrow">伴走型自律支援 · Kemono</p>
     <h1 class="kemono-title">心に巣食う「獣」と、<br>共に生きるための伴走支援。</h1>
     <p class="kemono-lead">
       自律とは、獣を殺すことでも、道徳で縛り付けることでもありません。<br>
@@ -351,7 +359,6 @@
 <!-- WHAT'S KURYUDO -->
 <section class="section-whats">
   <div class="whats-inner">
-    <p class="whats-eyebrow js-reveal">What's Kuryudo?</p>
     <h2 class="whats-heading js-reveal" style="transition-delay:.12s">心に巣食う「獣」と、<br>共に生きるための伴走支援。</h2>
     <div class="whats-divider js-reveal" style="transition-delay:.22s"></div>
     <p class="whats-lead js-reveal" style="transition-delay:.32s">何かを始めても長続きしない。自分をコントロールできずに自己嫌悪に陥ってしまう。<br>その葛藤の正体は、あなたの心に棲む、剥き出しの野生――「心の獣」です。</p>
@@ -456,6 +463,13 @@
 </footer>
 
 <script>
+(function() {
+  const nav = document.querySelector('nav');
+  function update() { nav.classList.toggle('is-scrolled', window.scrollY > 40); }
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+})();
+
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
