@@ -188,6 +188,19 @@
       max-width:32rem;
       opacity:0; animation:up 1.6s ease 1.5s forwards;
     }
+    .hero-cta {
+      display: inline-block; margin-top: 2.4rem;
+      font-family: 'Noto Serif JP', serif; font-weight: 300;
+      font-size: .78rem; letter-spacing: .24em;
+      color: rgba(247,243,235,0.75);
+      border-bottom: 1px solid rgba(212,174,78,0.5);
+      padding-bottom: .3rem; text-decoration: none;
+      transition: color .3s, border-color .3s;
+      opacity: 0; animation: up 1.6s ease 2.4s forwards;
+      position: relative; z-index: 2;
+    }
+    .hero-cta:hover { color: var(--gold-lt); border-color: var(--gold-lt); }
+
     .scroll-ind {
       position:absolute; bottom:2.2rem; left:50%; transform:translateX(-50%);
       display:flex; flex-direction:column; align-items:center; gap:.5rem;
@@ -629,14 +642,15 @@
     </div>
     <div class="hero-divider"></div>
     <p class="hero-lead">
-      言葉が届き、人が動き、経済が回り、命が巡る。<br>
+      お金が回り、人が動き、言葉が届き、命が次へ渡る。<br>
       その流れが滞るとき——<br>
-      人は苦しみ、事業は淀み、地域は朽ちていく。
+      人は苦しみ、事業は淀む。
     </p>
     <p class="hero-lead" style="animation-delay:1.85s; margin-top:.9rem">
-      二宮尊徳が遺した報徳の思想は、<br>
-      その循環を取り戻すための、永遠の設計図である。
+      滞りを診て、循環を設計し、手放す。<br>
+      それが、栗人の仕事です。
     </p>
+    <a href="kuryudo_contact.html" class="hero-cta" style="animation-delay:2.4s">お問い合わせはこちら</a>
   </div>
   <div class="scroll-ind">
     <div class="scroll-line"></div>
@@ -825,7 +839,7 @@
 /* ── タイトル文字アニメーション ── */
 (function(){
   const el    = document.getElementById('hero-title-text');
-  const text  = '世界は、循環でできている。';
+  const text  = '世界は循環でできている。';
   let   delay = 1.2;
   text.split('').forEach(ch => {
     const span = document.createElement('span');
