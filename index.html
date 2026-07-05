@@ -343,13 +343,6 @@
       position: relative; overflow: hidden;
       z-index: 1;
     }
-    .section-service::before {
-      content: ''; position: absolute; inset: 0;
-      background: url('image/IMG_3064.jpg') center/cover no-repeat;
-      filter: brightness(1.05) saturate(0.55);
-      opacity: 0.10;
-      z-index: 0; pointer-events: none;
-    }
     .service-inner {
       max-width: 64rem; margin: 0 auto;
       position: relative; z-index: 1;
@@ -389,7 +382,7 @@
       background-size: 65%; background-position: center 55%; background-repeat: no-repeat;
       opacity: 0.06; pointer-events: none; z-index: 0;
     }
-    .service-card--kemono::after { background-image: url('image/四獣.png'); }
+    .service-card--kemono::after { background-image: url('image/四獣.png'); background-size: 85%; }
     .service-card--keiei::after  { background-image: url('image/報徳巡礼.png'); }
     .service-card-badge {
       font-family: 'Cormorant Garamond', serif; font-style: italic;
