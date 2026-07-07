@@ -7,23 +7,24 @@
 ## ファイル構成
 ```
 kuryudo/
-├── index.html              # トップページ（要全面再設計）
-├── kuryudo_keiei.html      # 経営同行支援ページ（新規作成）
-├── kuryudo_kemono.html     # 心の獣・伴走型自律支援ページ（新規作成）
+├── index.html              # トップページ（全面再設計済み）
+├── kuryudo_keiei.html      # 経営同行支援ページ（作成済み）
+├── kuryudo_kemono.html     # 心の獣・伴走型自律支援ページ（作成済み）
 ├── kuryudo_about.html      # 獣の足跡（栗人のプロフィール）
 ├── kuryudo_contact.html    # お問い合わせ
 ├── image/                  # 画像保存フォルダ
 └── CLAUDE.md
 ```
 
-### 削除済みファイル
-- `kuryudo_anga.html` — 行脚ページ（noteに移行のため完全削除）
+### 作成しないファイル
 - `kuryudo_politics.html` — 政治活動ページ（保留・作成しない）
 
 ## 技術スタック
 - 純粋なHTML / CSS / Vanilla JS（フレームワーク不使用）
 - Google Fonts：Shippori Mincho, Cormorant Garamond, Noto Serif JP
-- Canvas APIによる金のポイント描画
+- Canvas APIによる金のポイント描画（スクロール連動・パーティクル・慣性）
+- IntersectionObserver によるスクロールリビール（.js-reveal → .is-visible）
+- `screen.height` を使ったCanvas高さ管理（モバイルアドレスバー対策）
 
 ## デザイン規律（必ず守ること）
 - カラー：クリーム地(#F7F3EB ベース) × ゴールド(#B8932A アクセント)
@@ -33,9 +34,15 @@ kuryudo/
 - 「煽ってあげる」系のコピーは書かない。問いかけのトーンを維持
 
 ## ブランドの核心
-- キャッチコピー：「世界は循環でできている。」
+- キャッチコピー：「世界は、循環でできている。」（読点あり）
+- サブキャッチ：「言葉が届き、人が動き、経済が回り、命が巡る。」
 - トーン：静寂・冷念・湧き出しの生命力
-- 思想的背景：報徳四柱（至誠・勤労・分度・推譲）
+- 思想的背景：報徳四柱（至誠・勤労・分度・推譲）→ 一円融合・積小為大へとつながる
+
+## SNSアカウント
+- note：kuryudo（https://note.com/kuryudo）
+- X（Twitter）：@kuryudo_hotoku（https://twitter.com/kuryudo_hotoku）
+- Instagram：kuryudo_hotoku（https://www.instagram.com/kuryudo_hotoku/）
 
 ## サービス構造
 ```
@@ -51,48 +58,32 @@ kuryudo/
 
 ## 各ページの役割
 
-### index.html（トップ・全面再設計）
-1. ヒーロー：「世界は循環でできている。」
-2. 報徳思想とは（簡潔に）
-3. 2つのサービスへの導線
+### index.html（トップ・全面再設計済み）
+1. ヒーロー：「世界は、循環でできている。」（1文字ずつアニメーション）
+2. 報徳とはセクション（#houtoku）：四柱カード×4（各3文説明）＋一円融合・積小為大
+3. サービスセクション（#service）：2カード横並び（個人/法人）
    - 個人向け「あなたの心に、獣がいる。」→ kuryudo_kemono.html
    - 事業者向け「事業の循環を、設計する。」→ kuryudo_keiei.html
-4. 発信セクション（note・X・Instagram）
-5. フッター
+4. 発信セクション（#media）：eyebrow「OurSocial」/ heading「栗人SNSアカウント」
+   - noteカラム：「世界を見つめる。」
+   - Xカラム：「尊徳の教えと気づきの断片を。」
+   - Instagram：リンクボタンのみ
+5. フッター（`id="footer-logo"` / Canvasスパークルの吸着先）
 
-### kuryudo_keiei.html（経営同行支援・新規）
-1. ヒーロー：「経営同行支援」
-2. こんなお悩みはありませんか？
-3. それは構造の問題かもしれません
+### kuryudo_keiei.html（経営同行支援・作成済み）
+1. ヒーロー：「経営同行支援」（背景：IMG_5743.jpg）
+2. こんなお悩みはありませんか？（5カード・2+2+1グリッド）
+3. それは構造の問題かもしれません（.structure-coda引用ブロック）
 4. 料金体系（4ステップ）
-5. CTA：「まずは、話してみてください。」
+5. CTA：「まずは、話してみてください。」→ cal.com/kuryudo/syokaimuryo
 
-### kuryudo_kemono.html（心の獣・新規）
-現index.htmlの心の獣関連コンテンツをまるごと移植して独立ページ化。
-
-#### 移植するコンテンツ（index.htmlから全コピー）
-- 「心に巣食う獣と、共に生きるための伴走支援。」セクション
+### kuryudo_kemono.html（心の獣・作成済み）
 - What's Kuryudo（獣の5段階：宿る野生→自律の綻び→自我の埋没→命の対峙→誇り高き共生）
 - 報徳の四柱セクション（至誠・勤労・分度・推譲）
-- 既存の画像・アニメーションをそのまま維持
-
-#### 追加する導線（ページ末尾）
-以下の順で配置：
-
-1. 誘導文
-　「あなたの心に棲む獣は、どんな姿をしていますか？」
-
-2. CTAボタン①（メイン）
-　「心の獣を診断する」
-　→ https://forms.gle/GLU93FmgXzxZbuwD6
-
-3. CTAボタン②（サブ）
-　「初回無料・面談を予約する」
-　→ https://cal.com/kuryudo/syokaimuryo
-
-#### デザイン
-- 既存index.htmlのデザイントーンをそのまま継承
-- CTAボタンはゴールド(#B8932A)で静かに目立たせる
+- CTA（ページ末尾）：
+  1. 誘導文：「あなたの心に棲む獣は、どんな姿をしていますか？」
+  2. ボタン①「心の獣を診断する」→ https://forms.gle/GLU93FmgXzxZbuwD6
+  3. ボタン②「初回無料・面談を予約する」→ https://cal.com/kuryudo/syokaimuryo
 
 ## 料金体系
 ### 経営同行支援
@@ -110,10 +101,10 @@ kuryudo/
 | 2回目以降 | 1,080円/30分＋おきもち |
 
 ## 外部連携（発信セクション）
-- **note**：RSS自動取得で最新記事を表示
-  - URL：https://note.com/kuryudo/rss
-- **X（Twitter）**：公式ウィジェットでタイムライン表示
-- **Instagram**：リンクボタンのみ（自動埋め込みは不要）
+- **note**：allorigins.win プロキシ経由でRSS自動取得（AbortController 6秒タイムアウト）
+  - RSS URL：https://note.com/kuryudo/rss
+- **X（Twitter）**：公式ウィジェット（platform.twitter.com/widgets.js）+ エラーフォールバック
+- **Instagram**：リンクボタンのみ（自動埋め込み不要）
 
 ## 外部リンク
 - 心の獣診断：https://forms.gle/GLU93FmgXzxZbuwD6
@@ -132,12 +123,16 @@ kuryudo/
 - 料金体系の設計
 - サービス構造の確定（循環設計支援）
 - サービス資料スライド作成（循環設計支援_サービス資料.pptx）
+- index.html 全面再設計（報徳四柱・一円融合・積小為大・サービス導線・OurSocial発信セクション）
+- kuryudo_keiei.html 新規作成
+- kuryudo_kemono.html 新規作成（index.htmlから心の獣コンテンツ移植）
+- note RSS埋め込み実装（allorigins.win プロキシ使用）
+- Xウィジェット埋め込み実装（@kuryudo_hotoku）
+- 面談予約URLをcal.comに移行
+- SNSアカウントID確定（X: @kuryudo_hotoku / Instagram: kuryudo_hotoku / note: kuryudo）
+- GitHub Pages 公開（kuryudo.com）
+- kuryudo_anga.html / kuryudo_v3.html / CLAUDE.rtf の削除（旧ファイル整理完了）
 
 ## 今後の予定
-- index.html 全面再設計
-- kuryudo_keiei.html 新規作成
-- kuryudo_kemono.html 新規作成（現index.htmlから心の獣コンテンツ移植）
-- note RSS埋め込み実装
-- Xウィジェット埋め込み実装
-- 写真の差し込み（栗人から提供予定）
-- GitHub Pages で公開
+- 写真の差し込み（栗人から提供予定。image/IMG_0161.heic・巡礼.png など未反映分あり）
+- ヒーローのモーション刷新：現行の全ページスクロール連動「黄金のポイント」演出（index.html内 `road` canvas）を、墨を水に落としたようなインク拡散モーションに置き換える方向で検討中
