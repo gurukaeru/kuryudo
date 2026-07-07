@@ -97,6 +97,13 @@
       opacity: 0.20;
       pointer-events: none;
       z-index: 0;
+      will-change: transform, opacity;
+      animation: crestBreath 8s ease-in-out infinite;
+    }
+    /* 呼吸：拡大とともに濃くなる（他ページの家紋ウォーターマークと同じ言語） */
+    @keyframes crestBreath {
+      0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: .15; }
+      50%      { transform: translate(-50%, -50%) scale(1.05); opacity: .26; }
     }
     .about-intro-inner { max-width: 34rem; margin: 0 auto; position: relative; z-index: 1; }
     .intro-eyebrow {
@@ -505,18 +512,26 @@
       to { opacity: 1; transform: translateY(0) rotate(0deg); }
     }
 
-    /* ── SCROLL REVEAL ── */
+    /* ── SCROLL REVEAL（淡→濃 着色リビール） ── */
     .js-reveal {
       opacity: 0; transform: translateY(22px);
-      transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
+      filter: sepia(.55) saturate(.35) brightness(1.06);
+      transition:
+        opacity 1.6s ease,
+        transform 1.8s cubic-bezier(.16,1,.3,1),
+        filter 2.4s ease .3s;
     }
-    .js-reveal.is-visible { opacity: 1; transform: none; }
+    .js-reveal.is-visible { opacity: 1; transform: none; filter: none; }
 
     .js-reveal-lazy {
       opacity: 0; transform: translateY(14px);
-      transition: opacity 2s ease, transform 2.2s cubic-bezier(.16,1,.3,1);
+      filter: sepia(.55) saturate(.35) brightness(1.06);
+      transition:
+        opacity 2s ease,
+        transform 2.2s cubic-bezier(.16,1,.3,1),
+        filter 2.8s ease .3s;
     }
-    .js-reveal-lazy.is-visible { opacity: 1; transform: none; }
+    .js-reveal-lazy.is-visible { opacity: 1; transform: none; filter: none; }
 
     /* 章タイトルの文字バラし */
     .js-title-wrap .js-char {

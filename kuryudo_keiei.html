@@ -193,13 +193,42 @@
       clip-path: url(#dome-clip);
     }
 
+    /* ── 巨大家紋ウォーターマーク（呼吸：拡大とともに濃くなる） ── */
+    .crest-mark {
+      position: absolute;
+      width: 120vmin; height: 120vmin;
+      background-color: var(--gold);
+      -webkit-mask-image: url('image/黒ロゴ.png');
+      mask-image: url('image/黒ロゴ.png');
+      -webkit-mask-size: contain; mask-size: contain;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-position: center; mask-position: center;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform, opacity;
+      animation: crestBreath 8s ease-in-out infinite;
+    }
+    @keyframes crestBreath {
+      0%, 100% { transform: scale(1);    opacity: var(--crest-o-min, .045); }
+      50%      { transform: scale(1.05); opacity: var(--crest-o-max, .10); }
+    }
+    .crest-mark--worry   { top: -6vmin; right: -30vmin;
+                           --crest-o-min: .045; --crest-o-max: .10; }
+    .crest-mark--pricing { bottom: -26vmin; left: -36vmin; animation-delay: -4s;
+                           --crest-o-min: .04; --crest-o-max: .09; }
+    @media (max-width: 900px) {
+      .crest-mark { width: 150vmin; height: 150vmin; }
+      .crest-mark--worry   { right: -60vmin; }
+      .crest-mark--pricing { left: -66vmin; }
+    }
+
     .section-worry {
       padding: 9rem 5%;
       background: var(--cream);
-      position: relative;
+      position: relative; overflow: hidden;
       z-index: 1;
     }
-    .worry-inner { max-width: 64rem; margin: 0 auto; }
+    .worry-inner { max-width: 64rem; margin: 0 auto; position: relative; z-index: 1; }
     .worry-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -264,10 +293,10 @@
     .section-pricing {
       padding: 9rem 5%;
       background: var(--cream);
-      position: relative;
+      position: relative; overflow: hidden;
       z-index: 1;
     }
-    .pricing-inner { max-width: 52rem; margin: 0 auto; }
+    .pricing-inner { max-width: 52rem; margin: 0 auto; position: relative; z-index: 1; }
     .pricing-steps { margin-top: 1rem; }
     .pricing-step {
       padding: 2.2rem 0;
@@ -387,9 +416,13 @@
     /* ── SCROLL REVEAL ── */
     .js-reveal {
       opacity: 0; transform: translateY(22px);
-      transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
+      filter: sepia(.55) saturate(.35) brightness(1.06);
+      transition:
+        opacity 1.6s ease,
+        transform 1.8s cubic-bezier(.16,1,.3,1),
+        filter 2.4s ease .3s;
     }
-    .js-reveal.is-visible { opacity: 1; transform: none; }
+    .js-reveal.is-visible { opacity: 1; transform: none; filter: none; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -466,6 +499,7 @@
 
 <!-- こんなお悩みはありませんか？ -->
 <section class="section-worry">
+  <div class="crest-mark crest-mark--worry" aria-hidden="true"></div>
   <div class="worry-inner">
     <h2 class="section-heading js-reveal">こんなお悩みはありませんか？</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
@@ -519,6 +553,7 @@
 
 <!-- 料金体系 -->
 <section class="section-pricing">
+  <div class="crest-mark crest-mark--pricing" aria-hidden="true"></div>
   <div class="pricing-inner">
     <h2 class="section-heading js-reveal">料金体系</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
@@ -587,11 +622,10 @@
       診断するより先に、聴くことから始めます。<br>
       無料相談は、売り込みの場ではありません。
     </p>
-    <a href="https://cal.com/kuryudo/syokaimuryo" target="_blank" rel="noopener"
+    <a href="kuryudo_contact.html"
        class="cta-btn js-reveal" style="transition-delay:.46s">
-      無料相談を予約する
+      お問い合わせはこちら
     </a>
-    <p class="cta-note js-reveal" style="transition-delay:.58s">cal.com にて日程調整</p>
   </div>
 </section>
 

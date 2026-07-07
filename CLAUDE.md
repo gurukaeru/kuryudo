@@ -22,9 +22,11 @@ kuryudo/
 ## 技術スタック
 - 純粋なHTML / CSS / Vanilla JS（フレームワーク不使用）
 - Google Fonts：Shippori Mincho, Cormorant Garamond, Noto Serif JP
-- Canvas APIによる金のポイント描画（スクロール連動・パーティクル・慣性）
-- IntersectionObserver によるスクロールリビール（.js-reveal → .is-visible）
-- `screen.height` を使ったCanvas高さ管理（モバイルアドレスバー対策）
+- WebGL（生シェーダー）によるヒーロー「循環の波紋」演出（`#hero-ink` canvas）：湖面に立つ人物の足元から金の楕円波紋が広がる。読み込み時の三重発火のみ（ホバー連動・周期リピートなし）
+- 巨大家紋ウォーターマーク（`.crest-mark`）：黒ロゴ.pngをCSS maskで淡金化し、各セクション背景に120vmin（モバイル150vmin）で配置。全ページ共通（index／keiei／kemono／contact。aboutは既存の`about-intro::before`ロゴに同アニメーション適用）
+  - 基本は「呼吸」（crestBreath 8秒周期：拡大1.05×と濃度上昇が連動）
+  - indexのSNSセクションのみ「ゆらゆら」（crestSway 11秒周期：拡大なし・±3.2度の揺れと濃淡が交差）
+- IntersectionObserver によるスクロールリビール（.js-reveal → .is-visible）：淡→濃の着色リビール（sepia/saturateフィルタが解けて色が入る）。index／keiei／kemono／aboutに適用。contactは読み込み時fadeUpに着色を組み込み
 
 ## デザイン規律（必ず守ること）
 - カラー：クリーム地(#F7F3EB ベース) × ゴールド(#B8932A アクセント)
@@ -75,7 +77,7 @@ kuryudo/
 2. こんなお悩みはありませんか？（5カード・2+2+1グリッド）
 3. それは構造の問題かもしれません（.structure-coda引用ブロック）
 4. 料金体系（4ステップ）
-5. CTA：「まずは、話してみてください。」→ cal.com/kuryudo/syokaimuryo
+5. CTA：「まずは、話してみてください。」→ ボタン「お問い合わせはこちら」→ kuryudo_contact.html
 
 ### kuryudo_kemono.html（心の獣・作成済み）
 - What's Kuryudo（獣の5段階：宿る野生→自律の綻び→自我の埋没→命の対峙→誇り高き共生）
@@ -83,7 +85,7 @@ kuryudo/
 - CTA（ページ末尾）：
   1. 誘導文：「あなたの心に棲む獣は、どんな姿をしていますか？」
   2. ボタン①「心の獣を診断する」→ https://forms.gle/GLU93FmgXzxZbuwD6
-  3. ボタン②「初回無料・面談を予約する」→ https://cal.com/kuryudo/syokaimuryo
+  3. ボタン②「お問い合わせはこちら」→ kuryudo_contact.html
 
 ## 料金体系
 ### 経営同行支援
@@ -108,8 +110,8 @@ kuryudo/
 
 ## 外部リンク
 - 心の獣診断：https://forms.gle/GLU93FmgXzxZbuwD6
-- 初回面談予約：https://cal.com/kuryudo/syokaimuryo
-- 2回目以降の面談：https://cal.com/kuryudo/mendan
+- 初回面談予約：https://cal.com/kuryudo/syokaimuryo（現在サイト内からのリンクなし。CTAはすべてお問い合わせページへ集約）
+- 2回目以降の面談：https://cal.com/kuryudo/mendan（同上）
 - お問い合わせ：kuryudo_contact.html
 
 ## 作業時のルール
@@ -117,7 +119,7 @@ kuryudo/
 - 変更前に必ず該当箇所を読んでから編集する
 - 写真プレースホルダーはそのままにしておく（後で差し替え）
 - GitHubにpushする前に必ず動作確認を促すこと
-- Canvas APIの金のポイント描画・タイトルアニメーションは維持する
+- ヒーローの「循環の波紋」演出・タイトルアニメーションは維持する
 
 ## 完了済み作業
 - 料金体系の設計
@@ -132,7 +134,9 @@ kuryudo/
 - SNSアカウントID確定（X: @kuryudo_hotoku / Instagram: kuryudo_hotoku / note: kuryudo）
 - GitHub Pages 公開（kuryudo.com）
 - kuryudo_anga.html / kuryudo_v3.html / CLAUDE.rtf の削除（旧ファイル整理完了）
+- ヒーローのモーション刷新：全ページスクロール連動の「黄金のポイント」演出（`road` canvas）を廃止し、ヒーロー内WebGLの「循環の波紋」演出（`#hero-ink`）に置き換え。人物の足元から金の楕円波紋が広がる（初回三重発火→6.4秒周期で反復＋ホバー波紋）。WebGL非対応環境は`.hero.no-webgl`で静止画にフォールバック
+
+- 巨大家紋ウォーターマーク＋着色リビール追加（20th.oikaze.jp リサーチの翻案。「ブランドモチーフを装飾言語として貫く」手法をロゴ×淡金で採用）
 
 ## 今後の予定
 - 写真の差し込み（栗人から提供予定。image/IMG_0161.heic・巡礼.png など未反映分あり）
-- ヒーローのモーション刷新：現行の全ページスクロール連動「黄金のポイント」演出（index.html内 `road` canvas）を、墨を水に落としたようなインク拡散モーションに置き換える方向で検討中

@@ -30,14 +30,15 @@
       overflow-x: hidden;
     }
 
-    /* ── CANVAS ── */
-    #road {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
+    /* ── 循環の波紋（ヒーロー演出） ── */
+    .hero-ink {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      mix-blend-mode: screen;
       pointer-events: none;
-      z-index: 9999;
     }
+    .hero.no-webgl .hero-ink { display: none; }
 
     /* ── NAV ── */
     nav {
@@ -238,6 +239,47 @@
     .section-body {
       font-size:.88rem; font-weight:300; line-height:2.4; letter-spacing:.06em;
       color:var(--ink-soft); margin-bottom:1.2rem;
+    }
+
+    /* ── 巨大家紋ウォーターマーク（呼吸：拡大とともに濃くなる） ── */
+    .crest-mark {
+      position: absolute;
+      width: 120vmin; height: 120vmin;
+      background-color: var(--gold);
+      -webkit-mask-image: url('image/黒ロゴ.png');
+      mask-image: url('image/黒ロゴ.png');
+      -webkit-mask-size: contain; mask-size: contain;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-position: center; mask-position: center;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform, opacity;
+      animation: crestBreath 8s ease-in-out infinite;
+    }
+    @keyframes crestBreath {
+      0%, 100% { transform: scale(1);    opacity: var(--crest-o-min, .045); }
+      50%      { transform: scale(1.05); opacity: var(--crest-o-max, .10); }
+    }
+    /* ゆらゆら（拡大なし・揺れと濃淡が別リズムで交差する） */
+    @keyframes crestSway {
+      0%, 100% { transform: rotate(-3.2deg); opacity: var(--crest-o-min, .04); }
+      28%      { opacity: var(--crest-o-max, .09); }
+      50%      { transform: rotate(3.2deg);  opacity: var(--crest-o-min, .045); }
+      76%      { opacity: var(--crest-o-max, .09); }
+    }
+    .crest-mark--hotoku  { top: 4vmin; left: 50%; margin-left: -60vmin;
+                           --crest-o-min: .045; --crest-o-max: .105; }
+    .crest-mark--service { top: -6vmin; right: -30vmin; animation-delay: -2.7s;
+                           --crest-o-min: .04;  --crest-o-max: .09; }
+    .crest-mark--media   { top: 6vmin; right: -40vmin;
+                           animation-name: crestSway;
+                           animation-duration: 11s;
+                           --crest-o-min: .035; --crest-o-max: .09; }
+    @media (max-width: 900px) {
+      .crest-mark { width: 150vmin; height: 150vmin; }
+      .crest-mark--hotoku  { margin-left: -75vmin; top: 6vmin; }
+      .crest-mark--service { right: -60vmin; }
+      .crest-mark--media   { right: -70vmin; }
     }
 
     /* ── HOTOKU ── */
@@ -555,13 +597,17 @@
     @keyframes fade  { from{opacity:0} to{opacity:1} }
     @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
 
-    /* ── SCROLL REVEAL ── */
+    /* ── SCROLL REVEAL（淡→濃 着色リビール） ── */
     .js-reveal {
       opacity: 0;
       transform: translateY(22px);
-      transition: opacity 1.6s ease, transform 1.8s cubic-bezier(.16,1,.3,1);
+      filter: sepia(.55) saturate(.35) brightness(1.06);
+      transition:
+        opacity 1.6s ease,
+        transform 1.8s cubic-bezier(.16,1,.3,1),
+        filter 2.4s ease .3s;
     }
-    .js-reveal.is-visible { opacity: 1; transform: none; }
+    .js-reveal.is-visible { opacity: 1; transform: none; filter: none; }
     .js-title-wrap .js-char {
       display: inline-block;
       opacity: 0;
@@ -590,8 +636,6 @@
   </style>
 </head>
 <body>
-
-<canvas id="road"></canvas>
 
 <!-- NAV -->
 <nav>
@@ -628,6 +672,7 @@
 <!-- HERO -->
 <section class="hero" id="top">
   <img src="image/ロゴ入り富士.png" alt="栗人 — 循環設計支援" class="hero-bg">
+  <canvas class="hero-ink" id="hero-ink" aria-hidden="true"></canvas>
   <div class="hero-overlay"></div>
   <div class="hero-text">
     <div class="hero-title-wrap">
@@ -663,6 +708,7 @@
 
 <!-- 報徳とは -->
 <section class="section-hotoku" id="hotoku">
+  <div class="crest-mark crest-mark--hotoku" aria-hidden="true"></div>
   <div class="hotoku-inner">
     <p class="section-eyebrow js-reveal">Houtoku · 報徳思想</p>
     <h2 class="section-title js-reveal" style="transition-delay:.12s">報徳思想とは</h2>
@@ -715,6 +761,7 @@
 
 <!-- サービス -->
 <section class="section-service" id="service">
+  <div class="crest-mark crest-mark--service" aria-hidden="true"></div>
   <div class="service-inner">
     <p class="section-eyebrow js-reveal">Service · 循環設計支援</p>
     <h2 class="section-title js-reveal" style="transition-delay:.12s">循環設計支援</h2>
@@ -758,6 +805,7 @@
 
 <!-- つながる -->
 <section class="section-media" id="media">
+  <div class="crest-mark crest-mark--media" aria-hidden="true"></div>
   <div class="media-inner">
     <p class="section-eyebrow js-reveal">OurSocial</p>
     <h2 class="section-title js-reveal" style="transition-delay:.12s">栗人SNSアカウント</h2>
@@ -844,205 +892,185 @@
   });
 })();
 
-/* ── 黄金のポイント ── */
+/* ── 循環の波紋（水面に広がる金の輪） ── */
 (function(){
-  const canvas = document.getElementById('road');
-  const ctx    = canvas.getContext('2d');
+  const wrap   = document.querySelector('.hero');
+  const canvas = document.getElementById('hero-ink');
+  if (!wrap || !canvas) return;
 
-  const SWINGS = [
-     0.00, -0.38,  0.52, -0.10, -0.46,  0.28,
-    -0.54,  0.14,  0.48, -0.32,  0.44, -0.08,
-    -0.50,  0.20,  0.38, -0.18,  0.46, -0.26, 0.00
-  ];
-  const SWINGS_Y = [
-     0.70,  0.38,  0.82,  0.28,  0.72,  0.44,
-     0.86,  0.30,  0.76,  0.50,  0.88,  0.34,
-     0.64,  0.80,  0.42,  0.90,  0.55,  0.74, 0.76
-  ];
+  let gl;
+  const glOpts = { alpha: true, preserveDrawingBuffer: true };
+  try { gl = canvas.getContext('webgl', glOpts) || canvas.getContext('experimental-webgl', glOpts); }
+  catch (e) { gl = null; }
+  if (!gl) { wrap.classList.add('no-webgl'); return; }
 
-  const PARTICLES = [];
-  const MAX_P     = 100;
+  const VERT = 'attribute vec2 aPos; void main(){ gl_Position = vec4(aPos,0.0,1.0); }';
+  const FRAG = `
+    precision mediump float;
+    uniform vec2  uRes;
+    uniform float uTime;
+    uniform float uAspect;
+    uniform vec4  uDrops[8];
+    uniform int   uDropCount;
 
-  let cur  = { x: 0, y: 0 };
-  let vel  = { x: 0, y: 0 };
-  let initialized = false;
-
-  const WAVES = [
-    { freq: 0.0007, amp: 58, phase: 1.2  },
-    { freq: 0.0019, amp: 36, phase: 3.7  },
-    { freq: 0.0048, amp: 20, phase: 0.5  },
-    { freq: 0.0120, amp: 10, phase: 2.1  },
-    { freq: 0.0310, amp:  5, phase: 4.8  },
-  ];
-  const WAVES_Y = [
-    { freq: 0.0009, amp: 72, phase: 0.9  },
-    { freq: 0.0026, amp: 44, phase: 2.3  },
-    { freq: 0.0063, amp: 24, phase: 1.5  },
-    { freq: 0.0140, amp: 12, phase: 3.8  },
-    { freq: 0.0380, amp:  6, phase: 0.3  },
-  ];
-
-  let lastScrollY = 0;
-  let rafId       = null;
-  let t           = 0;
-
-  function spawn(x, y, speed) {
-    const n = Math.floor(Math.abs(speed) * 0.7 + 3);
-    for (let i = 0; i < n && PARTICLES.length < MAX_P; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const v = 0.8 + Math.random() * 2.2;
-      PARTICLES.push({
-        x, y,
-        vx: Math.cos(a) * v,
-        vy: Math.sin(a) * v - 1.6,
-        life: 1.0,
-        decay: 0.014 + Math.random() * 0.022,
-        size:  1.5 + Math.random() * 2.6,
-      });
+    float hash(vec2 p){
+      p = fract(p * vec2(123.34, 456.21));
+      p += dot(p, p + 45.32);
+      return fract(p.x * p.y);
     }
-  }
-  function tickParticles() {
-    for (let i = PARTICLES.length - 1; i >= 0; i--) {
-      const p = PARTICLES[i];
-      p.x  += p.vx; p.y  += p.vy;
-      p.vy += 0.07; p.vx *= 0.97;
-      p.life -= p.decay;
-      if (p.life <= 0) PARTICLES.splice(i, 1);
+    float noise(vec2 p){
+      vec2 i = floor(p), f = fract(p);
+      float a = hash(i), b = hash(i + vec2(1.0, 0.0));
+      float c = hash(i + vec2(0.0, 1.0)), d = hash(i + vec2(1.0, 1.0));
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
     }
-  }
-  function drawParticles() {
-    PARTICLES.forEach(p => {
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(212,174,78,${Math.max(p.life,0) * 0.88})`;
-      ctx.arc(p.x, p.y, p.size * Math.max(p.life,0), 0, Math.PI*2);
-      ctx.fill();
-    });
-  }
 
-  const stableH = () => window.screen.height;
+    void main(){
+      vec2 uv  = gl_FragCoord.xy / uRes.xy;
+      vec2 auv = vec2((uv.x - 0.5) * uAspect + 0.5, uv.y);
 
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = stableH();
-  }
-  function getProgress() {
-    const max = document.documentElement.scrollHeight - stableH();
-    return max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-  }
-  function getTargetX(prog, W) {
-    const cx       = W * 0.50;
-    const maxSwing = Math.min(W * 0.30, 240);
-    const N   = SWINGS.length;
-    const seg = prog * (N - 1);
-    const i   = Math.min(Math.floor(seg), N - 2);
-    const f   = seg - i;
-    return cx + (SWINGS[i] + (SWINGS[i+1] - SWINGS[i]) * f) * maxSwing;
-  }
-  function getTargetY(prog, H) {
-    const N   = SWINGS_Y.length;
-    const seg = prog * (N - 1);
-    const i   = Math.min(Math.floor(seg), N - 2);
-    const f   = seg - i;
-    return H * (SWINGS_Y[i] + (SWINGS_Y[i+1] - SWINGS_Y[i]) * f);
-  }
-  function noiseX(tt) {
-    return WAVES.reduce((s, w) => s + Math.sin(tt * w.freq + w.phase) * w.amp, 0);
-  }
-  function noiseY(tt) {
-    return WAVES_Y.reduce((s, w) => s + Math.sin(tt * w.freq + w.phase) * w.amp, 0);
-  }
-  function getBtnPos(id) {
-    const el = document.getElementById(id);
-    if (!el) return null;
-    const r = el.getBoundingClientRect();
-    return { x: r.left + r.width * 0.5, y: r.top + r.height * 0.5 };
-  }
+      float glow = 0.0;  /* 波紋の輪 */
+      float core = 0.0;  /* 輪の先端のきらめき */
 
-  function loop() {
-    rafId = requestAnimationFrame(loop);
-    t++;
+      for (int i = 0; i < 8; i++) {
+        if (i >= uDropCount) break;
+        vec4 dr = uDrops[i];
+        vec2 dpos = vec2((dr.x - 0.5) * uAspect + 0.5, dr.y);
+        float age = uTime - dr.z;
+        if (age < 0.0) continue;
 
-    const W    = canvas.width;
-    const H    = canvas.height;
-    const prog = getProgress();
-    const scrollDelta = window.scrollY - lastScrollY;
-    lastScrollY = window.scrollY;
+        float life = 3.4 + dr.w * 2.2;
+        float t    = clamp(age / life, 0.0, 1.0);
 
-    let targetX = getTargetX(prog, W) + noiseX(t);
-    let targetY = getTargetY(prog, H) + noiseY(t);
+        /* 水面の遠近感 — 縦をつぶした楕円の輪にする */
+        vec2 rel = auv - dpos;
+        rel.y *= 2.6;
+        /* 輪郭を静かに揺らす（有機的な歪み） */
+        float ang    = atan(rel.y, rel.x);
+        float wobble = (noise(vec2(ang * 1.4 + dr.z * 7.0, t * 2.0)) - 0.5) * 0.028 * dr.w;
+        float d = length(rel) + wobble;
 
-    /* スタート吸着 — 富士山頂 */
-    {
-      const peakX = W * 0.50;
-      const peakY = H * 0.26;
-      const b = Math.max(0, (0.06 - prog) / 0.06);
-      if (b > 0) {
-        targetX += (peakX - targetX) * b;
-        targetY += (peakY - targetY) * b;
+        float maxR   = 0.34 + dr.w * 0.34;
+        float radius = pow(t, 0.6) * maxR;
+        float env    = smoothstep(0.0, 0.05, t) * pow(1.0 - t, 1.6);
+
+        /* 先頭の輪 */
+        float w1 = 0.014 + t * 0.055;
+        float ring1 = exp(-pow((d - radius) / w1, 2.0));
+        /* 後続の輪（内側をゆっくり追う） */
+        float r2 = radius * 0.62;
+        float ring2 = exp(-pow((d - r2) / (w1 * 0.85), 2.0)) * 0.5;
+        /* 三番目のかすかな輪 */
+        float r3 = radius * 0.34;
+        float ring3 = exp(-pow((d - r3) / (w1 * 0.7), 2.0)) * 0.26;
+
+        glow += (ring1 + ring2 + ring3) * env * dr.w;
+        core += ring1 * ring1 * env * dr.w;
       }
+
+      glow = clamp(glow * 1.2, 0.0, 1.0);
+      core = clamp(core, 0.0, 1.0);
+
+      /* ゴールド（--gold-lt #D4AE4E）を基調に、輪の芯だけ淡く白金に */
+      vec3 goldColor = vec3(0.831, 0.682, 0.306);
+      vec3 coreColor = vec3(1.0, 0.941, 0.780);
+      vec3 color = goldColor * glow + coreColor * core * 0.4;
+      float alpha = glow * 0.6 + core * 0.22;
+
+      gl_FragColor = vec4(color, alpha);
     }
-    /* ゴール吸着 — フッターロゴ */
-    const botBtn = getBtnPos('footer-logo');
-    if (botBtn) {
-      const b = Math.max(0, (prog - 0.88) / 0.12);
-      targetX += (botBtn.x - targetX) * b;
-      targetY += (botBtn.y - targetY) * b;
-    }
+  `;
 
-    if (!initialized) {
-      cur.x = targetX; cur.y = targetY;
-      initialized = true;
-    }
-    const SPRING  = 0.042;
-    const DAMPING = 0.66;
-    vel.x = vel.x * DAMPING + (targetX - cur.x) * SPRING;
-    vel.y = vel.y * DAMPING + (targetY - cur.y) * SPRING;
-    vel.x += (Math.random() - 0.5) * Math.abs(scrollDelta) * 0.60;
-    vel.y += scrollDelta * 0.32;
-    cur.x += vel.x;
-    cur.y += vel.y;
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { gl.deleteShader(s); return null; }
+    return s;
+  }
+  const vs = compile(gl.VERTEX_SHADER, VERT);
+  const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) { wrap.classList.add('no-webgl'); return; }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { wrap.classList.add('no-webgl'); return; }
+  gl.useProgram(prog);
 
-    ctx.clearRect(0, 0, W, H);
-    if (Math.abs(scrollDelta) > 1) spawn(cur.x, cur.y, scrollDelta);
-    tickParticles();
-    drawParticles();
+  const quad = new Float32Array([-1, -1, 3, -1, -1, 3]);
+  const buf  = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, quad, gl.STATIC_DRAW);
+  const aPos = gl.getAttribLocation(prog, 'aPos');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-    const rg1 = ctx.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, 30);
-    rg1.addColorStop(0,   'rgba(255,235,140,0.0)');
-    rg1.addColorStop(0.3, 'rgba(212,174,78,0.18)');
-    rg1.addColorStop(0.7, 'rgba(184,147,42,0.08)');
-    rg1.addColorStop(1,   'rgba(184,147,42,0)');
-    ctx.beginPath(); ctx.fillStyle = rg1;
-    ctx.arc(cur.x, cur.y, 30, 0, Math.PI*2); ctx.fill();
+  const uRes       = gl.getUniformLocation(prog, 'uRes');
+  const uTime      = gl.getUniformLocation(prog, 'uTime');
+  const uAspect    = gl.getUniformLocation(prog, 'uAspect');
+  const uDrops     = gl.getUniformLocation(prog, 'uDrops');
+  const uDropCount = gl.getUniformLocation(prog, 'uDropCount');
 
-    const rg2 = ctx.createRadialGradient(cur.x, cur.y, 0, cur.x, cur.y, 14);
-    rg2.addColorStop(0,    'rgba(255,240,150,0.95)');
-    rg2.addColorStop(0.35, 'rgba(212,174,78,0.75)');
-    rg2.addColorStop(0.75, 'rgba(184,147,42,0.3)');
-    rg2.addColorStop(1,    'rgba(184,147,42,0)');
-    ctx.beginPath(); ctx.fillStyle = rg2;
-    ctx.arc(cur.x, cur.y, 14, 0, Math.PI*2); ctx.fill();
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(255,228,115,0.98)';
-    ctx.arc(cur.x, cur.y, 3.8, 0, Math.PI*2); ctx.fill();
+  const MAX_DROPS = 8;
+  const dropsData = new Float32Array(MAX_DROPS * 4);
+  let   drops     = [];
+  const startTime = performance.now();
+  const now       = () => (performance.now() - startTime) / 1000;
+
+  function addDrop(xNorm, yTopNorm, strength) {
+    if (drops.length >= MAX_DROPS) drops.shift();
+    drops.push({ x: xNorm, y: 1 - yTopNorm, t0: now(), strength });
   }
 
-  function init() {
-    resize();
-    if (rafId) cancelAnimationFrame(rafId);
-    loop();
-  }
+  /* 初回発火のみ — 湖面に立つ人物の足元から、時間差で輪が広がる */
+  addDrop(0.50, 0.80, 1.0);
+  setTimeout(() => addDrop(0.50, 0.80, 0.7), 1400);
+  setTimeout(() => addDrop(0.50, 0.80, 0.45), 2800);
 
-  let _lastW = window.innerWidth;
-  window.addEventListener('load', init);
+  const DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+  let _lastW = 0;
+  function resize() {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    if (Math.abs(w - _lastW) < 10 && canvas.width) return;
+    _lastW = w;
+    canvas.width  = Math.round(w * DPR);
+    canvas.height = Math.round(h * DPR);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+  resize();
   window.addEventListener('resize', function(){
-    const newW = window.innerWidth;
-    if (Math.abs(newW - _lastW) < 10) return;
-    _lastW = newW;
     clearTimeout(this._rt);
-    this._rt = setTimeout(init, 200);
+    this._rt = setTimeout(resize, 200);
   });
+
+  function render() {
+    requestAnimationFrame(render);
+    renderFrame();
+  }
+  function renderFrame() {
+    const t = now();
+    drops = drops.filter(d => (t - d.t0) < (3.4 + d.strength * 2.2) * 1.05);
+    const n = Math.min(drops.length, MAX_DROPS);
+    for (let i = 0; i < n; i++) {
+      dropsData[i * 4 + 0] = drops[i].x;
+      dropsData[i * 4 + 1] = drops[i].y;
+      dropsData[i * 4 + 2] = drops[i].t0;
+      dropsData[i * 4 + 3] = drops[i].strength;
+    }
+    gl.uniform1f(uTime, t);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uAspect, canvas.width / canvas.height);
+    gl.uniform1i(uDropCount, n);
+    gl.uniform4fv(uDrops, dropsData);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  render();
 })();
 
 /* ── スクロールリビール ── */
