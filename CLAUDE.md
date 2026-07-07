@@ -25,7 +25,7 @@ kuryudo/
 - WebGL（生シェーダー）によるヒーロー「循環の波紋」演出（`#hero-ink` canvas）：湖面に立つ人物の足元から金の楕円波紋が広がる。読み込み時の三重発火のみ（ホバー連動・周期リピートなし）
 - 巨大家紋ウォーターマーク（`.crest-mark`）：黒ロゴ.pngをCSS maskで淡金化し、各セクション背景に120vmin（モバイル150vmin）で配置。全ページ共通（index／keiei／kemono／contact。aboutは既存の`about-intro::before`ロゴに同アニメーション適用）
   - 基本は「呼吸」（crestBreath 8秒周期：拡大1.05×と濃度上昇が連動）
-  - indexのSNSセクションのみ「ゆらゆら」（crestSway 11秒周期：拡大なし・±3.2度の揺れと濃淡が交差）
+  - indexのSNSセクションとcontactは「ゆらゆら」（crestSway 11秒周期：拡大なし・±3.2度の揺れと濃淡が交差）
 - IntersectionObserver によるスクロールリビール（.js-reveal → .is-visible）：淡→濃の着色リビール（sepia/saturateフィルタが解けて色が入る）。index／keiei／kemono／aboutに適用。contactは読み込み時fadeUpに着色を組み込み
 
 ## デザイン規律（必ず守ること）
