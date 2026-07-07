@@ -225,11 +225,14 @@
       pointer-events: none;
       z-index: 0;
       will-change: transform, opacity;
-      animation: crestBreath 8s ease-in-out infinite;
+      animation: crestSway 11s ease-in-out infinite;
     }
-    @keyframes crestBreath {
-      0%, 100% { transform: scale(1);    opacity: var(--crest-o-min, .045); }
-      50%      { transform: scale(1.05); opacity: var(--crest-o-max, .10); }
+    /* ゆらゆら（拡大なし・揺れと濃淡が別リズムで交差する） */
+    @keyframes crestSway {
+      0%, 100% { transform: rotate(-3.2deg); opacity: var(--crest-o-min, .04); }
+      28%      { opacity: var(--crest-o-max, .09); }
+      50%      { transform: rotate(3.2deg);  opacity: var(--crest-o-min, .045); }
+      76%      { opacity: var(--crest-o-max, .09); }
     }
     .crest-mark--contact { top: 4vmin; right: -34vmin;
                            --crest-o-min: .04; --crest-o-max: .095; }

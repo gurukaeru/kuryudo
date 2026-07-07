@@ -267,7 +267,8 @@
       50%      { transform: rotate(3.2deg);  opacity: var(--crest-o-min, .045); }
       76%      { opacity: var(--crest-o-max, .09); }
     }
-    .crest-mark--hotoku  { top: 4vmin; left: 50%; margin-left: -60vmin;
+    /* PNG上部の透明余白16%（19.2vmin）を差し引き、呼吸の拡大分を残して上詰め */
+    .crest-mark--hotoku  { top: -14vmin; left: 50%; margin-left: -60vmin;
                            --crest-o-min: .045; --crest-o-max: .105; }
     .crest-mark--service { top: -6vmin; right: -30vmin; animation-delay: -2.7s;
                            --crest-o-min: .04;  --crest-o-max: .09; }
@@ -277,7 +278,7 @@
                            --crest-o-min: .035; --crest-o-max: .09; }
     @media (max-width: 900px) {
       .crest-mark { width: 150vmin; height: 150vmin; }
-      .crest-mark--hotoku  { margin-left: -75vmin; top: 6vmin; }
+      .crest-mark--hotoku  { margin-left: -75vmin; top: -18vmin; }
       .crest-mark--service { right: -60vmin; }
       .crest-mark--media   { right: -70vmin; }
     }
