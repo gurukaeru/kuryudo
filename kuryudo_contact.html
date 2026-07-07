@@ -78,9 +78,11 @@
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       padding: 10rem 5% 6rem;
+      position: relative; overflow: hidden;
     }
     .contact-inner {
       width: 100%; max-width: 36rem;
+      position: relative; z-index: 1;
     }
 
     /* ── HEADING ── */
@@ -203,10 +205,37 @@
     }
     .form-message.is-visible { display: block; }
 
-    /* ── ANIMATION ── */
+    /* ── ANIMATION（淡→濃 着色フェード） ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: none; }
+      from { opacity: 0; transform: translateY(14px); filter: sepia(.55) saturate(.35) brightness(1.06); }
+      60%  { filter: sepia(.30) saturate(.6); }
+      to   { opacity: 1; transform: none; filter: none; }
+    }
+
+    /* ── 巨大家紋ウォーターマーク（呼吸：拡大とともに濃くなる） ── */
+    .crest-mark {
+      position: absolute;
+      width: 120vmin; height: 120vmin;
+      background-color: var(--gold);
+      -webkit-mask-image: url('image/黒ロゴ.png');
+      mask-image: url('image/黒ロゴ.png');
+      -webkit-mask-size: contain; mask-size: contain;
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-position: center; mask-position: center;
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform, opacity;
+      animation: crestBreath 8s ease-in-out infinite;
+    }
+    @keyframes crestBreath {
+      0%, 100% { transform: scale(1);    opacity: var(--crest-o-min, .045); }
+      50%      { transform: scale(1.05); opacity: var(--crest-o-max, .10); }
+    }
+    .crest-mark--contact { top: 4vmin; right: -34vmin;
+                           --crest-o-min: .04; --crest-o-max: .095; }
+    @media (max-width: 900px) {
+      .crest-mark { width: 150vmin; height: 150vmin; }
+      .crest-mark--contact { right: -66vmin; }
     }
 
     /* ── RESPONSIVE ── */
@@ -244,6 +273,7 @@
 </nav>
 
 <main class="contact-main">
+  <div class="crest-mark crest-mark--contact" aria-hidden="true"></div>
   <div class="contact-inner">
     <p class="contact-eyebrow">Contact · お問い合わせ</p>
     <h1 class="contact-title">お問い合わせ</h1>
@@ -253,21 +283,7 @@
       内容を確認次第、ご返信いたします。
     </p>
 
-    <form
-      class="contact-form"
-      id="contact-form"
-      action="https://api.web3forms.com/submit"
-      method="POST"
-    >
-      <!-- Web3Forms 設定 -->
-      <input type="hidden" name="access_key" value="e5833c63-40f6-4ba7-ba80-2c92e58d3916">
-      <input type="hidden" name="subject" value="【栗人】お問い合わせが届きました">
-      <input type="hidden" name="from_name" value="栗人 Kuryudo">
-      <input type="hidden" name="botcheck" value="">
-      <!-- 送信者への受け付け完了メール -->
-      <input type="hidden" name="autoresponse" value="true">
-      <input type="hidden" name="autoresponse_subject" value="【栗人】お問い合わせを受け付けました">
-      <input type="hidden" name="autoresponse_message" value="このたびはお問い合わせいただきありがとうございます。&#10;&#10;内容を確認のうえ、改めてご連絡いたします。&#10;&#10;—&#10;栗人 Kuryudo&#10;https://kuryudo.com">
+    <form class="contact-form" id="contact-form">
 
       <!-- お名前 -->
       <div class="form-group">
@@ -353,7 +369,10 @@
   <p class="footer-copy">© 2026 栗人 Kuryudo. All rights reserved.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
+emailjs.init('Mgs7K2UFljTl7hNZ6');
+
 /* ── ナビ スクロール背景 ── */
 (function() {
   const nav = document.getElementById('main-nav');
@@ -375,21 +394,24 @@ form.addEventListener('submit', async function (e) {
   success.classList.remove('is-visible');
   error.classList.remove('is-visible');
 
-  try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: new FormData(form)
-    });
-    const data = await res.json();
+  const params = {
+    name:           form.querySelector('#name').value,
+    email:          form.querySelector('#email').value,
+    contact_method: form.querySelector('#contact_method').value || '—',
+    message:        form.querySelector('#message').value,
+  };
 
-    if (data.success) {
-      success.classList.add('is-visible');
-      form.reset();
-      btn.textContent = '送信完了';
-    } else {
-      throw new Error(data.message);
-    }
+  try {
+    /* ① 自分への通知メール */
+    await emailjs.send('Kuryudo_hotoku', 'template_4u1fp38', params);
+    /* ② 送信者への自動返信 */
+    await emailjs.send('Kuryudo_hotoku', 'template_0esv1kx', params);
+
+    success.classList.add('is-visible');
+    form.reset();
+    btn.textContent = '送信完了';
   } catch (err) {
+    console.error(err);
     error.classList.add('is-visible');
     btn.disabled = false;
     btn.textContent = '送信する';
