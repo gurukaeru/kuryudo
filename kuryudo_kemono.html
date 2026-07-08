@@ -257,6 +257,79 @@
     .pillar-s { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: .68rem; letter-spacing: .18em; color: var(--ink-pale); margin-bottom: .9rem; position: relative; z-index: 1; }
     .pillar-d { font-size: .76rem; font-weight: 300; line-height: 1.9; color: var(--ink-soft); position: relative; z-index: 1; }
 
+    /* ── FLOW（サービスの流れ） ── */
+    .section-flow {
+      background: var(--cream);
+      padding: 9rem 5%;
+      position: relative; overflow: hidden;
+      z-index: 1;
+    }
+    /* 注意: ここにposition/z-indexを付けるとスタッキングコンテキストができ、
+       .flow-imgのmix-blend-mode(multiply)がセクション背景まで届かなくなる */
+    .flow-inner { max-width: 52rem; margin: 0 auto; }
+    .flow-eyebrow {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: .78rem; letter-spacing: .48em; color: var(--gold);
+      margin-bottom: 1.4rem;
+    }
+    .flow-heading {
+      font-family: 'Shippori Mincho', serif; font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      letter-spacing: .08em; line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .flow-divider {
+      width: 2.4rem; height: 1px;
+      background: rgba(184,147,42,.45);
+      margin-bottom: 3.5rem;
+    }
+    .flow-step {
+      padding: 2.4rem 0;
+      border-bottom: 1px solid rgba(184,147,42,.15);
+      display: flex; align-items: center; gap: 2.5rem;
+    }
+    .flow-divider + .flow-step { border-top: 1px solid rgba(184,147,42,.15); }
+    .flow-step-body { flex: 1; }
+    .flow-img {
+      width: clamp(110px, 15vw, 170px); height: auto;
+      flex-shrink: 0;
+      mix-blend-mode: multiply;  /* 白地をクリーム地に溶かす */
+    }
+    .flow-step-header {
+      display: flex; align-items: baseline; gap: 1rem;
+      margin-bottom: .9rem;
+    }
+    .flow-num {
+      font-family: 'Cormorant Garamond', serif; font-style: italic;
+      font-size: 1.4rem; color: var(--gold); flex-shrink: 0;
+      letter-spacing: .05em;
+    }
+    .flow-name {
+      font-family: 'Shippori Mincho', serif; font-weight: 600;
+      font-size: clamp(.98rem, 1.7vw, 1.15rem);
+      letter-spacing: .12em; color: var(--ink);
+    }
+    .flow-desc {
+      font-family: 'Noto Serif JP', serif;
+      font-size: .82rem; font-weight: 300;
+      line-height: 2.1; letter-spacing: .07em;
+      color: var(--ink-soft);
+      padding-left: 2.6rem;
+    }
+    .flow-link {
+      display: inline-block;
+      margin: 1rem 0 0 2.6rem;
+      font-family: 'Shippori Mincho', serif;
+      font-size: .8rem; letter-spacing: .2em;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(184,147,42,.4);
+      padding-bottom: 3px;
+      transition: color .3s, border-color .3s;
+    }
+    .flow-link:hover { color: var(--ink-mid); border-color: var(--ink-mid); }
+
     /* ── CTA ── */
     .section-cta {
       background: var(--ink);
@@ -343,6 +416,9 @@
       .whats-grid { grid-template-columns: 1fr; }
       .whats-card, .whats-card:nth-child(5) { grid-column: 1 / -1; }
       .whats-card:nth-child(5) .whats-card-img { aspect-ratio: 4 / 3; }
+      .section-flow { padding: 6rem 5%; }
+      .flow-desc { padding-left: 0; }
+      .flow-link { margin-left: 0; }
       .section-cta { padding: 6rem 5%; }
       footer { padding: 2.5rem 1.8rem; }
     }
@@ -464,6 +540,61 @@
         <div class="pillar-s">Sharing · 獣の慈</div>
         <p class="pillar-d">結界から溢れ出した余剰を、見返りを求めず世界へ循環させていく。世界を慈しむ時、獣はあなたを尊び、徳をもって報いる。</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- サービスの流れ -->
+<section class="section-flow" id="flow">
+  <div class="flow-inner">
+    <p class="flow-eyebrow js-reveal">Flow · 巡礼の道のり</p>
+    <h2 class="flow-heading js-reveal" style="transition-delay:.12s">サービスの流れ</h2>
+    <div class="flow-divider js-reveal" style="transition-delay:.22s"></div>
+
+    <div class="flow-step">
+      <div class="flow-step-body js-reveal" style="transition-delay:.10s">
+        <div class="flow-step-header">
+          <span class="flow-num">①</span>
+          <h3 class="flow-name">獣の輪郭をなぞる</h3>
+        </div>
+        <p class="flow-desc">フォーム入力による簡易無料診断</p>
+        <a href="https://forms.gle/GLU93FmgXzxZbuwD6" target="_blank" rel="noopener" class="flow-link">心の獣を診断する →</a>
+      </div>
+      <img src="image/輪郭をなぞる.png" alt="獣の輪郭をなぞる" class="flow-img js-reveal" style="transition-delay:.25s" loading="lazy">
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-body js-reveal" style="transition-delay:.20s">
+        <div class="flow-step-header">
+          <span class="flow-num">②</span>
+          <h3 class="flow-name">獣の声を聴く</h3>
+        </div>
+        <p class="flow-desc">対話により獣の声を探る</p>
+        <a href="kuryudo_contact.html" class="flow-link">まずは無料相談 →</a>
+      </div>
+      <img src="image/声を聴く.png" alt="獣の声を聴く" class="flow-img js-reveal" style="transition-delay:.25s" loading="lazy">
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-body js-reveal" style="transition-delay:.30s">
+        <div class="flow-step-header">
+          <span class="flow-num">③</span>
+          <h3 class="flow-name">獣との調律を設計する</h3>
+        </div>
+        <p class="flow-desc">内なる循環の滞りを診て<br>共生のための仕組みを作る</p>
+      </div>
+      <img src="image/調律を設計する.png" alt="獣との調律を設計する" class="flow-img js-reveal" style="transition-delay:.25s" loading="lazy">
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-body js-reveal" style="transition-delay:.40s">
+        <div class="flow-step-header">
+          <span class="flow-num">④</span>
+          <h3 class="flow-name">巡礼に同行する</h3>
+        </div>
+        <p class="flow-desc">必要なときに必要なだけ<br>隣を歩く</p>
+      </div>
+      <img src="image/同行する.png" alt="巡礼に同行する" class="flow-img js-reveal" style="transition-delay:.25s" loading="lazy">
     </div>
   </div>
 </section>

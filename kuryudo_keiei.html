@@ -214,7 +214,10 @@
     }
     .crest-mark--worry   { top: -6vmin; right: -30vmin;
                            --crest-o-min: .045; --crest-o-max: .10; }
+    /* z-index:-1 でセクション背景の直上に置く（.pricing-innerを
+       スタッキングコンテキストにせず .pricing-img のmultiplyを効かせるため） */
     .crest-mark--pricing { bottom: -26vmin; left: -36vmin; animation-delay: -4s;
+                           z-index: -1;
                            --crest-o-min: .04; --crest-o-max: .09; }
     @media (max-width: 900px) {
       .crest-mark { width: 150vmin; height: 150vmin; }
@@ -296,20 +299,24 @@
       position: relative; overflow: hidden;
       z-index: 1;
     }
-    .pricing-inner { max-width: 52rem; margin: 0 auto; position: relative; z-index: 1; }
+    /* 注意: ここにposition/z-indexを付けると .pricing-img のmultiplyが背景に届かなくなる */
+    .pricing-inner { max-width: 52rem; margin: 0 auto; }
     .pricing-steps { margin-top: 1rem; }
     .pricing-step {
       padding: 2.2rem 0;
       border-bottom: 1px solid rgba(184,147,42,.15);
+      display: flex; align-items: center; gap: 2.5rem;
     }
     .pricing-step:first-child { border-top: 1px solid rgba(184,147,42,.15); }
-    .pricing-step-header {
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: .9rem;
+    .pricing-step-body { flex: 1; }
+    .pricing-img {
+      width: clamp(110px, 15vw, 170px); height: auto;
+      flex-shrink: 0;
+      mix-blend-mode: multiply;  /* 白地をクリーム地に溶かす */
     }
-    .pricing-step-left {
+    .pricing-step-header {
       display: flex; align-items: baseline; gap: 1rem;
+      margin-bottom: .9rem;
     }
     .pricing-num {
       font-family: 'Cormorant Garamond', serif; font-style: italic;
@@ -320,14 +327,6 @@
       font-family: 'Shippori Mincho', serif; font-weight: 600;
       font-size: clamp(.95rem, 1.6vw, 1.1rem);
       letter-spacing: .12em; color: var(--ink);
-    }
-    .pricing-price {
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-      font-size: clamp(.95rem, 1.6vw, 1.1rem);
-      letter-spacing: .08em;
-      color: var(--ink-mid);
-      white-space: nowrap;
-      flex-shrink: 0;
     }
     .pricing-desc {
       font-size: .80rem; font-weight: 300;
@@ -551,60 +550,60 @@
   </div>
 </section>
 
-<!-- 料金体系 -->
+<!-- サービスの流れ -->
 <section class="section-pricing">
   <div class="crest-mark crest-mark--pricing" aria-hidden="true"></div>
   <div class="pricing-inner">
-    <h2 class="section-heading js-reveal">料金体系</h2>
+    <h2 class="section-heading js-reveal">サービスの流れ</h2>
     <div class="section-divider js-reveal" style="transition-delay:.22s"></div>
 
     <div class="pricing-steps">
 
-      <div class="pricing-step js-reveal" style="transition-delay:.10s">
-        <div class="pricing-step-header">
-          <div class="pricing-step-left">
+      <div class="pricing-step">
+        <div class="pricing-step-body js-reveal" style="transition-delay:.10s">
+          <div class="pricing-step-header">
             <span class="pricing-num">①</span>
             <span class="pricing-name">無料相談</span>
           </div>
-          <span class="pricing-price">無料</span>
+          <p class="pricing-desc">まず話を聞く。お互いの見極めの場。</p>
         </div>
-        <p class="pricing-desc">まず話を聞く。お互いの見極めの場。</p>
+        <img src="image/無料相談.png" alt="無料相談" class="pricing-img js-reveal" style="transition-delay:.25s" loading="lazy">
       </div>
 
-      <div class="pricing-step js-reveal" style="transition-delay:.20s">
-        <div class="pricing-step-header">
-          <div class="pricing-step-left">
+      <div class="pricing-step">
+        <div class="pricing-step-body js-reveal" style="transition-delay:.20s">
+          <div class="pricing-step-header">
             <span class="pricing-num">②</span>
             <span class="pricing-name">構造診断</span>
           </div>
-          <span class="pricing-price">30,000円 / 回</span>
+          <p class="pricing-desc">
+            業務に入り込み、構造把握・問題抽出・整理・共有まで一式。<br>
+            これだけで完結しても構いません。
+          </p>
         </div>
-        <p class="pricing-desc">
-          業務に入り込み、構造把握・問題抽出・整理・共有まで一式。<br>
-          これだけで完結しても構いません。
-        </p>
+        <img src="image/構造診断.png" alt="構造診断" class="pricing-img js-reveal" style="transition-delay:.25s" loading="lazy">
       </div>
 
-      <div class="pricing-step js-reveal" style="transition-delay:.30s">
-        <div class="pricing-step-header">
-          <div class="pricing-step-left">
+      <div class="pricing-step">
+        <div class="pricing-step-body js-reveal" style="transition-delay:.30s">
+          <div class="pricing-step-header">
             <span class="pricing-num">③</span>
             <span class="pricing-name">循環設計</span>
           </div>
-          <span class="pricing-price">都度見積もり</span>
+          <p class="pricing-desc">診断後、必要な場合のみ。循環の仕組みを設計する。</p>
         </div>
-        <p class="pricing-desc">設計規模により変動。診断後、必要な場合のみ。</p>
+        <img src="image/循環設計.png" alt="循環設計" class="pricing-img js-reveal" style="transition-delay:.25s" loading="lazy">
       </div>
 
-      <div class="pricing-step js-reveal" style="transition-delay:.40s">
-        <div class="pricing-step-header">
-          <div class="pricing-step-left">
+      <div class="pricing-step">
+        <div class="pricing-step-body js-reveal" style="transition-delay:.40s">
+          <div class="pricing-step-header">
             <span class="pricing-num">④</span>
             <span class="pricing-name">運用同行</span>
           </div>
-          <span class="pricing-price">都度見積もり</span>
+          <p class="pricing-desc">介入の深さ・回数・時間をその都度定めて提示。</p>
         </div>
-        <p class="pricing-desc">介入の深さ・回数・時間をその都度定めて提示。</p>
+        <img src="image/運用同行.png" alt="運用同行" class="pricing-img js-reveal" style="transition-delay:.25s" loading="lazy">
       </div>
 
     </div>
