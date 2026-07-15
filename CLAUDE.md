@@ -45,6 +45,7 @@ kuryudo/
 - note：kuryudo（https://note.com/kuryudo）
 - X（Twitter）：@kuryudo_hotoku（https://twitter.com/kuryudo_hotoku）
 - Instagram：kuryudo_hotoku（https://www.instagram.com/kuryudo_hotoku/）
+- 全ページのナビにSNSアイコン（X/Instagram/note・インラインSVG・`.nav-sns`）をロゴ横に設置。ヒーロー上はクリーム→スクロールでインク色。640px以下はタグライン（.nav-logo-en）を隠してアイコンを優先
 
 ## サービス構造
 ```
