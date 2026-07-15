@@ -42,7 +42,7 @@ kuryudo/
 - 思想的背景：報徳四柱（至誠・勤労・分度・推譲）→ 一円融合・積小為大へとつながる
 
 ## SNSアカウント
-- note：kuryudo（https://note.com/kuryudo）
+- note：kuryudo_hotoku（https://note.com/kuryudo_hotoku）
 - X（Twitter）：@kuryudo_hotoku（https://twitter.com/kuryudo_hotoku）
 - Instagram：kuryudo_hotoku（https://www.instagram.com/kuryudo_hotoku/）
 - 全ページのナビにSNSアイコン（X/Instagram/note・インラインSVG・`.nav-sns`）をロゴ横に設置。ヒーロー上はクリーム→スクロールでインク色。640px以下はタグライン（.nav-logo-en）を隠してアイコンを優先
@@ -106,7 +106,7 @@ kuryudo/
 
 ## 外部連携（発信セクション）
 - **note**：allorigins.win プロキシ経由でRSS自動取得（AbortController 6秒タイムアウト）
-  - RSS URL：https://note.com/kuryudo/rss
+  - RSS URL：https://note.com/kuryudo_hotoku/rss
 - **X（Twitter）**：公式ウィジェット（platform.twitter.com/widgets.js）+ エラーフォールバック
 - **Instagram**：リンクボタンのみ（自動埋め込み不要）
 
@@ -133,7 +133,7 @@ kuryudo/
 - note RSS埋め込み実装（allorigins.win プロキシ使用）
 - Xウィジェット埋め込み実装（@kuryudo_hotoku）
 - 面談予約URLをcal.comに移行
-- SNSアカウントID確定（X: @kuryudo_hotoku / Instagram: kuryudo_hotoku / note: kuryudo）
+- SNSアカウントID確定（X: @kuryudo_hotoku / Instagram: kuryudo_hotoku / note: kuryudo_hotoku）
 - GitHub Pages 公開（kuryudo.com）
 - kuryudo_anga.html / kuryudo_v3.html / CLAUDE.rtf の削除（旧ファイル整理完了）
 - ヒーローのモーション刷新：全ページスクロール連動の「黄金のポイント」演出（`road` canvas）を廃止し、ヒーロー内WebGLの「循環の波紋」演出（`#hero-ink`）に置き換え。人物の足元から金の楕円波紋が広がる（初回三重発火→6.4秒周期で反復＋ホバー波紋）。WebGL非対応環境は`.hero.no-webgl`で静止画にフォールバック
