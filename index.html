@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('has-brand-intro');</script>
+  <noscript><style>.brand-intro { display: none; }</style></noscript>
   <style>
     :root {
       --cream:      #F7F3EB;
@@ -30,16 +32,86 @@
       overflow-x: hidden;
     }
 
-    /* ── 循環の波紋（ヒーロー演出） ── */
-    .hero-ink {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      mix-blend-mode: screen;
+    /* ── GIF家紋が富士へ収まる初回イントロ ── */
+    html.has-brand-intro nav,
+    html.has-brand-intro .hero-text,
+    html.has-brand-intro .scroll-ind {
+      visibility: hidden;
+    }
+    html.has-brand-intro .hero-text > *,
+    html.has-brand-intro .scroll-ind {
+      animation-play-state: paused;
+    }
+    html.intro-revealed nav {
+      visibility: visible;
+      animation: heroFlashIn .9s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+    html.intro-copy-revealed .hero-text,
+    html.intro-copy-revealed .scroll-ind {
+      visibility: visible;
+    }
+    html.intro-copy-revealed .hero-text > *,
+    html.intro-copy-revealed .scroll-ind {
+      animation-play-state: running;
+    }
+    .brand-intro {
+      position: fixed; inset: 0; z-index: 500;
+      display: grid; place-items: center;
+      overflow: hidden;
+      pointer-events: none;
+      background: #fff;
+      transition: opacity 1.15s cubic-bezier(.22, 1, .36, 1), visibility 0s linear 1.15s;
+    }
+    .brand-intro::after {
+      content: ''; position: absolute; inset: 0;
       pointer-events: none;
     }
-    .hero.no-webgl .hero-ink { display: none; }
-
+    .brand-intro::after {
+      z-index: 2;
+      background: rgba(255,255,255,.96);
+      opacity: 0;
+    }
+    .brand-intro__mark {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: min(100vmin, 900px);
+      aspect-ratio: 1;
+      --travel-x: 0px;
+      --travel-y: -26.3vh;
+      --travel-scale: .47;
+      transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+      transform-origin: center;
+      will-change: transform, opacity;
+      transition: transform 1.9s cubic-bezier(.76, 0, .24, 1);
+      z-index: 1;
+    }
+    .brand-intro__mark img {
+      display: block; width: 100%; height: 100%; object-fit: contain;
+      opacity: 0;
+      mix-blend-mode: multiply;
+      transition: opacity .3s ease;
+    }
+    .brand-intro.is-playing .brand-intro__mark img { opacity: 1; }
+    .brand-intro.is-traveling .brand-intro__mark {
+      transform: translate(-50%, -50%) translate3d(var(--travel-x), var(--travel-y), 0) scale(var(--travel-scale));
+    }
+    .brand-intro.is-arrived::after { animation: sceneFlash .9s ease-out forwards; }
+    .brand-intro.is-resolving { opacity: 0; visibility: hidden; }
+    @keyframes sceneFlash {
+      0% { opacity: 0; }
+      24% { opacity: .98; }
+      100% { opacity: 0; }
+    }
+    @keyframes heroFlashIn {
+      0% { opacity: 0; filter: brightness(1.9) saturate(.5); }
+      18% { opacity: 1; filter: brightness(1.32) saturate(.82); }
+      100% { opacity: 1; filter: none; }
+    }
+    @keyframes backgroundFlashIn {
+      0% { opacity: 0; filter: brightness(2.2) saturate(.55); }
+      16% { opacity: 1; filter: brightness(1.35) saturate(.84); }
+      100% { opacity: 1; filter: none; }
+    }
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
@@ -135,6 +207,10 @@
       width: 100%; height: 100%;
       object-fit: cover; object-position: center 28%;
       z-index: 0;
+    }
+    .hero-bg--engraved { opacity: 0; }
+    html.intro-revealed .hero-bg--engraved {
+      animation: backgroundFlashIn 1.05s cubic-bezier(.16, 1, .3, 1) forwards;
     }
     .hero-overlay {
       position: absolute; inset: 0;
@@ -651,6 +727,12 @@
 </head>
 <body>
 
+<div class="brand-intro" id="brand-intro" aria-hidden="true">
+  <div class="brand-intro__mark">
+    <img data-src="image/logo_video/kuryudo_intro_20260720_once_white.gif" width="720" height="720" alt="">
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-left">
@@ -692,8 +774,8 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <img src="image/ロゴ入り富士.png" alt="栗人 — 循環設計支援" class="hero-bg">
-  <canvas class="hero-ink" id="hero-ink" aria-hidden="true"></canvas>
+  <img src="image/富士_ロゴなし.png" alt="富士を望む湖畔" class="hero-bg hero-bg--plain">
+  <img src="image/ロゴ入り富士.png" alt="栗人 — 循環設計支援" class="hero-bg hero-bg--engraved">
   <div class="hero-overlay"></div>
   <div class="hero-text">
     <div class="hero-title-wrap">
@@ -888,6 +970,72 @@
 </footer>
 
 <script>
+/* ── 初回イントロ：GIF家紋が富士へ収まり、背景が現れる ── */
+(function(){
+  const intro = document.getElementById('brand-intro');
+  if (!intro) return;
+  const mark = intro.querySelector('.brand-intro__mark');
+  const gif = mark && mark.querySelector('img');
+
+  let finished = false;
+  const finish = function() {
+    if (finished) return;
+    finished = true;
+    intro.classList.add('is-resolving');
+    window.setTimeout(function(){ intro.remove(); }, 1600);
+  };
+
+  const setTravelTarget = function() {
+    if (!mark) return;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const currentWidth = mark.getBoundingClientRect().width;
+    const mobile = w <= 640;
+    const targetWidth = mobile
+      ? Math.min(w * .96, h * .48, 360)
+      : Math.min(w * .27, h * .48, 400);
+    const targetY = h * (mobile ? .235 : .237);
+    mark.style.setProperty('--travel-x', '0px');
+    mark.style.setProperty('--travel-y', (targetY - h * .5) + 'px');
+    mark.style.setProperty('--travel-scale', String(targetWidth / currentWidth));
+  };
+
+  const begin = function() {
+    setTravelTarget();
+    intro.classList.add('is-playing');
+    window.setTimeout(function(){ intro.classList.add('is-traveling'); }, 5050);
+    window.setTimeout(function(){ intro.classList.add('is-arrived'); }, 6700);
+    window.setTimeout(function(){
+      document.documentElement.classList.add('intro-revealed');
+      intro.classList.add('is-resolving');
+    }, 6900);
+    window.setTimeout(function(){
+      document.documentElement.classList.add('intro-copy-revealed');
+      window.dispatchEvent(new Event('brand-hero-copy-reveal'));
+    }, 7600);
+    window.setTimeout(finish, 8150);
+  };
+
+  if (gif && gif.dataset.src) {
+    gif.addEventListener('load', begin, { once: true });
+    gif.addEventListener('error', function(){
+      document.documentElement.classList.add('intro-revealed', 'intro-copy-revealed');
+      window.dispatchEvent(new Event('brand-hero-copy-reveal'));
+      finish();
+    }, { once: true });
+    gif.src = gif.dataset.src;
+  } else {
+    begin();
+  }
+  window.addEventListener('resize', setTravelTarget, { passive: true });
+  /* GIFが読めない場合でも、最長9秒で必ず閲覧を開始する。 */
+  window.setTimeout(function(){
+    document.documentElement.classList.add('intro-revealed', 'intro-copy-revealed');
+    window.dispatchEvent(new Event('brand-hero-copy-reveal'));
+    finish();
+  }, 9000);
+})();
+
 /* ── ナビ スクロール背景 ── */
 (function() {
   const nav = document.querySelector('nav');
@@ -898,19 +1046,24 @@
   window.addEventListener('scroll', update, { passive: true });
 })();
 
-/* ── タイトル文字アニメーション ── */
+/* ── タイトル文字アニメーション（富士の刻印後に開始） ── */
 (function(){
   const el    = document.getElementById('hero-title-text');
   const text  = '世界は循環でできている。';
-  let   delay = 1.2;
-  text.split('').forEach(ch => {
-    const span = document.createElement('span');
-    span.className = 'char';
-    span.textContent = ch === ' ' ? ' ' : ch;
-    span.style.animationDelay = delay + 's';
-    el.appendChild(span);
-    delay += 0.13;
-  });
+  function revealTitle() {
+    if (el.dataset.revealed) return;
+    el.dataset.revealed = 'true';
+    let delay = .16;
+    text.split('').forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch === ' ' ? ' ' : ch;
+      span.style.animationDelay = delay + 's';
+      el.appendChild(span);
+      delay += .11;
+    });
+  }
+  window.addEventListener('brand-hero-copy-reveal', revealTitle, { once: true });
 })();
 
 /* ── 循環の波紋（水面に広がる金の輪） ── */
